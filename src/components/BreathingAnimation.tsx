@@ -153,7 +153,7 @@ const BreathingAnimation = ({ patternId, totalCycles, darkMode = true, onComplet
       <div className="flex items-center gap-grid-2 w-full max-w-[400px]">
         {onPatternChange && (
           <div className="flex gap-grid bg-foreground/10 rounded-full p-1 flex-1">
-            {breathingPatterns.map(p => (
+            {breathingPatterns.filter(p => !p.premium).map(p => (
               <button
                 key={p.id}
                 onClick={() => onPatternChange(p.id)}
