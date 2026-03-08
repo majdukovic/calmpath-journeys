@@ -42,6 +42,7 @@ export interface UserSettings {
   hapticsEnabled: boolean;
   audioEnabled: boolean;
   onboardingCompleted: boolean;
+  theme: 'light' | 'dark' | 'system';
 }
 
 export interface AppData {
