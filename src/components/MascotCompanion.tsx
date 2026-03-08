@@ -29,14 +29,12 @@ const MascotCompanion = () => {
         />
       </div>
       <div className="flex-1 gradient-calm rounded-2xl p-grid-2 card-shadow relative">
-        {/* Speech bubble tail */}
+        {/* Speech bubble tail — uses CSS variable for theme awareness */}
         <div
-          className="absolute left-[-6px] top-4 w-3 h-3 rotate-45"
-          style={{ background: 'hsl(155 40% 94%)' }}
+          className="absolute left-[-6px] top-4 w-3 h-3 rotate-45 bg-primary-light"
         />
         <div
-          className="absolute left-[-4px] top-[14px] w-3 h-4 z-10"
-          style={{ background: 'hsl(155 40% 94%)' }}
+          className="absolute left-[-4px] top-[14px] w-3 h-4 z-10 bg-primary-light"
         />
         <p className="text-sm text-foreground leading-relaxed relative z-10 font-medium">{message}</p>
       </div>
