@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePremium } from '@/contexts/PremiumContext';
-import { Check, Sparkles, Brain, Wind, Crown, ArrowLeft } from 'lucide-react';
+import { Check, Sparkles, Brain, Wind, Crown, ArrowLeft, BarChart3, Mic, Moon } from 'lucide-react';
 import mascotProud from '@/assets/mascot-proud.png';
 
 const features = [
