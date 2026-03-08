@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { usePremium } from '@/contexts/PremiumContext';
 import { Check, Sparkles, Brain, Wind, Crown, ArrowLeft, BarChart3, Mic, Moon } from 'lucide-react';
@@ -42,7 +43,9 @@ const UpgradePage = () => {
     setLoading(true);
     try {
       await startCheckout(selectedPlan);
-    } catch (e) {
+    } catch (e: any) {
+      const message = e?.message || 'Something went wrong. Please try again.';
+      toast.error(message);
       console.error('Checkout error:', e);
     } finally {
       setLoading(false);
