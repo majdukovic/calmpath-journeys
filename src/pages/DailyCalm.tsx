@@ -70,6 +70,8 @@ const DailyCalm = () => {
     if (newMilestone) {
       setMilestone({ emoji: newMilestone.emoji, label: newMilestone.label });
     }
+    // Variable reward: maybe show a garden discovery
+    setDiscovery(maybeGetDiscovery());
     setShowCelebration(true);
     setStep('complete');
   };
