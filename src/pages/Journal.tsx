@@ -112,7 +112,7 @@ const Journal = () => {
               tab === t ? 'bg-card text-foreground card-shadow' : 'text-muted-foreground'
             }`}
           >
-            {t === 'freewrite' ? '✏️ Write' : t === 'gratitude' ? '🙏 Gratitude' : '📊 Mood'}
+            {t === 'freewrite' ? '✏️ Write' : t === 'gratitude' ? '🙏 Gratitude' : '🌤 Mood'}
           </button>
         ))}
       </div>
