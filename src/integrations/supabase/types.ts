@@ -76,6 +76,65 @@ export type Database = {
           },
         ]
       }
+      roadmap_items: {
+        Row: {
+          created_at: string
+          description: string
+          emoji: string
+          id: string
+          status: Database["public"]["Enums"]["roadmap_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          emoji?: string
+          id?: string
+          status?: Database["public"]["Enums"]["roadmap_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          emoji?: string
+          id?: string
+          status?: Database["public"]["Enums"]["roadmap_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      roadmap_votes: {
+        Row: {
+          created_at: string
+          id: string
+          item_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "roadmap_votes_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "roadmap_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -84,7 +143,11 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      roadmap_status:
+        | "under_consideration"
+        | "planned"
+        | "in_progress"
+        | "released"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -211,6 +274,13 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      roadmap_status: [
+        "under_consideration",
+        "planned",
+        "in_progress",
+        "released",
+      ],
+    },
   },
 } as const

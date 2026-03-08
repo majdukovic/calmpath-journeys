@@ -1,101 +1,245 @@
-import { ArrowLeft, ThumbsUp } from 'lucide-react';
+import { ArrowLeft, ThumbsUp, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
-type Status = 'planned' | 'in-progress' | 'shipped';
+type Status = 'under_consideration' | 'planned' | 'in_progress' | 'released';
 
 interface RoadmapItem {
   id: string;
   title: string;
   description: string;
   status: Status;
-  votes: number;
   emoji: string;
+  vote_count: number;
+  user_voted: boolean;
 }
 
-const initialItems: RoadmapItem[] = [
-  { id: '1', title: 'Guided journaling prompts', description: 'AI-powered prompts tailored to your mood and patterns.', status: 'in-progress', votes: 42, emoji: '📝' },
-  { id: '2', title: 'Sleep stories', description: 'Calming bedtime stories narrated with ambient sounds.', status: 'planned', votes: 67, emoji: '🌙' },
-  { id: '3', title: 'Therapist recommendations', description: 'Connect with licensed therapists directly from the app.', status: 'planned', votes: 35, emoji: '🩺' },
-  { id: '4', title: 'Widget for home screen', description: 'Quick-access breathing widget without opening the app.', status: 'planned', votes: 89, emoji: '📱' },
-  { id: '5', title: 'Community support circles', description: 'Join small groups for shared accountability and support.', status: 'shipped', votes: 54, emoji: '🤝' },
-  { id: '6', title: 'Mood insights & AI analysis', description: 'Weekly mood reports powered by AI to spot patterns.', status: 'shipped', votes: 73, emoji: '📊' },
-  { id: '7', title: 'Ambient sound mixer', description: 'Mix and match calming sounds to create your own atmosphere.', status: 'shipped', votes: 61, emoji: '🎵' },
-  { id: '8', title: 'Apple Watch app', description: 'Breathing exercises and panic button on your wrist.', status: 'planned', votes: 112, emoji: '⌚' },
-];
-
-const statusConfig: Record<Status, { label: string; color: string }> = {
-  'planned': { label: 'Planned', color: 'bg-muted text-muted-foreground' },
-  'in-progress': { label: 'In Progress', color: 'bg-primary/15 text-primary' },
-  'shipped': { label: 'Shipped', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
+const statusConfig: Record<Status, { label: string; emoji: string; color: string }> = {
+  under_consideration: { label: 'Under Consideration', emoji: '💭', color: 'bg-muted text-muted-foreground border-border' },
+  planned: { label: 'Planned', emoji: '📋', color: 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800' },
+  in_progress: { label: 'In Progress', emoji: '🚧', color: 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800' },
+  released: { label: 'Released', emoji: '✅', color: 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800' },
 };
+
+const columns: Status[] = ['under_consideration', 'planned', 'in_progress', 'released'];
 
 const Roadmap = () => {
   const navigate = useNavigate();
-  const [items, setItems] = useState(initialItems);
-  const [votedIds, setVotedIds] = useState<Set<string>>(new Set());
+  const [items, setItems] = useState<RoadmapItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [votingIds, setVotingIds] = useState<Set<string>>(new Set());
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const handleVote = (id: string) => {
-    if (votedIds.has(id)) return;
-    setVotedIds(new Set([...votedIds, id]));
-    setItems(items.map(item => item.id === id ? { ...item, votes: item.votes + 1 } : item));
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUserId(user?.id ?? null);
+
+      const { data: roadmapItems, error } = await supabase
+        .from('roadmap_items')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('Failed to load roadmap:', error);
+        setLoading(false);
+        return;
+      }
+
+      // Get vote counts
+      const { data: votes } = await supabase
+        .from('roadmap_votes')
+        .select('item_id, user_id');
+
+      const voteCounts: Record<string, number> = {};
+      const userVotes = new Set<string>();
+      (votes ?? []).forEach(v => {
+        voteCounts[v.item_id] = (voteCounts[v.item_id] || 0) + 1;
+        if (user && v.user_id === user.id) userVotes.add(v.item_id);
+      });
+
+      setItems((roadmapItems ?? []).map(item => ({
+        id: item.id,
+        title: item.title,
+        description: item.description,
+        status: item.status as Status,
+        emoji: item.emoji,
+        vote_count: voteCounts[item.id] || 0,
+        user_voted: userVotes.has(item.id),
+      })));
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  const handleVote = async (itemId: string) => {
+    if (!userId) {
+      toast.info('Sign in to vote on features', { duration: 3000 });
+      return;
+    }
+    if (votingIds.has(itemId)) return;
+
+    const item = items.find(i => i.id === itemId);
+    if (!item) return;
+
+    setVotingIds(prev => new Set([...prev, itemId]));
+
+    if (item.user_voted) {
+      // Remove vote
+      const { error } = await supabase
+        .from('roadmap_votes')
+        .delete()
+        .eq('item_id', itemId)
+        .eq('user_id', userId);
+
+      if (!error) {
+        setItems(prev => prev.map(i => i.id === itemId
+          ? { ...i, vote_count: i.vote_count - 1, user_voted: false }
+          : i
+        ));
+      }
+    } else {
+      // Add vote
+      const { error } = await supabase
+        .from('roadmap_votes')
+        .insert({ item_id: itemId, user_id: userId });
+
+      if (!error) {
+        setItems(prev => prev.map(i => i.id === itemId
+          ? { ...i, vote_count: i.vote_count + 1, user_voted: true }
+          : i
+        ));
+      }
+    }
+
+    setVotingIds(prev => {
+      const next = new Set(prev);
+      next.delete(itemId);
+      return next;
+    });
   };
 
-  const grouped: Record<Status, RoadmapItem[]> = {
-    'in-progress': items.filter(i => i.status === 'in-progress'),
-    'planned': items.filter(i => i.status === 'planned').sort((a, b) => b.votes - a.votes),
-    'shipped': items.filter(i => i.status === 'shipped'),
-  };
+  const grouped = columns.reduce((acc, status) => {
+    acc[status] = items
+      .filter(i => i.status === status)
+      .sort((a, b) => b.vote_count - a.vote_count);
+    return acc;
+  }, {} as Record<Status, RoadmapItem[]>);
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header */}
       <div className="sticky top-0 z-10 bg-background/80 backdrop-blur border-b border-border px-4 py-3 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-lg font-bold text-foreground">Roadmap</h1>
+        <div>
+          <h1 className="text-lg font-bold text-foreground">Roadmap</h1>
+          <p className="text-xs text-muted-foreground">Vote on what we build next</p>
+        </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 py-6 space-y-8">
-        <p className="text-sm text-muted-foreground">Vote on what we build next. Your voice shapes Breeze.</p>
+      {loading ? (
+        <div className="flex items-center justify-center py-20">
+          <Loader2 className="animate-spin text-muted-foreground" size={24} />
+        </div>
+      ) : (
+        <>
+          {/* Mobile: stacked columns */}
+          <div className="md:hidden max-w-2xl mx-auto px-4 py-5 space-y-6">
+            {columns.map(status => (
+              <ColumnSection
+                key={status}
+                status={status}
+                items={grouped[status]}
+                onVote={handleVote}
+                votingIds={votingIds}
+              />
+            ))}
+          </div>
 
-        {(['in-progress', 'planned', 'shipped'] as Status[]).map(status => (
-          <section key={status}>
-            <h2 className="text-base font-semibold text-foreground mb-3 flex items-center gap-2">
-              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusConfig[status].color}`}>
-                {statusConfig[status].label}
-              </span>
-            </h2>
-            <div className="space-y-3">
-              {grouped[status].map(item => (
-                <div key={item.id} className="bg-card rounded-2xl p-4 border border-border flex items-start gap-3">
-                  <button
-                    onClick={() => handleVote(item.id)}
-                    disabled={votedIds.has(item.id) || item.status === 'shipped'}
-                    className={`flex flex-col items-center gap-0.5 min-w-[48px] py-1.5 rounded-xl text-xs font-semibold transition-colors ${
-                      votedIds.has(item.id) ? 'bg-primary/15 text-primary' : 'bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary'
-                    } ${item.status === 'shipped' ? 'opacity-50 cursor-default' : ''}`}
-                  >
-                    <ThumbsUp size={14} />
-                    {item.votes}
-                  </button>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-foreground text-sm">
-                      {item.emoji} {item.title}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{item.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        ))}
+          {/* Desktop: horizontal Kanban */}
+          <div className="hidden md:flex gap-4 px-4 py-5 overflow-x-auto max-w-7xl mx-auto">
+            {columns.map(status => (
+              <div key={status} className="flex-1 min-w-[260px]">
+                <ColumnSection
+                  status={status}
+                  items={grouped[status]}
+                  onVote={handleVote}
+                  votingIds={votingIds}
+                />
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
-        <p className="text-xs text-muted-foreground text-center pt-4">
-          Have a feature idea? Share it in the <button onClick={() => navigate('/community')} className="text-primary underline">Breeze Circle</button>.
-        </p>
-      </div>
+      <p className="text-xs text-muted-foreground text-center py-6 px-4">
+        Have a feature idea? Share it in the{' '}
+        <button onClick={() => navigate('/community')} className="text-primary underline">
+          Breeze Circle
+        </button>.
+      </p>
     </div>
+  );
+};
+
+const ColumnSection = ({
+  status,
+  items,
+  onVote,
+  votingIds,
+}: {
+  status: Status;
+  items: RoadmapItem[];
+  onVote: (id: string) => void;
+  votingIds: Set<string>;
+}) => {
+  const config = statusConfig[status];
+
+  return (
+    <section>
+      <div className={`flex items-center gap-2 mb-3 px-3 py-2 rounded-xl border ${config.color}`}>
+        <span>{config.emoji}</span>
+        <h2 className="text-sm font-semibold">{config.label}</h2>
+        <span className="ml-auto text-xs opacity-70">{items.length}</span>
+      </div>
+      <div className="space-y-2">
+        {items.length === 0 && (
+          <p className="text-xs text-muted-foreground text-center py-6 italic">No items yet</p>
+        )}
+        {items.map(item => (
+          <div
+            key={item.id}
+            className="bg-card rounded-xl p-3 border border-border flex items-start gap-3 hover:shadow-sm transition-shadow"
+          >
+            <button
+              onClick={() => onVote(item.id)}
+              disabled={votingIds.has(item.id) || status === 'released'}
+              className={`flex flex-col items-center gap-0.5 min-w-[44px] py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                item.user_voted
+                  ? 'bg-primary/15 text-primary ring-1 ring-primary/30'
+                  : 'bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary'
+              } ${status === 'released' ? 'opacity-50 cursor-default' : 'cursor-pointer'}`}
+            >
+              <ThumbsUp size={13} className={item.user_voted ? 'fill-current' : ''} />
+              {item.vote_count}
+            </button>
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-foreground text-sm leading-snug">
+                {item.emoji} {item.title}
+              </p>
+              {item.description && (
+                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{item.description}</p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };
 
