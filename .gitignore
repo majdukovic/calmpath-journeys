@@ -12,6 +12,16 @@ dist
 dist-ssr
 *.local
 
+# Secrets & credentials — NEVER commit these
+.env
+.env.*
+!.env.example
+android/keystore.properties
+android/*.keystore
+android/*.jks
+google-services.json
+GoogleService-Info.plist
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
