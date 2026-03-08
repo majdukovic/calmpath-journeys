@@ -4,26 +4,42 @@ import { moodOptions } from '@/lib/data';
 import { Textarea } from '@/components/ui/textarea';
 
 // Science-backed nudges about why journaling helps — rotates daily
-const journalingNudges = [
+interface JournalingNudge {
+  emoji: string;
+  title: string;
+  body: string;
+  source?: string;
+  sourceUrl?: string;
+}
+
+const journalingNudges: JournalingNudge[] = [
   {
     emoji: '🧠',
     title: 'Get it out of your head',
     body: 'Writing down worries moves them from your amygdala (the alarm center) to your prefrontal cortex, where you can actually process them. It literally calms your brain.',
+    source: 'Torre & Lieberman, 2018 — "Affect Labeling"',
+    sourceUrl: 'https://doi.org/10.1177/1754073917742706',
   },
   {
     emoji: '📝',
-    title: 'See it on paper, shrink the fear',
-    body: 'Research shows that naming emotions in writing reduces their intensity by up to 50%. What feels overwhelming in your head often looks manageable on paper.',
+    title: 'See it on paper, lighten the load',
+    body: 'Research shows that naming emotions in writing reduces their intensity by up to 50%.',
+    source: 'Lieberman et al., 2007 — "Putting Feelings Into Words"',
+    sourceUrl: 'https://doi.org/10.1111/j.1467-9280.2007.01916.x',
   },
   {
     emoji: '💭',
     title: 'Your mind isn\'t a filing cabinet',
     body: 'Holding thoughts inside takes mental energy. Journaling frees up working memory — like closing extra browser tabs so your brain can breathe.',
+    source: 'Klein & Boals, 2001 — "Expressive Writing and Working Memory"',
+    sourceUrl: 'https://doi.org/10.1037/0096-3445.130.3.520',
   },
   {
     emoji: '🔍',
     title: 'Spot patterns you can\'t see from inside',
     body: 'After a week of entries, you\'ll start noticing what triggers stress and what lifts you up. Self-awareness is the first step to feeling better.',
+    source: 'Ullrich & Lutgendorf, 2002 — "Journaling About Stressful Events"',
+    sourceUrl: 'https://doi.org/10.1207/S15324796ABM2403_10',
   },
   {
     emoji: '🫧',
@@ -34,6 +50,8 @@ const journalingNudges = [
     emoji: '🌊',
     title: 'Ride the wave, don\'t fight it',
     body: 'Expressive writing for just 15 minutes has been shown to lower cortisol and improve immune function. Your journal is medicine without side effects.',
+    source: 'Pennebaker & Beall, 1986 — "Expressive Writing & Health"',
+    sourceUrl: 'https://doi.org/10.1037/0021-843X.95.3.274',
   },
 ];
 
@@ -69,6 +87,16 @@ const Journal = () => {
             <div className="pr-4">
               <p className="text-sm font-semibold text-foreground mb-0.5">{nudge.title}</p>
               <p className="text-xs text-muted-foreground leading-relaxed">{nudge.body}</p>
+              {nudge.source && nudge.sourceUrl && (
+                <a
+                  href={nudge.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] text-primary/70 hover:text-primary underline mt-1 inline-block"
+                >
+                  📎 {nudge.source}
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -84,7 +112,7 @@ const Journal = () => {
               tab === t ? 'bg-card text-foreground card-shadow' : 'text-muted-foreground'
             }`}
           >
-            {t === 'freewrite' ? '✏️ Write' : t === 'gratitude' ? '🙏 Gratitude' : '📊 Mood'}
+            {t === 'freewrite' ? '✏️ Write' : t === 'gratitude' ? '🙏 Gratitude' : '🌤 Mood'}
           </button>
         ))}
       </div>
@@ -202,7 +230,8 @@ const FreewriteTab = ({ entries, onSave }: { entries: FreewriteEntry[]; onSave: 
           <p className="text-3xl mb-grid-2">🫧</p>
           <p className="text-sm font-medium">Your private space to think out loud</p>
           <p className="text-xs mt-grid leading-relaxed max-w-[260px] mx-auto">
-            Research shows writing for even 5 minutes reduces anxiety by moving worries from your emotional brain to your thinking brain.
+          Research shows writing for even 5 minutes helps process emotions by moving worries from your emotional brain to your thinking brain.{' '}
+            <a href="https://doi.org/10.1177/1754073917742706" target="_blank" rel="noopener noreferrer" className="text-primary/70 underline">Source</a>
           </p>
         </div>
       )}

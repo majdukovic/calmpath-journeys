@@ -15,6 +15,8 @@ import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import Install from "./pages/Install";
 import Upgrade from "./pages/Upgrade";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
@@ -47,6 +49,8 @@ const App = () => {
               <Route path="/settings" element={<Layout><Settings /></Layout>} />
               <Route path="/install" element={<Install />} />
               <Route path="/upgrade" element={<Upgrade />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

@@ -105,6 +105,26 @@ const ArticleView = ({ article, onBack }: { article: Article; onBack: () => void
           })}
         </div>
 
+        {article.sources && article.sources.length > 0 && (
+          <div className="mt-grid-3 border-t border-border pt-grid-2">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-grid">Sources & References</p>
+            <ul className="space-y-1">
+              {article.sources.map((src, i) => (
+                <li key={i}>
+                  <a
+                    href={src.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-primary/80 hover:text-primary underline leading-relaxed"
+                  >
+                    📎 {src.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         <button
           onClick={onBack}
           className="w-full mt-grid-4 mb-grid-3 py-grid-2 rounded-button bg-primary text-primary-foreground font-semibold min-h-[48px] text-base"

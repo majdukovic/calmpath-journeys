@@ -163,6 +163,7 @@ export interface Article {
   readTime: string;
   content: string;
   hasMedDisclaimer?: boolean;
+  sources?: { label: string; url: string }[];
 }
 
 export const articles: Article[] = [
@@ -191,6 +192,10 @@ export const articles: Article[] = [
 **The good news is that anxiety is highly responsive to care.** Simple practices like controlled breathing, regular movement, good sleep, and connecting with others can make a real difference. And if anxiety feels overwhelming, professional support can help tremendously.
 
 You're already taking a step by learning about what you're experiencing. That awareness is powerful.`,
+    sources: [
+      { label: 'APA — Understanding Anxiety Disorders', url: 'https://www.apa.org/topics/anxiety' },
+      { label: 'NIMH — Anxiety Disorders', url: 'https://www.nimh.nih.gov/health/topics/anxiety-disorders' },
+    ],
   },
   {
     id: 'panic-attacks',
@@ -227,6 +232,10 @@ These thoughts feel absolutely real in the moment, but they're part of the panic
 **Panic attacks typically peak within 10 minutes** and rarely last more than 30 minutes. They always end. Always.
 
 If you're experiencing frequent panic attacks, it's worth talking to a healthcare provider. Effective treatments exist that can significantly reduce their frequency and intensity. You don't have to just push through this alone.`,
+    sources: [
+      { label: 'APA — Panic Disorder', url: 'https://www.apa.org/topics/anxiety/panic-disorder' },
+      { label: 'Clark, 1986 — Cognitive Model of Panic', url: 'https://doi.org/10.1016/S0005-7967(86)80011-2' },
+    ],
   },
   {
     id: 'why-panic-not-dangerous',
@@ -258,6 +267,10 @@ If you're experiencing frequent panic attacks, it's worth talking to a healthcar
 **Knowing this changes everything.** When you truly understand that panic cannot hurt you, the fear of panic itself starts to diminish. And since fear of panic is often what keeps the cycle going, this knowledge is genuinely therapeutic.
 
 You are safe. Your body is strong. This will pass.`,
+    sources: [
+      { label: 'Meuret et al., 2010 — Panic Attack Symptom Dimensions', url: 'https://doi.org/10.1016/j.jad.2009.09.006' },
+      { label: 'Craske & Barlow, 2007 — Mastery of Your Anxiety and Panic', url: 'https://global.oup.com/academic/product/mastery-of-your-anxiety-and-panic-9780195311358' },
+    ],
   },
   {
     id: 'nervous-system-explained',
@@ -305,6 +318,10 @@ Sometimes, after repeated stress or trauma, your nervous system's baseline shift
 **The beautiful truth:** Every time you practice slow breathing, grounding, or any calming technique, you're literally rewiring your nervous system. You're strengthening the brake and making the gas pedal less hair-trigger.
 
 **You are not broken.** Your nervous system is just doing what it learned to do. And it can learn something new.`,
+    sources: [
+      { label: 'Porges, 2011 — The Polyvagal Theory', url: 'https://doi.org/10.1080/00029157.2011.10404360' },
+      { label: 'Dana, 2018 — The Polyvagal Theory in Therapy', url: 'https://wwnorton.com/books/9780393712377' },
+    ],
   },
   {
     id: 'breathing-science',
@@ -338,6 +355,10 @@ When you're anxious, your gas pedal is pressed to the floor. Controlled breathin
 **You don't need to be in crisis to benefit.** Just a few minutes of controlled breathing each day can lower your baseline stress level, improve sleep, and increase your overall sense of well-being.
 
 The breath is always with you. It's a tool you carry everywhere, and nobody even needs to know you're using it.`,
+    sources: [
+      { label: 'Ma et al., 2017 — Effect of Diaphragmatic Breathing on Attention & Stress', url: 'https://doi.org/10.3389/fpsyg.2017.00874' },
+      { label: 'Huberman Lab — Physiological Sigh Research', url: 'https://doi.org/10.1016/j.cmet.2023.01.001' },
+    ],
   },
   {
     id: 'gratitude-science',
@@ -372,6 +393,10 @@ When you intentionally focus on what you're grateful for, you're essentially ret
 **Even on the hardest days, gratitude doesn't ask you to pretend everything is fine.** It simply invites you to hold space for both — the difficulty and the good that exists alongside it.
 
 Starting small and being consistent matters more than writing a lot. Even one genuine observation of gratitude each day can shift your perspective over time.`,
+    sources: [
+      { label: 'Emmons & McCullough, 2003 — Counting Blessings vs. Burdens', url: 'https://doi.org/10.1037/0022-3514.84.2.377' },
+      { label: 'Wood et al., 2010 — Gratitude and Well-Being Review', url: 'https://doi.org/10.1016/j.cpr.2010.03.005' },
+    ],
   },
   {
     id: 'when-therapy',
@@ -412,6 +437,9 @@ Starting small and being consistent matters more than writing a lot. Even one ge
 **If cost is a concern**, many therapists offer sliding-scale fees. Community mental health centers provide services based on ability to pay. Online therapy platforms can also be more affordable.
 
 Asking for help isn't a sign of weakness — it's a sign that you're taking your wellbeing seriously.`,
+    sources: [
+      { label: 'APA — How to Choose a Therapist', url: 'https://www.apa.org/topics/psychotherapy/understanding' },
+    ],
   },
   {
     id: 'types-therapy',
@@ -439,6 +467,10 @@ Asking for help isn't a sign of weakness — it's a sign that you're taking your
 **The most important factor isn't the type of therapy — it's the relationship with your therapist.** Research consistently shows that feeling safe, understood, and respected by your therapist matters more than the specific approach they use.
 
 Don't be afraid to ask potential therapists about their approach and why they think it might help you.`,
+    sources: [
+      { label: 'Hofmann et al., 2012 — CBT Efficacy Meta-Analysis', url: 'https://doi.org/10.1007/s10608-012-9476-1' },
+      { label: 'Wampold, 2015 — Therapeutic Relationship', url: 'https://doi.org/10.1037/a0038360' },
+    ],
   },
   {
     id: 'medication',
@@ -477,6 +509,10 @@ Don't be afraid to ask potential therapists about their approach and why they th
 - Medication works best as part of a comprehensive approach including therapy, exercise, sleep, and stress management
 
 The decision to try medication is personal and valid. There's no right or wrong answer — only what works for you.`,
+    sources: [
+      { label: 'Bandelow et al., 2017 — Pharmacotherapy of Anxiety Disorders', url: 'https://doi.org/10.1177/2045125312462231' },
+      { label: 'NICE Guidelines — Generalised Anxiety Disorder', url: 'https://www.nice.org.uk/guidance/cg113' },
+    ],
   },
   {
     id: 'support-network',
@@ -512,6 +548,9 @@ When you connect with people who care about you, your body releases oxytocin —
 **Remember:** asking for support is not burdening people. The people who care about you want to help — they just might not know how unless you tell them.
 
 Connection is a practice, just like breathing exercises or gratitude. Start small, be patient with yourself, and let relationships grow naturally.`,
+    sources: [
+      { label: 'Holt-Lunstad et al., 2010 — Social Relationships and Mortality Risk', url: 'https://doi.org/10.1371/journal.pmed.1000316' },
+    ],
   },
   {
     id: 'exercise-anxiety',
@@ -548,6 +587,10 @@ Even a 10-minute walk can measurably reduce anxiety. The standard recommendation
 **The most important guideline: choose movement that feels good, not punishing.** Exercise shouldn't be another source of stress. If you dread it, try something different. The goal is to find movement that your body looks forward to.
 
 On days when anxiety makes it hard to start, try the "5-minute rule": commit to just 5 minutes. You can stop after that if you want to. Most of the time, once you start moving, you'll want to continue.`,
+    sources: [
+      { label: 'Stonerock et al., 2015 — Exercise as Treatment for Anxiety', url: 'https://doi.org/10.1016/j.acap.2014.09.009' },
+      { label: 'JAMA Psychiatry — Physical Activity and Mental Health', url: 'https://doi.org/10.1001/jamapsychiatry.2019.0600' },
+    ],
   },
   {
     id: 'sleep-anxiety',
@@ -583,5 +626,9 @@ Sleep is when your brain processes emotions and consolidates memories. When you 
 **Be patient with yourself.** Sleep habits take time to change. Focus on progress, not perfection. Even small improvements in sleep quality can meaningfully reduce anxiety.
 
 And if sleep problems persist despite these strategies, talk to your healthcare provider. Sometimes there are underlying issues (like sleep apnea) that need to be addressed, or short-term medication can help reset your sleep patterns.`,
+    sources: [
+      { label: 'Walker, 2017 — "Why We Sleep"', url: 'https://www.simonandschuster.com/books/Why-We-Sleep/Matthew-Walker/9781501144325' },
+      { label: 'Goldstein et al., 2013 — Sleep Deprivation and Amygdala Reactivity', url: 'https://doi.org/10.1016/j.cub.2013.02.017' },
+    ],
   },
 ];
