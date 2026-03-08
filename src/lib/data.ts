@@ -310,6 +310,10 @@ Sometimes, after repeated stress or trauma, your nervous system's baseline shift
 **The beautiful truth:** Every time you practice slow breathing, grounding, or any calming technique, you're literally rewiring your nervous system. You're strengthening the brake and making the gas pedal less hair-trigger.
 
 **You are not broken.** Your nervous system is just doing what it learned to do. And it can learn something new.`,
+    sources: [
+      { label: 'Porges, 2011 — The Polyvagal Theory', url: 'https://doi.org/10.1080/00029157.2011.10404360' },
+      { label: 'Dana, 2018 — The Polyvagal Theory in Therapy', url: 'https://wwnorton.com/books/9780393712377' },
+    ],
   },
   {
     id: 'breathing-science',
