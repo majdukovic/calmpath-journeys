@@ -4,8 +4,15 @@ import { breathingPatterns } from '@/lib/data';
 import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/integrations/supabase/client';
 import { lovable } from '@/integrations/lovable/index';
-import { Mail, LogOut } from 'lucide-react';
+import { Mail, LogOut, Bell, BellOff } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
+import {
+  isNotificationSupported,
+  getNotificationPermission,
+  requestNotificationPermission,
+  startNotificationScheduler,
+  stopNotificationScheduler,
+} from '@/lib/notifications';
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 48 48">
