@@ -473,6 +473,18 @@ const Settings = () => {
         </div>
       </Section>
 
+      {/* ── Medical Disclaimer ── */}
+      <Section title="Important">
+        <div className="bg-card rounded-card p-grid-2 card-shadow">
+          <div className="flex gap-grid-2 items-start">
+            <Shield size={16} className="text-muted-foreground mt-0.5 flex-shrink-0" />
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Breathly is <strong className="text-foreground">not a medical device</strong> and does not provide medical advice, diagnosis, or treatment. The content and exercises are for educational and wellness purposes only. If you are experiencing a mental health crisis, please contact a professional or call emergency services.
+            </p>
+          </div>
+        </div>
+      </Section>
+
       {/* ── About ── */}
       <Section title="About">
         <div className="bg-card rounded-card p-grid-2 card-shadow space-y-1">
@@ -488,14 +500,22 @@ const Settings = () => {
             <span>Send feedback</span>
             <ExternalLink size={12} className="text-muted-foreground ml-auto" />
           </a>
-          <a
-            href="#"
+          <button
+            onClick={() => navigate('/terms')}
             className="w-full flex items-center gap-grid-2 px-grid-2 py-grid-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors min-h-[48px]"
           >
             <Shield size={16} className="text-muted-foreground" />
-            <span>Privacy policy</span>
-            <ExternalLink size={12} className="text-muted-foreground ml-auto" />
-          </a>
+            <span>Terms of Service</span>
+            <ChevronRight size={12} className="text-muted-foreground ml-auto" />
+          </button>
+          <button
+            onClick={() => navigate('/privacy')}
+            className="w-full flex items-center gap-grid-2 px-grid-2 py-grid-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors min-h-[48px]"
+          >
+            <Shield size={16} className="text-muted-foreground" />
+            <span>Privacy Policy</span>
+            <ChevronRight size={12} className="text-muted-foreground ml-auto" />
+          </button>
         </div>
       </Section>
 
