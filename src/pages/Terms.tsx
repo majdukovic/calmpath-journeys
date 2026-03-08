@@ -27,7 +27,7 @@ const Terms = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">2. Description of Service</h2>
-            <p>Breathly is a wellness and self-care application that provides breathing exercises, journaling tools, mood tracking, and educational content about anxiety and mental well-being.</p>
+            <p>Breeze is a wellness and self-care application that provides breathing exercises, journaling tools, mood tracking, and educational content about anxiety and mental well-being.</p>
           </section>
 
           <section>
