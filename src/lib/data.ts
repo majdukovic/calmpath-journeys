@@ -618,5 +618,9 @@ Sleep is when your brain processes emotions and consolidates memories. When you 
 **Be patient with yourself.** Sleep habits take time to change. Focus on progress, not perfection. Even small improvements in sleep quality can meaningfully reduce anxiety.
 
 And if sleep problems persist despite these strategies, talk to your healthcare provider. Sometimes there are underlying issues (like sleep apnea) that need to be addressed, or short-term medication can help reset your sleep patterns.`,
+    sources: [
+      { label: 'Walker, 2017 — "Why We Sleep"', url: 'https://www.simonandschuster.com/books/Why-We-Sleep/Matthew-Walker/9781501144325' },
+      { label: 'Goldstein et al., 2013 — Sleep Deprivation and Amygdala Reactivity', url: 'https://doi.org/10.1016/j.cub.2013.02.017' },
+    ],
   },
 ];
