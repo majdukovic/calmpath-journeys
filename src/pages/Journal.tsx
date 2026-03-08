@@ -145,6 +145,9 @@ function getRandomPrompt() {
 }
 
 const FreewriteTab = ({ entries, onSave }: { entries: FreewriteEntry[]; onSave: () => void }) => {
+  const { isPremium } = usePremium();
+  const navigate = useNavigate();
+  const FREE_ENTRY_LIMIT = 3;
   const [text, setText] = useState('');
   const [saved, setSaved] = useState(false);
   const [placeholder] = useState(() => getRandomPrompt());
