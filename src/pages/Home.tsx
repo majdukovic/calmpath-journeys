@@ -5,7 +5,7 @@ import MascotCompanion from '@/components/MascotCompanion';
 import GrowthGarden from '@/components/GrowthGarden';
 import DailySelfCare from '@/components/DailySelfCare';
 import AmbientSounds from '@/components/AmbientSounds';
-import { isTodayDailyCalmDone, getData, updateSettings } from '@/lib/storage';
+import { isTodayDailyCalmDone, getData, updateSettings, getTotalCalmDays, getNextMilestone } from '@/lib/storage';
 import { X, Info } from 'lucide-react';
 
 const getGreeting = () => {
