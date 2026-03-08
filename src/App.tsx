@@ -75,6 +75,7 @@ const App = () => {
               <Route path="/learn" element={<Layout><Learn /></Layout>} />
               <Route path="/settings" element={<Layout><Settings /></Layout>} />
               <Route path="/upgrade" element={<Upgrade />} />
+              <Route path="/community" element={<Community />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="*" element={<NotFound />} />

@@ -17,18 +17,18 @@ const features = [
   },
   {
     icon: BarChart3,
-    title: 'Advanced Analytics & Trends',
-    description: 'Weekly and monthly mood trend charts, streak stats, best time-of-day insights, and exportable PDF reports.',
+    title: 'Breeze Circle Community',
+    description: 'An anonymous, AI-moderated peer support space. Share wins, ask questions, and connect with people who get it.',
   },
   {
     icon: Mic,
-    title: 'Guided Voice Sessions',
-    description: 'Calming narrated breathing sessions that guide you through each inhale, hold, and exhale with a soothing voice.',
+    title: 'Premium Ambient Sounds',
+    description: 'Forest, wind, and night soundscapes to complement your breathing sessions.',
   },
   {
     icon: Moon,
-    title: 'Sleep Wind-Down Routine',
-    description: 'A multi-step bedtime flow: gentle breathing → gratitude reflection → sleep soundscape to ease you into rest.',
+    title: 'Unlimited Journal History',
+    description: 'Access your complete freewrite journal — look back on your full journey anytime.',
   },
 ];
 
