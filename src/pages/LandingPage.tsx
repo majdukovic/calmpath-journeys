@@ -36,11 +36,6 @@ const features = [
   },
 ];
 
-const testimonials = [
-  { text: "Finally an anxiety app that doesn't feel clinical. Breeze feels like a friend.", name: 'Sarah K.', stars: 5 },
-  { text: "The SOS button has helped me through 3 panic attacks. Life-changing.", name: 'Marcus T.', stars: 5 },
-  { text: "I love that it doesn't guilt-trip me for missing days. Just gentle encouragement.", name: 'Priya M.', stars: 5 },
-];
 
 const LandingPage = () => {
   return (
