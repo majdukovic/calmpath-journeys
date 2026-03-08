@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import BreathingAnimation from '@/components/BreathingAnimation';
 import MoodSelector from '@/components/MoodSelector';
 import WeeklyDots from '@/components/WeeklyDots';
+import CelebrationOverlay from '@/components/CelebrationOverlay';
 import { gratitudePrompts, affirmations, moodOptions } from '@/lib/data';
-import { addDailyCalmSession, addGratitudeEntry, addMoodEntry, getUnusedPromptId, markPromptShown } from '@/lib/storage';
+import { addDailyCalmSession, addGratitudeEntry, addMoodEntry, getUnusedPromptId, markPromptShown, getTotalCalmDays, getNewlyUnlockedMilestone, getNextMilestone } from '@/lib/storage';
+import { hapticTap } from '@/lib/haptics';
 
 type Step = 'breathing' | 'gratitude' | 'mood' | 'complete';
 
@@ -14,6 +16,8 @@ const DailyCalm = () => {
   const [gratitudeText, setGratitudeText] = useState('');
   const [selectedMood, setSelectedMood] = useState<number | null>(null);
   const [moodNote, setMoodNote] = useState('');
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [milestone, setMilestone] = useState<{ emoji: string; label: string } | null>(null);
 
   const promptIndex = useMemo(() => getUnusedPromptId(gratitudePrompts.length), []);
   const prompt = gratitudePrompts[promptIndex];
@@ -23,6 +27,7 @@ const DailyCalm = () => {
   []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleBreathingDone = () => {
+    hapticTap();
     setStep('gratitude');
   };
 
@@ -36,6 +41,7 @@ const DailyCalm = () => {
       });
       markPromptShown(prompt.id);
     }
+    hapticTap();
     setStep('mood');
   };
 
@@ -58,6 +64,12 @@ const DailyCalm = () => {
       moodEntry: selectedMood || undefined,
     });
 
+    // Check for newly unlocked milestone
+    const newMilestone = getNewlyUnlockedMilestone();
+    if (newMilestone) {
+      setMilestone({ emoji: newMilestone.emoji, label: newMilestone.label });
+    }
+    setShowCelebration(true);
     setStep('complete');
   };
 
@@ -132,16 +144,38 @@ const DailyCalm = () => {
     );
   }
 
-  // Complete
+  // Complete — with celebration
+  const totalDays = getTotalCalmDays();
+  const nextMilestone = getNextMilestone();
+
   return (
     <div className="fixed inset-0 z-[100] bg-primary-light flex flex-col items-center justify-center gap-grid-4 px-grid-3">
-      <div className="text-5xl mb-grid">✨</div>
-      <p className="text-xl text-foreground text-center font-light max-w-[320px] leading-relaxed">
+      <CelebrationOverlay show={showCelebration} milestone={milestone} />
+
+      <div className="text-5xl mb-grid animate-soft-pop">✨</div>
+      <p className="text-xl text-foreground text-center font-light max-w-[320px] leading-relaxed animate-fade-in">
         {affirmation}
       </p>
-      <div className="my-grid-4">
+
+      {/* Total days counter */}
+      <div className="bg-card rounded-card px-grid-4 py-grid-2 card-shadow animate-fade-in" style={{ animationDelay: '0.2s' }}>
+        <p className="text-center">
+          <span className="text-2xl font-bold text-primary">{totalDays}</span>
+          <span className="text-sm text-muted-foreground ml-2">
+            {totalDays === 1 ? 'day' : 'days'} of showing up
+          </span>
+        </p>
+        {nextMilestone && (
+          <p className="text-xs text-muted-foreground text-center mt-1">
+            {nextMilestone.milestone.emoji} {nextMilestone.milestone.days - nextMilestone.current} more to go
+          </p>
+        )}
+      </div>
+
+      <div className="my-grid-2">
         <WeeklyDots />
       </div>
+
       <div className="flex flex-col gap-grid-2 w-full max-w-[320px]">
         <button
           onClick={() => navigate('/learn')}
