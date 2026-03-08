@@ -1,5 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { getData, addFreewriteEntry, type FreewriteEntry } from '@/lib/storage';
+import { usePremium } from '@/contexts/PremiumContext';
+import { useNavigate } from 'react-router-dom';
 import { moodOptions } from '@/lib/data';
 import { Textarea } from '@/components/ui/textarea';
 
