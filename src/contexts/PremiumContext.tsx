@@ -1,4 +1,4 @@
-// Breathly Plus — premium subscription context
+// Breeze Plus — premium subscription context
 
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';

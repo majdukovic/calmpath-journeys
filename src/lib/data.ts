@@ -1,4 +1,4 @@
-// Breathly content data
+// Breeze content data
 
 export interface BreathingPattern {
   id: string;

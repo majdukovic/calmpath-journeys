@@ -1,4 +1,4 @@
-// Breathly localStorage data layer
+// Breeze localStorage data layer
 
 /** Returns YYYY-MM-DD in user's local timezone (never UTC) */
 export function toLocalDateStr(date: Date = new Date()): string {

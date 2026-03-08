@@ -493,7 +493,7 @@ const Settings = () => {
             <span className="text-muted-foreground">1.0.0</span>
           </div>
           <a
-            href="mailto:feedback@breathly.app"
+            href="mailto:hello@breezeapp.co"
             className="w-full flex items-center gap-grid-2 px-grid-2 py-grid-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors min-h-[48px]"
           >
             <MessageCircle size={16} className="text-muted-foreground" />
