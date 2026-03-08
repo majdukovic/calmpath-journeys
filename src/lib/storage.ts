@@ -197,3 +197,60 @@ export function exportDataAsCSV(): string {
 export function deleteAllData(): void {
   localStorage.removeItem(STORAGE_KEY);
 }
+
+/** Get total unique days where user completed at least one Daily Calm */
+export function getTotalCalmDays(): number {
+  const data = getData();
+  const uniqueDates = new Set(data.dailyCalmSessions.map(s => s.date));
+  return uniqueDates.size;
+}
+
+/** Get days since the app was last opened (for return-welcome) */
+export function getDaysSinceLastOpen(): number {
+  const data = getData();
+  if (!data.lastOpenedDate) return 0;
+  const last = new Date(data.lastOpenedDate);
+  const now = new Date();
+  return Math.floor((now.getTime() - last.getTime()) / 86400000);
+}
+
+/** Update the last opened date to today */
+export function markAppOpened(): void {
+  const data = getData();
+  data.lastOpenedDate = new Date().toISOString().split('T')[0];
+  saveData(data);
+}
+
+/** Milestone definitions — cumulative, never lost */
+export interface CalmMilestone {
+  days: number;
+  emoji: string;
+  label: string;
+}
+
+export const calmMilestones: CalmMilestone[] = [
+  { days: 1, emoji: '🌱', label: 'First day of calm!' },
+  { days: 3, emoji: '🌿', label: '3 days of showing up' },
+  { days: 7, emoji: '🌸', label: 'A whole week of calm' },
+  { days: 14, emoji: '🦋', label: '14 days — beautiful progress' },
+  { days: 30, emoji: '🌳', label: '30 days of growth!' },
+  { days: 50, emoji: '⭐', label: '50 days — you\'re shining' },
+  { days: 100, emoji: '🌈', label: '100 days of calm!' },
+  { days: 200, emoji: '💎', label: '200 days — truly remarkable' },
+  { days: 365, emoji: '👑', label: 'A full year of calm!' },
+];
+
+/** Check if today's session just unlocked a new milestone */
+export function getNewlyUnlockedMilestone(): CalmMilestone | null {
+  const totalDays = getTotalCalmDays();
+  // Find the highest milestone that matches exactly
+  return calmMilestones.find(m => m.days === totalDays) || null;
+}
+
+/** Get the next milestone the user is working toward */
+export function getNextMilestone(): { milestone: CalmMilestone; current: number } | null {
+  const totalDays = getTotalCalmDays();
+  const next = calmMilestones.find(m => m.days > totalDays);
+  if (!next) return null;
+  return { milestone: next, current: totalDays };
+}
