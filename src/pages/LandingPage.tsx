@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Wind, Brain, BookOpen, Heart, Shield, Sparkles, Star, ChevronRight, Smartphone } from 'lucide-react';
+import { Wind, Brain, BookOpen, Heart, Shield, Sparkles, Star, ChevronRight, Smartphone, Menu, X } from 'lucide-react';
 import heroIllustration from '@/assets/hero-illustration.jpg';
 import appIcon from '/app-icon.png';
 
