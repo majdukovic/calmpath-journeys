@@ -14,6 +14,7 @@ import DailyCalm from "./pages/DailyCalm";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import Upgrade from "./pages/Upgrade";
+import Community from "./pages/Community";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import LandingPage from "./pages/LandingPage";
