@@ -179,6 +179,14 @@ const Home = () => {
       {/* Quick links */}
       <div className="grid grid-cols-2 gap-grid-2">
         <button
+          onClick={() => navigate('/community')}
+          className="bg-card rounded-card p-grid-2 card-shadow text-left min-h-[48px] transition-all hover:card-shadow-hover"
+        >
+          <span className="text-2xl mb-1 block">🌿</span>
+          <span className="text-sm font-semibold text-foreground">Breeze Circle</span>
+          <span className="text-[10px] text-muted-foreground block">Community support</span>
+        </button>
+        <button
           onClick={() => navigate('/learn')}
           className="bg-card rounded-card p-grid-2 card-shadow text-left min-h-[48px] transition-all hover:card-shadow-hover"
         >
@@ -187,7 +195,7 @@ const Home = () => {
         </button>
         <button
           onClick={() => navigate('/journal')}
-          className="bg-card rounded-card p-grid-2 card-shadow text-left min-h-[48px] transition-all hover:card-shadow-hover"
+          className="bg-card rounded-card p-grid-2 card-shadow text-left min-h-[48px] transition-all hover:card-shadow-hover col-span-2"
         >
           <span className="text-2xl mb-1 block">📓</span>
           <span className="text-sm font-semibold text-foreground">Your journal</span>

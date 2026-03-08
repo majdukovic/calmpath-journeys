@@ -14,6 +14,7 @@ import DailyCalm from "./pages/DailyCalm";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import Upgrade from "./pages/Upgrade";
+import Community from "./pages/Community";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import LandingPage from "./pages/LandingPage";
@@ -74,6 +75,7 @@ const App = () => {
               <Route path="/learn" element={<Layout><Learn /></Layout>} />
               <Route path="/settings" element={<Layout><Settings /></Layout>} />
               <Route path="/upgrade" element={<Upgrade />} />
+              <Route path="/community" element={<Community />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="*" element={<NotFound />} />

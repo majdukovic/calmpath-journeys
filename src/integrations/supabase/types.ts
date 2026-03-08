@@ -14,7 +14,68 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      community_posts: {
+        Row: {
+          content: string
+          created_at: string
+          display_name: string
+          id: string
+          is_approved: boolean
+          topic: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          display_name: string
+          id?: string
+          is_approved?: boolean
+          topic?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          is_approved?: boolean
+          topic?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      community_reactions: {
+        Row: {
+          created_at: string
+          id: string
+          post_id: string
+          reaction_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          post_id: string
+          reaction_type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          post_id?: string
+          reaction_type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_reactions_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "community_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
