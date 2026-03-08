@@ -501,6 +501,10 @@ Don't be afraid to ask potential therapists about their approach and why they th
 - Medication works best as part of a comprehensive approach including therapy, exercise, sleep, and stress management
 
 The decision to try medication is personal and valid. There's no right or wrong answer — only what works for you.`,
+    sources: [
+      { label: 'Bandelow et al., 2017 — Pharmacotherapy of Anxiety Disorders', url: 'https://doi.org/10.1177/2045125312462231' },
+      { label: 'NICE Guidelines — Generalised Anxiety Disorder', url: 'https://www.nice.org.uk/guidance/cg113' },
+    ],
   },
   {
     id: 'support-network',
