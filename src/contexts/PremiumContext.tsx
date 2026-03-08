@@ -91,6 +91,12 @@ export const PremiumProvider = ({ children }: { children: ReactNode }) => {
   }, [checkSubscription]);
 
   const startCheckout = useCallback(async (plan: 'monthly' | 'yearly') => {
+    // Check if user is authenticated before starting checkout
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      throw new Error('Please sign in first to subscribe to Breeze Plus. Go to Settings → Account to create an account or log in.');
+    }
+
     const { data, error } = await supabase.functions.invoke('create-checkout', {
       body: { priceId: PRICES[plan] },
     });
