@@ -385,6 +385,10 @@ When you intentionally focus on what you're grateful for, you're essentially ret
 **Even on the hardest days, gratitude doesn't ask you to pretend everything is fine.** It simply invites you to hold space for both — the difficulty and the good that exists alongside it.
 
 Starting small and being consistent matters more than writing a lot. Even one genuine observation of gratitude each day can shift your perspective over time.`,
+    sources: [
+      { label: 'Emmons & McCullough, 2003 — Counting Blessings vs. Burdens', url: 'https://doi.org/10.1037/0022-3514.84.2.377' },
+      { label: 'Wood et al., 2010 — Gratitude and Well-Being Review', url: 'https://doi.org/10.1016/j.cpr.2010.03.005' },
+    ],
   },
   {
     id: 'when-therapy',
