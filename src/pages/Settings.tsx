@@ -118,7 +118,7 @@ const Settings = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'breathly-data.csv';
+    a.download = 'breeze-data.csv';
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -323,8 +323,8 @@ const Settings = () => {
         </div>
       </Section>
 
-      {/* ── Breathly Plus ── */}
-      <Section title="Breathly Plus">
+      {/* ── Breeze Plus ── */}
+      <Section title="Breeze Plus">
         <div className="bg-card rounded-card p-grid-2 card-shadow">
           {isPremium ? (
             <div className="space-y-grid-2">
@@ -479,7 +479,7 @@ const Settings = () => {
           <div className="flex gap-grid-2 items-start">
             <Shield size={16} className="text-muted-foreground mt-0.5 flex-shrink-0" />
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Breathly is <strong className="text-foreground">not a medical device</strong> and does not provide medical advice, diagnosis, or treatment. The content and exercises are for educational and wellness purposes only. If you are experiencing a mental health crisis, please contact a professional or call emergency services.
+              Breeze is <strong className="text-foreground">not a medical device</strong> and does not provide medical advice, diagnosis, or treatment. The content and exercises are for educational and wellness purposes only. If you are experiencing a mental health crisis, please contact a professional or call emergency services.
             </p>
           </div>
         </div>
@@ -493,7 +493,7 @@ const Settings = () => {
             <span className="text-muted-foreground">1.0.0</span>
           </div>
           <a
-            href="mailto:feedback@breathly.app"
+            href="mailto:hello@breezeapp.co"
             className="w-full flex items-center gap-grid-2 px-grid-2 py-grid-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors min-h-[48px]"
           >
             <MessageCircle size={16} className="text-muted-foreground" />

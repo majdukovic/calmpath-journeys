@@ -22,7 +22,7 @@ const Privacy = () => {
         <div className="space-y-grid-3 text-sm text-foreground/90 leading-relaxed">
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">1. What We Collect</h2>
-            <p>Breathly stores your journal entries, mood logs, gratitude entries, breathing session history, and app preferences. When you sign in, we also store your email address for authentication purposes.</p>
+            <p>Breeze stores your journal entries, mood logs, gratitude entries, breathing session history, and app preferences. When you sign in, we also store your email address for authentication purposes.</p>
           </section>
 
           <section>
@@ -42,7 +42,7 @@ const Privacy = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">4. AI Features</h2>
-            <p>If you use Breathly Plus AI insights, your mood and gratitude data may be sent to an AI model to generate personalized insights. This data is not stored by the AI provider and is used solely to generate your insights in real time.</p>
+            <p>If you use Breeze Plus AI insights, your mood and gratitude data may be sent to an AI model to generate personalized insights. This data is not stored by the AI provider and is used solely to generate your insights in real time.</p>
           </section>
 
           <section>
@@ -57,7 +57,7 @@ const Privacy = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">7. Contact</h2>
-            <p>For privacy questions or data requests, contact us at <a href="mailto:feedback@breathly.app" className="text-primary underline">feedback@breathly.app</a>.</p>
+            <p>For privacy questions or data requests, contact us at <a href="mailto:hello@breezeapp.co" className="text-primary underline">hello@breezeapp.co</a>.</p>
           </section>
         </div>
       </div>

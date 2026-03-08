@@ -52,13 +52,13 @@ const UpgradePage = () => {
   if (isPremium) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center px-grid-3 gap-grid-3">
-        <img src={mascotProud} alt="Breeze" className="w-24 h-24 object-contain" />
+        <img src={mascotProud} alt="Breeze mascot" className="w-24 h-24 object-contain" />
         <div className="flex items-center gap-2 text-primary">
           <Crown size={24} />
-          <h1 className="text-2xl font-bold text-foreground">You're on Breathly Plus!</h1>
+          <h1 className="text-2xl font-bold text-foreground">You're on Breeze Plus!</h1>
         </div>
         <p className="text-muted-foreground text-center max-w-[300px]">
-          All premium features are unlocked. Thank you for supporting Breathly 💚
+          All premium features are unlocked. Thank you for supporting Breeze 💚
         </p>
         <button
           onClick={() => navigate('/settings')}
@@ -83,7 +83,7 @@ const UpgradePage = () => {
         <div className="text-center mb-grid-4">
           <div className="inline-flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-semibold mb-grid-2">
             <Sparkles size={14} />
-            Breathly Plus
+            Breeze Plus
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-grid">
             Unlock your full calm potential
@@ -165,7 +165,7 @@ const UpgradePage = () => {
           className="w-full py-grid-2 rounded-button bg-primary text-primary-foreground font-bold min-h-[56px] text-base flex items-center justify-center gap-2 transition-all hover:opacity-90 disabled:opacity-50"
         >
           <Sparkles size={18} />
-          {loading ? 'Opening checkout...' : `Start Breathly Plus`}
+          {loading ? 'Opening checkout...' : `Start Breeze Plus`}
         </button>
 
         <p className="text-[11px] text-muted-foreground text-center mt-grid-2">

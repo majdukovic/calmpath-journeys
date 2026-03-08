@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Breathly</string>
-    <string name="title_activity_main">Breathly</string>
+    <string name="app_name">Breeze</string>
+    <string name="title_activity_main">Breeze</string>
     <string name="package_name">app.lovable.a6184d409ec745c2b1c596e88853348a</string>
     <string name="custom_url_scheme">app.lovable.a6184d409ec745c2b1c596e88853348a</string>
 </resources>

@@ -22,24 +22,24 @@ const Terms = () => {
         <div className="space-y-grid-3 text-sm text-foreground/90 leading-relaxed">
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">1. Acceptance of Terms</h2>
-            <p>By using Breathly ("the App"), you agree to these Terms of Service. If you do not agree, please do not use the App.</p>
+            <p>By using Breeze ("the App"), you agree to these Terms of Service. If you do not agree, please do not use the App.</p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">2. Description of Service</h2>
-            <p>Breathly is a wellness and self-care application that provides breathing exercises, journaling tools, mood tracking, and educational content about anxiety and mental well-being.</p>
+            <p>Breeze is a wellness and self-care application that provides breathing exercises, journaling tools, mood tracking, and educational content about anxiety and mental well-being.</p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">3. Not Medical Advice</h2>
             <p>
-              <strong>Breathly is not a medical device and does not provide medical advice, diagnosis, or treatment.</strong> The content, exercises, and features in this app are for educational and informational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical or mental health condition. Never disregard professional medical advice or delay seeking it because of something you read or experienced in this app.
+              <strong>Breeze is not a medical device and does not provide medical advice, diagnosis, or treatment.</strong> The content, exercises, and features in this app are for educational and informational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical or mental health condition. Never disregard professional medical advice or delay seeking it because of something you read or experienced in this app.
             </p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">4. Subscriptions & Payments</h2>
-            <p>Breathly offers optional premium features ("Breathly Plus") available through paid subscriptions. Subscriptions automatically renew unless cancelled before the end of the current billing period. You can manage or cancel your subscription at any time through your account settings.</p>
+            <p>Breeze offers optional premium features ("Breeze Plus") available through paid subscriptions. Subscriptions automatically renew unless cancelled before the end of the current billing period. You can manage or cancel your subscription at any time through your account settings.</p>
           </section>
 
           <section>
@@ -49,7 +49,7 @@ const Terms = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">6. Limitation of Liability</h2>
-            <p>Breathly and its creators shall not be liable for any indirect, incidental, or consequential damages arising from your use of the App. The App is provided "as is" without warranties of any kind.</p>
+            <p>Breeze and its creators shall not be liable for any indirect, incidental, or consequential damages arising from your use of the App. The App is provided "as is" without warranties of any kind.</p>
           </section>
 
           <section>
@@ -59,7 +59,7 @@ const Terms = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">8. Contact</h2>
-            <p>If you have questions about these Terms, please contact us at <a href="mailto:feedback@breathly.app" className="text-primary underline">feedback@breathly.app</a>.</p>
+            <p>If you have questions about these Terms, please contact us at <a href="mailto:hello@breezeapp.co" className="text-primary underline">hello@breezeapp.co</a>.</p>
           </section>
         </div>
       </div>

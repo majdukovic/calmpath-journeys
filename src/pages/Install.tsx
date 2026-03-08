@@ -45,13 +45,13 @@ const Install = () => {
   if (isInstalled) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center px-grid-3 gap-grid-3">
-        <img src={mascotHappy} alt="Breeze" className="w-24 h-24 object-contain" />
+        <img src={mascotHappy} alt="Breeze mascot" className="w-24 h-24 object-contain" />
         <div className="flex items-center gap-2 text-primary">
           <Check size={24} />
           <h1 className="text-2xl font-bold text-foreground">Already installed!</h1>
         </div>
         <p className="text-muted-foreground text-center max-w-[300px]">
-          Breathly is on your home screen. Open it anytime for your daily calm.
+          Breeze is on your home screen. Open it anytime for your daily calm.
         </p>
         <button
           onClick={() => navigate('/')}
@@ -65,10 +65,10 @@ const Install = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-grid-3 gap-grid-4">
-      <img src={mascotHappy} alt="Breeze" className="w-24 h-24 object-contain drop-shadow-lg" />
-      <h1 className="text-2xl font-bold text-foreground text-center">Install Breathly</h1>
+      <img src={mascotHappy} alt="Breeze mascot" className="w-24 h-24 object-contain drop-shadow-lg" />
+      <h1 className="text-2xl font-bold text-foreground text-center">Install Breeze</h1>
       <p className="text-muted-foreground text-center max-w-[320px] leading-relaxed">
-        Add Breathly to your home screen for the best experience — instant access, offline support, and daily reminders.
+        Add Breeze to your home screen for the best experience — instant access, offline support, and daily reminders.
       </p>
 
       {/* Features */}
@@ -93,7 +93,7 @@ const Install = () => {
           className="w-full max-w-[320px] py-grid-2 rounded-button bg-primary text-primary-foreground font-bold min-h-[56px] text-base flex items-center justify-center gap-2 transition-all hover:opacity-90"
         >
           <Download size={20} />
-          Install Breathly
+          Install Breeze
         </button>
       )}
 

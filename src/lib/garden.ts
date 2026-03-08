@@ -1,4 +1,4 @@
-// Breathly Growth Garden & Mascot system
+// Breeze Growth Garden & Mascot system
 // Inspired by Finch (nurture-based) and Rootd (journey metaphor)
 // No streaks, no guilt — only positive growth visualization
 
