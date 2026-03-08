@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,11 +14,14 @@ import DailyCalm from "./pages/DailyCalm";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import { getData } from "./lib/storage";
+import { initTheme } from "./hooks/use-theme";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [showOnboarding, setShowOnboarding] = useState(!getData().settings.onboardingCompleted);
+
+  useEffect(() => { initTheme(); }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

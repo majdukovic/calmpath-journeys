@@ -42,6 +42,7 @@ export interface UserSettings {
   hapticsEnabled: boolean;
   audioEnabled: boolean;
   onboardingCompleted: boolean;
+  theme: 'light' | 'dark' | 'system';
 }
 
 export interface AppData {
@@ -63,6 +64,7 @@ const defaultSettings: UserSettings = {
   hapticsEnabled: true,
   audioEnabled: true,
   onboardingCompleted: false,
+  theme: 'system',
 };
 
 const defaultData: AppData = {

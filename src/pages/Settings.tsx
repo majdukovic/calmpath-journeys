@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { getData, updateSettings, exportDataAsCSV, deleteAllData } from '@/lib/storage';
 import { breathingPatterns } from '@/lib/data';
+import { useTheme } from '@/hooks/use-theme';
 
 const Settings = () => {
   const [settings, setSettings] = useState(getData().settings);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   const update = (partial: Partial<typeof settings>) => {
     const next = { ...settings, ...partial };
@@ -47,6 +49,28 @@ const Settings = () => {
             <button className="w-full py-grid-2 rounded-button bg-muted text-foreground font-medium min-h-[48px] text-sm">
               Continue with Apple
             </button>
+          </div>
+        </div>
+      </Section>
+
+      {/* Appearance */}
+      <Section title="Appearance">
+        <div className="bg-card rounded-card p-grid-2 card-shadow">
+          <span className="text-sm text-foreground block mb-grid">Theme</span>
+          <div className="flex gap-1">
+            {(['light', 'dark', 'system'] as const).map(t => (
+              <button
+                key={t}
+                onClick={() => setTheme(t)}
+                className={`flex-1 text-sm px-grid-2 py-grid rounded-button min-h-[40px] transition-colors capitalize ${
+                  theme === t
+                    ? 'bg-primary/10 text-primary font-medium'
+                    : 'text-foreground hover:bg-muted'
+                }`}
+              >
+                {t}
+              </button>
+            ))}
           </div>
         </div>
       </Section>
