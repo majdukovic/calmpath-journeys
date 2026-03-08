@@ -67,6 +67,13 @@ export interface CustomSelfCareTask {
   label: string;
 }
 
+export interface FreewriteEntry {
+  id: string;
+  date: string;
+  text: string;
+  createdAt: string;
+}
+
 export interface AppData {
   gratitudeEntries: GratitudeEntry[];
   moodEntries: MoodEntry[];
@@ -74,6 +81,7 @@ export interface AppData {
   dailyCalmSessions: DailyCalmSession[];
   selfCareTasks: { date: string; taskId: string }[];
   customSelfCareTasks: CustomSelfCareTask[];
+  freewriteEntries: FreewriteEntry[];
   settings: UserSettings;
   shownPromptIds: { id: number; shownAt: string }[];
   lastOpenedDate?: string;
@@ -101,6 +109,7 @@ const defaultData: AppData = {
   dailyCalmSessions: [],
   selfCareTasks: [],
   customSelfCareTasks: [],
+  freewriteEntries: [],
   settings: defaultSettings,
   shownPromptIds: [],
 };
@@ -147,6 +156,17 @@ export function addSOSSession(session: Omit<SOSSession, 'id'>): void {
 export function addDailyCalmSession(session: Omit<DailyCalmSession, 'id'>): void {
   const data = getData();
   data.dailyCalmSessions.unshift({ ...session, id: crypto.randomUUID() });
+  saveData(data);
+}
+
+export function addFreewriteEntry(text: string): void {
+  const data = getData();
+  data.freewriteEntries.unshift({
+    id: crypto.randomUUID(),
+    date: toLocalDateStr(),
+    text,
+    createdAt: new Date().toISOString(),
+  });
   saveData(data);
 }
 
