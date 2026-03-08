@@ -47,20 +47,30 @@ const GroundingExercise = ({ darkMode = true, onComplete, onSkip }: Props) => {
         <p className={`text-sm ${mutedClass}`}>Take your time. There's no rush.</p>
       </div>
 
-      <div className="flex gap-grid-2 w-full max-w-[400px]">
+      <div className="flex flex-col gap-grid-2 w-full max-w-[400px]">
+        <div className="flex gap-grid-2">
+          <button
+            onClick={onSkip}
+            className={`flex-1 py-grid-2 rounded-button text-sm font-medium min-h-[48px] ${
+              darkMode ? 'bg-sos-text/10 text-sos-text border border-sos-text/20' : 'bg-muted text-foreground'
+            }`}
+          >
+            I'm okay for now
+          </button>
+          <button
+            onClick={handleNext}
+            className="flex-1 py-grid-2 rounded-button text-sm font-medium min-h-[48px] bg-primary text-primary-foreground"
+          >
+            {step < groundingPrompts.length - 1 ? 'Next' : 'Done'}
+          </button>
+        </div>
         <button
           onClick={onSkip}
-          className={`flex-1 py-grid-2 rounded-button text-sm font-medium min-h-[48px] ${
-            darkMode ? 'bg-sos-text/10 text-sos-text border border-sos-text/20' : 'bg-muted text-foreground'
+          className={`w-full py-grid text-xs font-medium min-h-[36px] rounded-button ${
+            darkMode ? 'text-sos-text/40' : 'text-muted-foreground'
           }`}
         >
-          Skip grounding
-        </button>
-        <button
-          onClick={handleNext}
-          className="flex-1 py-grid-2 rounded-button text-sm font-medium min-h-[48px] bg-primary text-primary-foreground"
-        >
-          {step < groundingPrompts.length - 1 ? 'Next' : 'Done'}
+          Take a break — you've already done something brave 💚
         </button>
       </div>
     </div>
