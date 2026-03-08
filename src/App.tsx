@@ -49,6 +49,8 @@ const App = () => {
               <Route path="/settings" element={<Layout><Settings /></Layout>} />
               <Route path="/install" element={<Install />} />
               <Route path="/upgrade" element={<Upgrade />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
