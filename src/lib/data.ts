@@ -232,6 +232,10 @@ These thoughts feel absolutely real in the moment, but they're part of the panic
 **Panic attacks typically peak within 10 minutes** and rarely last more than 30 minutes. They always end. Always.
 
 If you're experiencing frequent panic attacks, it's worth talking to a healthcare provider. Effective treatments exist that can significantly reduce their frequency and intensity. You don't have to just push through this alone.`,
+    sources: [
+      { label: 'APA — Panic Disorder', url: 'https://www.apa.org/topics/anxiety/panic-disorder' },
+      { label: 'Clark, 1986 — Cognitive Model of Panic', url: 'https://doi.org/10.1016/S0005-7967(86)80011-2' },
+    ],
   },
   {
     id: 'why-panic-not-dangerous',
