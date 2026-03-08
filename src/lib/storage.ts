@@ -64,6 +64,7 @@ const defaultSettings: UserSettings = {
   hapticsEnabled: true,
   audioEnabled: true,
   onboardingCompleted: false,
+  theme: 'system',
 };
 
 const defaultData: AppData = {
