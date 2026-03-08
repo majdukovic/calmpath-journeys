@@ -20,7 +20,7 @@ const Settings = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'calmpath-data.csv';
+    a.download = 'breathly-data.csv';
     a.click();
     URL.revokeObjectURL(url);
   };
