@@ -97,7 +97,7 @@ const LandingPage = () => {
                   className="bg-card text-foreground border border-border px-8 py-4 rounded-2xl text-base font-semibold flex items-center justify-center gap-2 hover:bg-muted transition-colors"
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3.18 23.5c-.34 0-.68-.1-.98-.31-.52-.36-.82-.96-.78-1.59l1.44-20c.06-.84.74-1.5 1.58-1.5h.04l6.32.2c.4.02.76.22.98.54L15.52 7h4.98c.87 0 1.58.71 1.58 1.58v13.34c0 .87-.71 1.58-1.58 1.58H3.18z"/>
+                    <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-1.4l2.5 1.45a1 1 0 0 1 0 1.486l-2.5 1.45-2.537-2.536 2.537-2.85zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/>
                   </svg>
                   Get on Android
                 </a>
