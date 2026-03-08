@@ -489,10 +489,22 @@ const Settings = () => {
       {/* ── About ── */}
       <Section title="About">
         <div className="bg-card rounded-card p-grid-2 card-shadow space-y-1">
-          <div className="flex justify-between text-sm min-h-[40px] items-center px-grid-2">
+          <button
+            onClick={() => {
+              const next = versionTaps + 1;
+              setVersionTaps(next);
+              if (next >= 5) {
+                toggleDevPremium();
+                setVersionTaps(0);
+              }
+            }}
+            className="flex justify-between text-sm min-h-[40px] items-center px-grid-2 w-full"
+          >
             <span className="text-foreground">Version</span>
-            <span className="text-muted-foreground">1.0.0</span>
-          </div>
+            <span className="text-muted-foreground">
+              1.0.0{isDevOverride ? ' 🔓 DEV' : ''}
+            </span>
+          </button>
           <a
             href="mailto:hello@breezeapp.co"
             className="w-full flex items-center gap-grid-2 px-grid-2 py-grid-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors min-h-[48px]"
