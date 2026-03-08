@@ -6,6 +6,7 @@ import { useTheme } from '@/hooks/use-theme';
 const Settings = () => {
   const [settings, setSettings] = useState(getData().settings);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   const update = (partial: Partial<typeof settings>) => {
     const next = { ...settings, ...partial };
