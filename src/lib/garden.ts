@@ -2,7 +2,7 @@
 // Inspired by Finch (nurture-based) and Rootd (journey metaphor)
 // No streaks, no guilt — only positive growth visualization
 
-import { getData } from './storage';
+import { getData, toLocalDateStr } from './storage';
 
 export type MascotMood = 'wave' | 'happy' | 'proud' | 'sleepy';
 
