@@ -31,11 +31,15 @@ const journalingNudges: JournalingNudge[] = [
     emoji: '💭',
     title: 'Your mind isn\'t a filing cabinet',
     body: 'Holding thoughts inside takes mental energy. Journaling frees up working memory — like closing extra browser tabs so your brain can breathe.',
+    source: 'Klein & Boals, 2001 — "Expressive Writing and Working Memory"',
+    sourceUrl: 'https://doi.org/10.1037/0096-3445.130.3.520',
   },
   {
     emoji: '🔍',
     title: 'Spot patterns you can\'t see from inside',
     body: 'After a week of entries, you\'ll start noticing what triggers stress and what lifts you up. Self-awareness is the first step to feeling better.',
+    source: 'Ullrich & Lutgendorf, 2002 — "Journaling About Stressful Events"',
+    sourceUrl: 'https://doi.org/10.1207/S15324796ABM2403_10',
   },
   {
     emoji: '🫧',
@@ -46,6 +50,8 @@ const journalingNudges: JournalingNudge[] = [
     emoji: '🌊',
     title: 'Ride the wave, don\'t fight it',
     body: 'Expressive writing for just 15 minutes has been shown to lower cortisol and improve immune function. Your journal is medicine without side effects.',
+    source: 'Pennebaker & Beall, 1986 — "Expressive Writing & Health"',
+    sourceUrl: 'https://doi.org/10.1037/0021-843X.95.3.274',
   },
 ];
 
