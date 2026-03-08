@@ -192,6 +192,10 @@ export const articles: Article[] = [
 **The good news is that anxiety is highly responsive to care.** Simple practices like controlled breathing, regular movement, good sleep, and connecting with others can make a real difference. And if anxiety feels overwhelming, professional support can help tremendously.
 
 You're already taking a step by learning about what you're experiencing. That awareness is powerful.`,
+    sources: [
+      { label: 'APA — Understanding Anxiety Disorders', url: 'https://www.apa.org/topics/anxiety' },
+      { label: 'NIMH — Anxiety Disorders', url: 'https://www.nimh.nih.gov/health/topics/anxiety-disorders' },
+    ],
   },
   {
     id: 'panic-attacks',
