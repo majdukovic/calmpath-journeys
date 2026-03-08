@@ -53,6 +53,28 @@ const Settings = () => {
         </div>
       </Section>
 
+      {/* Appearance */}
+      <Section title="Appearance">
+        <div className="bg-card rounded-card p-grid-2 card-shadow">
+          <span className="text-sm text-foreground block mb-grid">Theme</span>
+          <div className="flex gap-1">
+            {(['light', 'dark', 'system'] as const).map(t => (
+              <button
+                key={t}
+                onClick={() => setTheme(t)}
+                className={`flex-1 text-sm px-grid-2 py-grid rounded-button min-h-[40px] transition-colors capitalize ${
+                  theme === t
+                    ? 'bg-primary/10 text-primary font-medium'
+                    : 'text-foreground hover:bg-muted'
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+        </div>
+      </Section>
+
       {/* Notifications */}
       <Section title="Notifications">
         <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
