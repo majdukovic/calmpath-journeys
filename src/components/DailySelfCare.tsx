@@ -69,14 +69,13 @@ const DailySelfCare = () => {
     const isCompleted = completed.includes(taskId);
     
     if (isCompleted) {
-      // Remove
       currentData.selfCareTasks = (currentData.selfCareTasks || [])
         .filter(t => !(t.date === today && t.taskId === taskId));
       setCompleted(prev => prev.filter(id => id !== taskId));
     } else {
-      // Add
       currentData.selfCareTasks = [...(currentData.selfCareTasks || []), { date: today, taskId }];
       setCompleted(prev => [...prev, taskId]);
+      hapticTap();
     }
     saveData(currentData);
   }, [completed, today]);
