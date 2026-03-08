@@ -181,27 +181,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Reviews */}
-      <section id="reviews" className="py-20 md:py-28">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-16">
-            What people are saying
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <div key={i} className="bg-card rounded-3xl p-8 card-shadow">
-                <div className="flex gap-0.5 mb-4">
-                  {Array.from({ length: t.stars }).map((_, j) => (
-                    <Star key={j} size={16} className="text-accent fill-accent" />
-                  ))}
-                </div>
-                <p className="text-foreground text-sm leading-relaxed mb-4">"{t.text}"</p>
-                <p className="text-xs text-muted-foreground font-medium">— {t.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Pricing */}
       <section id="pricing" className="py-20 bg-card/50 border-y border-border">
