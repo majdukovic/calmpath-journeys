@@ -163,6 +163,7 @@ export interface Article {
   readTime: string;
   content: string;
   hasMedDisclaimer?: boolean;
+  sources?: { label: string; url: string }[];
 }
 
 export const articles: Article[] = [
