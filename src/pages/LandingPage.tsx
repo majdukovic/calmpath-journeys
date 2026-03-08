@@ -109,17 +109,9 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Social proof bar */}
+      {/* Value props bar */}
       <section className="border-y border-border bg-card/50">
         <div className="max-w-6xl mx-auto px-6 py-6 flex flex-wrap justify-center gap-8 md:gap-16 text-center">
-          <div>
-            <p className="text-2xl font-bold text-foreground">4.9★</p>
-            <p className="text-xs text-muted-foreground">App Store Rating</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-foreground">100K+</p>
-            <p className="text-xs text-muted-foreground">Breathing Sessions</p>
-          </div>
           <div>
             <p className="text-2xl font-bold text-foreground">3 min</p>
             <p className="text-xs text-muted-foreground">To Feel Calmer</p>
@@ -127,6 +119,14 @@ const LandingPage = () => {
           <div>
             <p className="text-2xl font-bold text-foreground">100%</p>
             <p className="text-xs text-muted-foreground">Science-Backed</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-foreground">Free</p>
+            <p className="text-xs text-muted-foreground">No Account Needed</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-foreground">Private</p>
+            <p className="text-xs text-muted-foreground">Your Data Stays Local</p>
           </div>
         </div>
       </section>
