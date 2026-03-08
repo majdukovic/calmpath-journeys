@@ -67,6 +67,13 @@ export interface CustomSelfCareTask {
   label: string;
 }
 
+export interface FreewriteEntry {
+  id: string;
+  date: string;
+  text: string;
+  createdAt: string;
+}
+
 export interface AppData {
   gratitudeEntries: GratitudeEntry[];
   moodEntries: MoodEntry[];
@@ -74,6 +81,7 @@ export interface AppData {
   dailyCalmSessions: DailyCalmSession[];
   selfCareTasks: { date: string; taskId: string }[];
   customSelfCareTasks: CustomSelfCareTask[];
+  freewriteEntries: FreewriteEntry[];
   settings: UserSettings;
   shownPromptIds: { id: number; shownAt: string }[];
   lastOpenedDate?: string;
