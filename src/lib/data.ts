@@ -540,6 +540,9 @@ When you connect with people who care about you, your body releases oxytocin —
 **Remember:** asking for support is not burdening people. The people who care about you want to help — they just might not know how unless you tell them.
 
 Connection is a practice, just like breathing exercises or gratitude. Start small, be patient with yourself, and let relationships grow naturally.`,
+    sources: [
+      { label: 'Holt-Lunstad et al., 2010 — Social Relationships and Mortality Risk', url: 'https://doi.org/10.1371/journal.pmed.1000316' },
+    ],
   },
   {
     id: 'exercise-anxiety',
