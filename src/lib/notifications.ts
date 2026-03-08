@@ -4,7 +4,7 @@
  * - Native (Capacitor): Uses @capacitor/local-notifications for scheduled alarms
  */
 
-import { getData, isTodayDailyCalmDone } from '@/lib/storage';
+import { getData, isTodayDailyCalmDone, toLocalDateStr } from '@/lib/storage';
 import { Capacitor } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
@@ -124,7 +124,7 @@ function checkAndNotify() {
   if (isTodayDailyCalmDone()) return;
 
   const now = new Date();
-  const today = now.toISOString().split('T')[0];
+  const today = toLocalDateStr(now);
   if (lastNotifiedDate === today) return;
 
   const [targetH, targetM] = reminderTime.split(':').map(Number);

@@ -5,7 +5,7 @@ import MoodSelector from '@/components/MoodSelector';
 import WeeklyDots from '@/components/WeeklyDots';
 import CelebrationOverlay from '@/components/CelebrationOverlay';
 import { gratitudePrompts, moodOptions } from '@/lib/data';
-import { addDailyCalmSession, addGratitudeEntry, addMoodEntry, getUnusedPromptId, markPromptShown, getTotalCalmDays, getNewlyUnlockedMilestone, getNextMilestone } from '@/lib/storage';
+import { addDailyCalmSession, addGratitudeEntry, addMoodEntry, getUnusedPromptId, markPromptShown, getTotalCalmDays, getNewlyUnlockedMilestone, getNextMilestone, toLocalDateStr } from '@/lib/storage';
 import { hapticTap } from '@/lib/haptics';
 import { getIdentityMessage, maybeGetDiscovery, getCuriosityPrompt } from '@/lib/psychology';
 
@@ -35,7 +35,7 @@ const DailyCalm = () => {
   const handleGratitudeDone = () => {
     if (gratitudeText.trim()) {
       addGratitudeEntry({
-        date: new Date().toISOString().split('T')[0],
+        date: toLocalDateStr(),
         prompt: prompt.prompt,
         answer: gratitudeText.trim(),
         category: prompt.category,
@@ -50,7 +50,7 @@ const DailyCalm = () => {
     if (selectedMood) {
       const opt = moodOptions.find(o => o.value === selectedMood);
       addMoodEntry({
-        date: new Date().toISOString().split('T')[0],
+        date: toLocalDateStr(),
         mood: selectedMood,
         moodLabel: opt?.label || '',
         note: moodNote || undefined,
@@ -59,7 +59,7 @@ const DailyCalm = () => {
     }
 
     addDailyCalmSession({
-      date: new Date().toISOString().split('T')[0],
+      date: toLocalDateStr(),
       breathingCompleted: true,
       gratitudeEntry: gratitudeText || undefined,
       moodEntry: selectedMood || undefined,

@@ -2,7 +2,7 @@
 // Inspired by Finch (nurture-based) and Rootd (journey metaphor)
 // No streaks, no guilt — only positive growth visualization
 
-import { getData } from './storage';
+import { getData, toLocalDateStr } from './storage';
 
 export type MascotMood = 'wave' | 'happy' | 'proud' | 'sleepy';
 
@@ -30,7 +30,7 @@ export interface GardenStats {
 export function getGardenStats(): GardenStats {
   const data = getData();
   const now = new Date();
-  const today = now.toISOString().split('T')[0];
+  const today = toLocalDateStr(now);
   const hour = now.getHours();
 
   // Weekly count
@@ -38,7 +38,7 @@ export function getGardenStats(): GardenStats {
   const monday = new Date(now);
   monday.setDate(now.getDate() - ((day === 0 ? 7 : day) - 1));
   monday.setHours(0, 0, 0, 0);
-  const mondayStr = monday.toISOString().split('T')[0];
+  const mondayStr = toLocalDateStr(monday);
   const weeklyCount = data.dailyCalmSessions.filter(s => s.date >= mondayStr).length;
 
   // Days since last activity

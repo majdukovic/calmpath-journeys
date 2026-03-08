@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { getData, saveData, CustomSelfCareTask } from '@/lib/storage';
+import { getData, saveData, CustomSelfCareTask, toLocalDateStr } from '@/lib/storage';
 import { Check, Pencil, Plus, Trash2, Info, X } from 'lucide-react';
 import { hapticTap } from '@/lib/haptics';
 
@@ -34,7 +34,7 @@ const allTasks: SelfCareTask[] = [
 ];
 
 function getTodaysTasks(): SelfCareTask[] {
-  const today = new Date().toISOString().split('T')[0];
+  const today = toLocalDateStr();
   const seed = today.split('-').reduce((a, b) => a + parseInt(b), 0);
   const shuffled = [...allTasks].sort((a, b) => {
     const hashA = (seed * 31 + a.id.charCodeAt(0)) % 100;
@@ -50,7 +50,7 @@ function getTodaysTasks(): SelfCareTask[] {
 const QUICK_EMOJIS = ['⭐', '💪', '📚', '🏃', '🎨', '🧹', '💤', '🥗', '🫂', '✍️', '🧘', '🌊'];
 
 const DailySelfCare = () => {
-  const today = new Date().toISOString().split('T')[0];
+  const today = toLocalDateStr();
   const defaultTasks = useMemo(() => getTodaysTasks(), []);
   const data = getData();
 

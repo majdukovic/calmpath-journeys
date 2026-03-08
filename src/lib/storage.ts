@@ -1,5 +1,13 @@
 // Breathly localStorage data layer
 
+/** Returns YYYY-MM-DD in user's local timezone (never UTC) */
+export function toLocalDateStr(date: Date = new Date()): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
 export interface GratitudeEntry {
   id: string;
   date: string;
@@ -166,7 +174,7 @@ export function getUnusedPromptId(totalPrompts: number): number {
 
 export function isTodayDailyCalmDone(): boolean {
   const data = getData();
-  const today = new Date().toISOString().split('T')[0];
+  const today = toLocalDateStr();
   return data.dailyCalmSessions.some(s => s.date === today);
 }
 
@@ -182,7 +190,7 @@ export function getWeeklyProgress(): boolean[] {
   for (let i = 0; i < 7; i++) {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
-    const dateStr = d.toISOString().split('T')[0];
+    const dateStr = toLocalDateStr(d);
     result.push(data.dailyCalmSessions.some(s => s.date === dateStr));
   }
   return result;
@@ -227,7 +235,7 @@ export function getDaysSinceLastOpen(): number {
 /** Update the last opened date to today */
 export function markAppOpened(): void {
   const data = getData();
-  data.lastOpenedDate = new Date().toISOString().split('T')[0];
+  data.lastOpenedDate = toLocalDateStr();
   saveData(data);
 }
 
