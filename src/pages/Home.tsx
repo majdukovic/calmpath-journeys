@@ -21,36 +21,36 @@ const Home = () => {
       {/* Mascot Companion */}
       <MascotCompanion />
 
-      {/* SOS Card */}
-      <div className="bg-card rounded-card p-grid-3 card-shadow flex flex-col items-center gap-grid-2 text-center">
+      {/* SOS Card — warm gradient, inviting not alarming */}
+      <div className="gradient-peach rounded-card p-grid-3 card-shadow flex flex-col items-center gap-grid-2 text-center">
         <p className="text-sm text-muted-foreground">If you're feeling overwhelmed</p>
         <button
           onClick={() => navigate('/sos')}
-          className="w-20 h-20 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg animate-pulse-soft card-shadow"
+          className="w-20 h-20 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold text-lg animate-pulse-soft card-shadow"
           aria-label="SOS - I need calm now"
         >
           SOS
         </button>
-        <p className="text-base font-medium text-foreground">I need calm now</p>
+        <p className="text-base font-semibold text-foreground">I need calm now</p>
       </div>
 
       {/* Daily Calm Card */}
       <div className="bg-card rounded-card p-grid-3 card-shadow">
-        <h2 className="text-xl font-medium text-foreground mb-grid">
+        <h2 className="text-xl font-semibold text-foreground mb-grid">
           {getGreeting()}{name ? `, ${name}` : ''} 🌿
         </h2>
         {done ? (
           <div className="flex flex-col gap-grid-2">
             <div className="flex items-center gap-grid">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center">
                 <span className="text-primary text-lg">✓</span>
               </div>
-              <p className="text-foreground">You showed up today. That matters.</p>
+              <p className="text-foreground font-medium">You showed up today. That matters.</p>
             </div>
             <WeeklyDots />
             <button
               onClick={() => navigate('/daily-calm')}
-              className="w-full py-grid-2 rounded-button bg-muted text-foreground font-medium min-h-[48px] mt-grid"
+              className="w-full py-grid-2 rounded-button bg-muted text-foreground font-semibold min-h-[48px] mt-grid transition-all hover:card-shadow-hover"
             >
               Do another session
             </button>
@@ -60,7 +60,7 @@ const Home = () => {
             <p className="text-muted-foreground text-sm">~3 min · Breathing, gratitude & check-in</p>
             <button
               onClick={() => navigate('/daily-calm')}
-              className="w-full py-grid-2 rounded-button bg-primary text-primary-foreground font-medium min-h-[48px]"
+              className="w-full py-grid-2 rounded-button bg-primary text-primary-foreground font-semibold min-h-[48px] transition-all hover:opacity-90"
             >
               Start your 3-minute calm
             </button>
@@ -72,21 +72,21 @@ const Home = () => {
       {/* Growth Garden */}
       <GrowthGarden />
 
-      {/* Quick links */}
+      {/* Quick links — soft pastel cards */}
       <div className="grid grid-cols-2 gap-grid-2">
         <button
           onClick={() => navigate('/learn')}
-          className="bg-card rounded-card p-grid-2 card-shadow text-left min-h-[48px]"
+          className="bg-card rounded-card p-grid-2 card-shadow text-left min-h-[48px] transition-all hover:card-shadow-hover"
         >
-          <span className="text-lg mb-1 block">📖</span>
-          <span className="text-sm font-medium text-foreground">Today's reading</span>
+          <span className="text-2xl mb-1 block">📖</span>
+          <span className="text-sm font-semibold text-foreground">Today's reading</span>
         </button>
         <button
           onClick={() => navigate('/journal')}
-          className="bg-card rounded-card p-grid-2 card-shadow text-left min-h-[48px]"
+          className="bg-card rounded-card p-grid-2 card-shadow text-left min-h-[48px] transition-all hover:card-shadow-hover"
         >
-          <span className="text-lg mb-1 block">📓</span>
-          <span className="text-sm font-medium text-foreground">Your journal</span>
+          <span className="text-2xl mb-1 block">📓</span>
+          <span className="text-sm font-semibold text-foreground">Your journal</span>
         </button>
       </div>
     </div>
