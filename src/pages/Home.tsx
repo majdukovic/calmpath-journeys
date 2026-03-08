@@ -7,6 +7,7 @@ import DailySelfCare from '@/components/DailySelfCare';
 import AmbientSounds from '@/components/AmbientSounds';
 import { isTodayDailyCalmDone, getData, updateSettings, getTotalCalmDays, getNextMilestone } from '@/lib/storage';
 import { X, Info } from 'lucide-react';
+import { getContextCue } from '@/lib/psychology';
 
 const getGreeting = () => {
   const h = new Date().getHours();
