@@ -240,7 +240,7 @@ const ExtendedCalmAffirmation = ({ affirmations }: { affirmations: string[] }) =
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 
-  useState(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setVisible(false);
       setTimeout(() => {
@@ -249,7 +249,7 @@ const ExtendedCalmAffirmation = ({ affirmations }: { affirmations: string[] }) =
       }, 1000);
     }, 8000);
     return () => clearInterval(interval);
-  });
+  }, [affirmations.length]);
 
   return (
     <p
