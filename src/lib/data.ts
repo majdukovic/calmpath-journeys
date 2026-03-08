@@ -22,7 +22,7 @@ export const breathingPatterns: BreathingPattern[] = [
   { id: 'resonance', label: 'Resonance (5.5-5.5)', inhale: 5.5, hold: 0, exhale: 5.5, holdAfter: 0, premium: true },
 ];
 
-export type PatternId = typeof breathingPatterns[number]['id'];
+export type PatternId = string;
 
 // Gentle / comfort affirmations — "Help me feel okay" mode
 export const gentleAffirmations = [
