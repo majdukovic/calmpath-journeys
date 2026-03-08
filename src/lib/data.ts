@@ -429,6 +429,9 @@ Starting small and being consistent matters more than writing a lot. Even one ge
 **If cost is a concern**, many therapists offer sliding-scale fees. Community mental health centers provide services based on ability to pay. Online therapy platforms can also be more affordable.
 
 Asking for help isn't a sign of weakness — it's a sign that you're taking your wellbeing seriously.`,
+    sources: [
+      { label: 'APA — How to Choose a Therapist', url: 'https://www.apa.org/topics/psychotherapy/understanding' },
+    ],
   },
   {
     id: 'types-therapy',
