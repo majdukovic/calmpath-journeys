@@ -519,24 +519,6 @@ const Settings = () => {
         </div>
       </Section>
 
-      {/* ── Crisis Resources ── */}
-      <Section title="Need more help?">
-        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
-          <div className="text-sm">
-            <p className="font-medium text-foreground">Emergency</p>
-            <a href="tel:911" className="text-primary min-h-[48px] flex items-center">Call 911</a>
-          </div>
-          <div className="text-sm">
-            <p className="font-medium text-foreground">Crisis Text Line</p>
-            <p className="text-muted-foreground">Text HOME to 741741</p>
-          </div>
-          <div className="text-sm">
-            <a href="https://www.psychologytoday.com/us/therapists" target="_blank" rel="noopener noreferrer" className="text-primary min-h-[48px] flex items-center">
-              Find a therapist →
-            </a>
-          </div>
-        </div>
-      </Section>
 
       {/* ── Danger zone — visually separated at bottom ── */}
       <div className="mt-grid-4 mb-grid-4">
