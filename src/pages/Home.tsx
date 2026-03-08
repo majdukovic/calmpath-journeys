@@ -7,6 +7,7 @@ import DailySelfCare from '@/components/DailySelfCare';
 import AmbientSounds from '@/components/AmbientSounds';
 import { isTodayDailyCalmDone, getData, updateSettings, getTotalCalmDays, getNextMilestone } from '@/lib/storage';
 import { X, Info } from 'lucide-react';
+import { getContextCue } from '@/lib/psychology';
 
 const getGreeting = () => {
   const h = new Date().getHours();
@@ -32,6 +33,20 @@ const Home = () => {
     <div className="py-grid-4 flex flex-col gap-grid-3">
       {/* Mascot Companion */}
       <MascotCompanion />
+
+      {/* Habit stacking context cue — attaches to user's natural daily rhythm */}
+      {!done && (() => {
+        const cue = getContextCue();
+        return (
+          <button
+            onClick={() => cue.action ? navigate('/daily-calm') : undefined}
+            className="gradient-calm rounded-card px-grid-3 py-grid-2 flex items-center gap-grid-2 text-left transition-all hover:card-shadow-hover"
+          >
+            <span className="text-2xl">{cue.emoji}</span>
+            <p className="text-sm text-muted-foreground leading-relaxed flex-1">{cue.suggestion}</p>
+          </button>
+        );
+      })()}
 
       {/* SOS Card — dismissible */}
       {showSOS && (

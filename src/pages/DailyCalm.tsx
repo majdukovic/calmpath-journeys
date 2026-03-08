@@ -4,9 +4,10 @@ import BreathingAnimation from '@/components/BreathingAnimation';
 import MoodSelector from '@/components/MoodSelector';
 import WeeklyDots from '@/components/WeeklyDots';
 import CelebrationOverlay from '@/components/CelebrationOverlay';
-import { gratitudePrompts, affirmations, moodOptions } from '@/lib/data';
+import { gratitudePrompts, moodOptions } from '@/lib/data';
 import { addDailyCalmSession, addGratitudeEntry, addMoodEntry, getUnusedPromptId, markPromptShown, getTotalCalmDays, getNewlyUnlockedMilestone, getNextMilestone } from '@/lib/storage';
 import { hapticTap } from '@/lib/haptics';
+import { getIdentityMessage, maybeGetDiscovery, getCuriosityPrompt } from '@/lib/psychology';
 
 type Step = 'breathing' | 'gratitude' | 'mood' | 'complete';
 
@@ -18,13 +19,13 @@ const DailyCalm = () => {
   const [moodNote, setMoodNote] = useState('');
   const [showCelebration, setShowCelebration] = useState(false);
   const [milestone, setMilestone] = useState<{ emoji: string; label: string } | null>(null);
+  const [discovery, setDiscovery] = useState<{ emoji: string; message: string } | null>(null);
 
   const promptIndex = useMemo(() => getUnusedPromptId(gratitudePrompts.length), []);
   const prompt = gratitudePrompts[promptIndex];
 
-  const affirmation = useMemo(() =>
-    affirmations[Math.floor(Math.random() * affirmations.length)],
-  []); // eslint-disable-line react-hooks/exhaustive-deps
+  const identityMessage = useMemo(() => getIdentityMessage(), []);
+  const curiosityPrompt = useMemo(() => getCuriosityPrompt(), []);
 
   const handleBreathingDone = () => {
     hapticTap();
@@ -69,6 +70,8 @@ const DailyCalm = () => {
     if (newMilestone) {
       setMilestone({ emoji: newMilestone.emoji, label: newMilestone.label });
     }
+    // Variable reward: maybe show a garden discovery
+    setDiscovery(maybeGetDiscovery());
     setShowCelebration(true);
     setStep('complete');
   };
@@ -149,13 +152,23 @@ const DailyCalm = () => {
   const nextMilestone = getNextMilestone();
 
   return (
-    <div className="fixed inset-0 z-[100] bg-primary-light flex flex-col items-center justify-center gap-grid-4 px-grid-3">
+    <div className="fixed inset-0 z-[100] bg-primary-light flex flex-col items-center justify-center gap-grid-3 px-grid-3 overflow-y-auto py-grid-6">
       <CelebrationOverlay show={showCelebration} milestone={milestone} />
 
       <div className="text-5xl mb-grid animate-soft-pop">✨</div>
-      <p className="text-xl text-foreground text-center font-light max-w-[320px] leading-relaxed animate-fade-in">
-        {affirmation}
+
+      {/* Identity-reinforcing message (not a generic affirmation) */}
+      <p className="text-lg text-foreground text-center font-medium max-w-[320px] leading-relaxed animate-fade-in">
+        {identityMessage}
       </p>
+
+      {/* Variable reward: garden discovery (shows ~30% of sessions) */}
+      {discovery && (
+        <div className="bg-card rounded-card px-grid-3 py-grid-2 card-shadow animate-fade-in flex items-center gap-grid-2" style={{ animationDelay: '0.3s' }}>
+          <span className="text-2xl">{discovery.emoji}</span>
+          <p className="text-sm text-muted-foreground">{discovery.message}</p>
+        </div>
+      )}
 
       {/* Total days counter */}
       <div className="bg-card rounded-card px-grid-4 py-grid-2 card-shadow animate-fade-in" style={{ animationDelay: '0.2s' }}>
@@ -172,7 +185,15 @@ const DailyCalm = () => {
         )}
       </div>
 
-      <div className="my-grid-2">
+      {/* Curiosity-based reflection prompt */}
+      <div className="bg-card/60 rounded-card px-grid-3 py-grid-2 max-w-[320px] animate-fade-in" style={{ animationDelay: '0.5s' }}>
+        <p className="text-xs text-primary font-medium uppercase tracking-wide mb-1">A moment of curiosity</p>
+        <p className="text-sm text-muted-foreground italic leading-relaxed">
+          "{curiosityPrompt}"
+        </p>
+      </div>
+
+      <div className="my-grid">
         <WeeklyDots />
       </div>
 
