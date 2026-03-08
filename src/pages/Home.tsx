@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import WeeklyDots from '@/components/WeeklyDots';
 import MascotCompanion from '@/components/MascotCompanion';
 import GrowthGarden from '@/components/GrowthGarden';
+import DailySelfCare from '@/components/DailySelfCare';
+import AmbientSounds from '@/components/AmbientSounds';
 import { isTodayDailyCalmDone, getData, updateSettings } from '@/lib/storage';
 import { X, Info } from 'lucide-react';
 
@@ -110,8 +112,14 @@ const Home = () => {
         )}
       </div>
 
+      {/* Daily Self-Care Checklist */}
+      <DailySelfCare />
+
       {/* Growth Garden */}
       <GrowthGarden />
+
+      {/* Calm Sounds */}
+      <AmbientSounds />
 
       {/* Quick links */}
       <div className="grid grid-cols-2 gap-grid-2">
