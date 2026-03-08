@@ -174,7 +174,7 @@ export function getUnusedPromptId(totalPrompts: number): number {
 
 export function isTodayDailyCalmDone(): boolean {
   const data = getData();
-  const today = new Date().toISOString().split('T')[0];
+  const today = toLocalDateStr();
   return data.dailyCalmSessions.some(s => s.date === today);
 }
 
