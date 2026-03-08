@@ -36,6 +36,11 @@ const patternDescriptions: Record<string, string> = {
   '4-7-8': 'Calming technique for sleep & anxiety',
   'box': 'Balanced breathing used by Navy SEALs',
   'sigh': 'Fastest way to calm down (Stanford research)',
+  '2-4-6': 'Gentle intro for beginners',
+  'calm': 'Simple equal breathing for calm',
+  'energize': 'Short inhale, long exhale for energy',
+  'sleep': 'Extended exhale to ease into sleep',
+  'resonance': 'Heart-rate coherence technique',
 };
 
 const Settings = () => {
