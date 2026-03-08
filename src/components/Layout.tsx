@@ -37,7 +37,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   className="flex flex-col items-center -mt-6 relative"
                   aria-label="SOS - I need calm now"
                 >
-                  <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center card-shadow animate-pulse-soft">
+                  <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center card-shadow">
                     <span className="text-accent-foreground font-bold text-sm">SOS</span>
                   </div>
                 </button>
