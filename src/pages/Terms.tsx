@@ -33,7 +33,7 @@ const Terms = () => {
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">3. Not Medical Advice</h2>
             <p>
-              <strong>Breathly is not a medical device and does not provide medical advice, diagnosis, or treatment.</strong> The content, exercises, and features in this app are for educational and informational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical or mental health condition. Never disregard professional medical advice or delay seeking it because of something you read or experienced in this app.
+              <strong>Breeze is not a medical device and does not provide medical advice, diagnosis, or treatment.</strong> The content, exercises, and features in this app are for educational and informational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical or mental health condition. Never disregard professional medical advice or delay seeking it because of something you read or experienced in this app.
             </p>
           </section>
 
