@@ -230,7 +230,8 @@ const FreewriteTab = ({ entries, onSave }: { entries: FreewriteEntry[]; onSave: 
           <p className="text-3xl mb-grid-2">🫧</p>
           <p className="text-sm font-medium">Your private space to think out loud</p>
           <p className="text-xs mt-grid leading-relaxed max-w-[260px] mx-auto">
-            Research shows writing for even 5 minutes reduces anxiety by moving worries from your emotional brain to your thinking brain.
+          Research shows writing for even 5 minutes helps process emotions by moving worries from your emotional brain to your thinking brain.{' '}
+            <a href="https://doi.org/10.1177/1754073917742706" target="_blank" rel="noopener noreferrer" className="text-primary/70 underline">Source</a>
           </p>
         </div>
       )}
