@@ -124,7 +124,17 @@ const Settings = () => {
     URL.revokeObjectURL(url);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    // Delete server-side data (community posts, reactions, auth user)
+    if (user) {
+      try {
+        const { error } = await supabase.functions.invoke('delete-account');
+        if (error) console.error('Server-side deletion error:', error);
+      } catch (e) {
+        console.error('Failed to delete server data:', e);
+      }
+    }
+    // Delete local data
     deleteAllData();
     setShowDeleteConfirm(false);
     window.location.reload();

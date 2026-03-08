@@ -27,13 +27,13 @@ const Terms = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">2. Description of Service</h2>
-            <p>Breeze is a wellness and self-care application that provides breathing exercises, journaling tools, mood tracking, and educational content about anxiety and mental well-being.</p>
+            <p>Breeze is a wellness and self-care application that provides breathing exercises, journaling tools, mood tracking, community features, and educational content about anxiety and mental well-being.</p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">3. Not Medical Advice</h2>
             <p>
-              <strong>Breeze is not a medical device and does not provide medical advice, diagnosis, or treatment.</strong> The content, exercises, and features in this app are for educational and informational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical or mental health condition. Never disregard professional medical advice or delay seeking it because of something you read or experienced in this app.
+              <strong>Breeze is not a medical device and does not provide medical advice, diagnosis, or treatment.</strong> The content, exercises, and features in this app are for educational and informational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical or mental health condition.
             </p>
           </section>
 
@@ -48,17 +48,36 @@ const Terms = () => {
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">6. Limitation of Liability</h2>
+            <h2 className="text-base font-semibold text-foreground mb-grid">6. Community Guidelines</h2>
+            <p>The Breeze Circle community is a safe, supportive, and anonymous space. By participating, you agree to:</p>
+            <ul className="list-disc list-inside space-y-1 mt-2">
+              <li>Be respectful and supportive of other community members</li>
+              <li>Not post content containing self-harm threats, bullying, harassment, or hateful language</li>
+              <li>Not share personal identifying information (phone numbers, addresses, full names)</li>
+              <li>Not post spam, advertising, or links to external sites</li>
+              <li>Not present medical advice as fact</li>
+              <li>Not promote dangerous or harmful behaviors</li>
+            </ul>
+            <p className="mt-2">All posts are reviewed by AI moderation. Posts that violate these guidelines will be rejected. We reserve the right to remove content and suspend accounts that repeatedly violate community guidelines.</p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground mb-grid">7. Account Deletion</h2>
+            <p>You may delete your account and all associated data at any time from Settings. Account deletion is permanent and removes all server-side data including community posts, reactions, and authentication credentials.</p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground mb-grid">8. Limitation of Liability</h2>
             <p>Breeze and its creators shall not be liable for any indirect, incidental, or consequential damages arising from your use of the App. The App is provided "as is" without warranties of any kind.</p>
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">7. Changes to Terms</h2>
+            <h2 className="text-base font-semibold text-foreground mb-grid">9. Changes to Terms</h2>
             <p>We may update these terms from time to time. Continued use of the App after changes constitutes acceptance of the updated terms.</p>
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">8. Contact</h2>
+            <h2 className="text-base font-semibold text-foreground mb-grid">10. Contact</h2>
             <p>If you have questions about these Terms, please contact us at <a href="mailto:hello@breezeapp.co" className="text-primary underline">hello@breezeapp.co</a>.</p>
           </section>
         </div>
