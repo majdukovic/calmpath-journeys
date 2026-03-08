@@ -132,8 +132,6 @@ const BreathingAnimation = ({ patternId, totalCycles, darkMode = true, onComplet
     const newVal = !voiceEnabled;
     setVoiceEnabled(newVal);
     if (!newVal) stopVoiceGuide();
-    // Persist preference
-    const { updateSettings } = require('@/lib/storage');
     updateSettings({ voiceGuideEnabled: newVal });
   };
 
