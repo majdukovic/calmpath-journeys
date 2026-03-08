@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import WeeklyDots from '@/components/WeeklyDots';
+import MascotCompanion from '@/components/MascotCompanion';
+import GrowthGarden from '@/components/GrowthGarden';
 import { isTodayDailyCalmDone, getData } from '@/lib/storage';
 
 const getGreeting = () => {
@@ -16,6 +18,9 @@ const Home = () => {
 
   return (
     <div className="py-grid-4 flex flex-col gap-grid-3">
+      {/* Mascot Companion */}
+      <MascotCompanion />
+
       {/* SOS Card */}
       <div className="bg-card rounded-card p-grid-3 card-shadow flex flex-col items-center gap-grid-2 text-center">
         <p className="text-sm text-muted-foreground">If you're feeling overwhelmed</p>
@@ -63,6 +68,9 @@ const Home = () => {
           </div>
         )}
       </div>
+
+      {/* Growth Garden */}
+      <GrowthGarden />
 
       {/* Quick links */}
       <div className="grid grid-cols-2 gap-grid-2">

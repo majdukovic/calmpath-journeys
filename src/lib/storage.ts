@@ -1,4 +1,4 @@
-// CalmPath localStorage data layer
+// Breathly localStorage data layer
 
 export interface GratitudeEntry {
   id: string;

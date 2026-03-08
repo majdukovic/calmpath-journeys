@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateSettings } from '@/lib/storage';
+import mascotWave from '@/assets/mascot-wave.png';
 
 type Stage = 'welcome' | 'name' | 'reminder' | 'ready';
 
@@ -44,10 +45,14 @@ const Onboarding = ({ onComplete }: { onComplete: () => void }) => {
   if (stage === 'welcome') {
     return (
       <div className="fixed inset-0 bg-primary-light flex flex-col items-center justify-center gap-grid-4 px-grid-3 z-[200]">
-        <div className="text-5xl">🌿</div>
-        <h1 className="text-3xl font-semibold text-foreground text-center">Welcome to CalmPath</h1>
+        <img
+          src={mascotWave}
+          alt="Breeze the fox waving hello"
+          className="w-28 h-28 object-contain drop-shadow-lg animate-fade-in"
+        />
+        <h1 className="text-3xl font-semibold text-foreground text-center">Welcome to Breathly</h1>
         <p className="text-base text-muted-foreground text-center max-w-[320px] leading-relaxed">
-          Immediate calm in crisis. Gentle daily practice for lasting peace.
+          I'm Breeze! 🦊 Let's grow a calm garden together — one breath at a time.
         </p>
         <div className="flex flex-col gap-grid-2 w-full max-w-[320px] mt-grid-4">
           <button
@@ -131,7 +136,7 @@ const Onboarding = ({ onComplete }: { onComplete: () => void }) => {
       <div className="text-5xl">✨</div>
       <h2 className="text-2xl font-semibold text-foreground text-center">You're all set</h2>
       <p className="text-base text-muted-foreground text-center max-w-[280px]">
-        Your first Daily Calm is ready.
+        Breeze is ready to grow your garden. Let's begin!
       </p>
       <div className="flex flex-col gap-grid-2 w-full max-w-[320px] mt-grid-2">
         <button
