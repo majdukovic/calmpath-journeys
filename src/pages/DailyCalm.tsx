@@ -35,7 +35,7 @@ const DailyCalm = () => {
   const handleGratitudeDone = () => {
     if (gratitudeText.trim()) {
       addGratitudeEntry({
-        date: new Date().toISOString().split('T')[0],
+        date: toLocalDateStr(),
         prompt: prompt.prompt,
         answer: gratitudeText.trim(),
         category: prompt.category,
