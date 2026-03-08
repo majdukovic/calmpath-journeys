@@ -45,7 +45,7 @@ const Onboarding = ({ onComplete }: { onComplete: () => void }) => {
     return (
       <div className="fixed inset-0 bg-primary-light flex flex-col items-center justify-center gap-grid-4 px-grid-3 z-[200]">
         <div className="text-5xl">🌿</div>
-        <h1 className="text-3xl font-semibold text-foreground text-center">Welcome to CalmPath</h1>
+        <h1 className="text-3xl font-semibold text-foreground text-center">Welcome to Breathly</h1>
         <p className="text-base text-muted-foreground text-center max-w-[320px] leading-relaxed">
           Immediate calm in crisis. Gentle daily practice for lasting peace.
         </p>

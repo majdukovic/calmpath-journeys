@@ -1,4 +1,4 @@
-// CalmPath content data
+// Breathly content data
 
 export const breathingPatterns = [
   { id: '4-7-8', label: '4-7-8 Relaxing', inhale: 4, hold: 7, exhale: 8, holdAfter: 0 },

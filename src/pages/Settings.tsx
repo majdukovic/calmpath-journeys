@@ -165,7 +165,7 @@ const Settings = () => {
             <span className="text-muted-foreground">1.0.0</span>
           </div>
           <a
-            href="mailto:feedback@calmpath.app"
+            href="mailto:feedback@breathly.app"
             className="block text-sm text-primary py-grid min-h-[48px] flex items-center"
           >
             Send feedback
