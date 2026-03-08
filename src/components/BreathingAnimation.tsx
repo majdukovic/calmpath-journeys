@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { breathingPatterns, type PatternId } from '@/lib/data';
+import { hapticInhale, hapticExhale, hapticPulse } from '@/lib/haptics';
 
 interface Props {
   patternId: PatternId;
@@ -57,6 +58,10 @@ const BreathingAnimation = ({ patternId, totalCycles, darkMode = true, onComplet
       }
       const next = seq[phaseIndexRef.current];
       setPhase(next.phase);
+      // Haptic feedback on phase change
+      if (next.phase === 'inhale') hapticInhale();
+      else if (next.phase === 'exhale') hapticExhale();
+      else hapticPulse();
       timerRef.current = setTimeout(advance, next.duration * 1000);
     };
 
@@ -138,22 +143,32 @@ const BreathingAnimation = ({ patternId, totalCycles, darkMode = true, onComplet
       </div>
 
       {/* Bottom buttons */}
-      <div className="flex gap-grid-2 w-full max-w-[400px]">
-        <button
-          onClick={handleKeepGoing}
-          className={`flex-1 py-grid-2 rounded-button text-sm font-medium min-h-[48px] ${
-            darkMode ? 'bg-sos-text/10 text-sos-text border border-sos-text/20' : 'bg-muted text-foreground'
-          }`}
-        >
-          Keep going
-        </button>
+      <div className="flex flex-col gap-grid-2 w-full max-w-[400px]">
+        <div className="flex gap-grid-2">
+          <button
+            onClick={handleKeepGoing}
+            className={`flex-1 py-grid-2 rounded-button text-sm font-medium min-h-[48px] ${
+              darkMode ? 'bg-sos-text/10 text-sos-text border border-sos-text/20' : 'bg-muted text-foreground'
+            }`}
+          >
+            Keep going
+          </button>
+          <button
+            onClick={handleFeelBetter}
+            className={`flex-1 py-grid-2 rounded-button text-sm font-medium min-h-[48px] ${
+              darkMode ? 'bg-primary text-primary-foreground' : 'bg-primary text-primary-foreground'
+            }`}
+          >
+            I feel better
+          </button>
+        </div>
         <button
           onClick={handleFeelBetter}
-          className={`flex-1 py-grid-2 rounded-button text-sm font-medium min-h-[48px] ${
-            darkMode ? 'bg-primary text-primary-foreground' : 'bg-primary text-primary-foreground'
+          className={`w-full py-grid text-xs font-medium min-h-[36px] rounded-button ${
+            darkMode ? 'text-sos-text/40' : 'text-muted-foreground'
           }`}
         >
-          I feel better
+          Take a break — even a few breaths count 💚
         </button>
       </div>
     </div>

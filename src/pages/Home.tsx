@@ -5,7 +5,7 @@ import MascotCompanion from '@/components/MascotCompanion';
 import GrowthGarden from '@/components/GrowthGarden';
 import DailySelfCare from '@/components/DailySelfCare';
 import AmbientSounds from '@/components/AmbientSounds';
-import { isTodayDailyCalmDone, getData, updateSettings } from '@/lib/storage';
+import { isTodayDailyCalmDone, getData, updateSettings, getTotalCalmDays, getNextMilestone } from '@/lib/storage';
 import { X, Info } from 'lucide-react';
 
 const getGreeting = () => {
@@ -78,39 +78,75 @@ const Home = () => {
       )}
 
       {/* Daily Calm Card */}
-      <div className="bg-card rounded-card p-grid-3 card-shadow">
-        <h2 className="text-xl font-semibold text-foreground mb-grid">
-          {getGreeting()}{name ? `, ${name}` : ''} 🌿
-        </h2>
-        {done ? (
-          <div className="flex flex-col gap-grid-2">
-            <div className="flex items-center gap-grid">
-              <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center">
-                <span className="text-primary text-lg">✓</span>
+      {(() => {
+        const totalDays = getTotalCalmDays();
+        const nextMilestone = getNextMilestone();
+        return (
+          <div className="bg-card rounded-card p-grid-3 card-shadow">
+            <h2 className="text-xl font-semibold text-foreground mb-grid">
+              {getGreeting()}{name ? `, ${name}` : ''} 🌿
+            </h2>
+            {done ? (
+              <div className="flex flex-col gap-grid-2">
+                <div className="flex items-center gap-grid">
+                  <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center">
+                    <span className="text-primary text-lg">✓</span>
+                  </div>
+                  <p className="text-foreground font-medium">You showed up today. That matters.</p>
+                </div>
+
+                {/* Cumulative progress */}
+                {totalDays > 0 && (
+                  <div className="flex items-center justify-between bg-primary/5 rounded-2xl px-grid-2 py-grid">
+                    <span className="text-sm text-muted-foreground">
+                      <span className="text-lg font-bold text-primary">{totalDays}</span> {totalDays === 1 ? 'day' : 'days'} of calm
+                    </span>
+                    {nextMilestone && (
+                      <span className="text-xs text-muted-foreground">
+                        {nextMilestone.milestone.emoji} {nextMilestone.milestone.days - nextMilestone.current} to go
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                <WeeklyDots />
+                <button
+                  onClick={() => navigate('/daily-calm')}
+                  className="w-full py-grid-2 rounded-button bg-muted text-foreground font-semibold min-h-[48px] mt-grid transition-all hover:card-shadow-hover"
+                >
+                  Do another session
+                </button>
               </div>
-              <p className="text-foreground font-medium">You showed up today. That matters.</p>
-            </div>
-            <WeeklyDots />
-            <button
-              onClick={() => navigate('/daily-calm')}
-              className="w-full py-grid-2 rounded-button bg-muted text-foreground font-semibold min-h-[48px] mt-grid transition-all hover:card-shadow-hover"
-            >
-              Do another session
-            </button>
+            ) : (
+              <div className="flex flex-col gap-grid-2">
+                <p className="text-muted-foreground text-sm">~3 min · Breathing, gratitude & check-in</p>
+
+                {/* Show progress even before today's session */}
+                {totalDays > 0 && (
+                  <div className="flex items-center justify-between bg-primary/5 rounded-2xl px-grid-2 py-grid">
+                    <span className="text-sm text-muted-foreground">
+                      <span className="text-lg font-bold text-primary">{totalDays}</span> {totalDays === 1 ? 'day' : 'days'} of calm
+                    </span>
+                    {nextMilestone && (
+                      <span className="text-xs text-muted-foreground">
+                        {nextMilestone.milestone.emoji} {nextMilestone.milestone.days - nextMilestone.current} to go
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                <button
+                  onClick={() => navigate('/daily-calm')}
+                  className="w-full py-grid-2 rounded-button bg-primary text-primary-foreground font-semibold min-h-[48px] transition-all hover:opacity-90"
+                >
+                  Start your 3-minute calm
+                </button>
+                <WeeklyDots />
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="flex flex-col gap-grid-2">
-            <p className="text-muted-foreground text-sm">~3 min · Breathing, gratitude & check-in</p>
-            <button
-              onClick={() => navigate('/daily-calm')}
-              className="w-full py-grid-2 rounded-button bg-primary text-primary-foreground font-semibold min-h-[48px] transition-all hover:opacity-90"
-            >
-              Start your 3-minute calm
-            </button>
-            <WeeklyDots />
-          </div>
-        )}
-      </div>
+        );
+      })()}
 
       {/* Daily Self-Care Checklist */}
       <DailySelfCare />

@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { getData, saveData } from '@/lib/storage';
 import { Check } from 'lucide-react';
+import { hapticTap } from '@/lib/haptics';
 
 interface SelfCareTask {
   id: string;
@@ -68,14 +69,13 @@ const DailySelfCare = () => {
     const isCompleted = completed.includes(taskId);
     
     if (isCompleted) {
-      // Remove
       currentData.selfCareTasks = (currentData.selfCareTasks || [])
         .filter(t => !(t.date === today && t.taskId === taskId));
       setCompleted(prev => prev.filter(id => id !== taskId));
     } else {
-      // Add
       currentData.selfCareTasks = [...(currentData.selfCareTasks || []), { date: today, taskId }];
       setCompleted(prev => [...prev, taskId]);
+      hapticTap();
     }
     saveData(currentData);
   }, [completed, today]);
