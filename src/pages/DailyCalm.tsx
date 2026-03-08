@@ -59,7 +59,7 @@ const DailyCalm = () => {
     }
 
     addDailyCalmSession({
-      date: new Date().toISOString().split('T')[0],
+      date: toLocalDateStr(),
       breathingCompleted: true,
       gratitudeEntry: gratitudeText || undefined,
       moodEntry: selectedMood || undefined,
