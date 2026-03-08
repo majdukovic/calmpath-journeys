@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { breathingPatterns, type PatternId } from '@/lib/data';
+import { hapticInhale, hapticExhale, hapticPulse } from '@/lib/haptics';
 
 interface Props {
   patternId: PatternId;
