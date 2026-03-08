@@ -43,6 +43,7 @@ export interface UserSettings {
   audioEnabled: boolean;
   onboardingCompleted: boolean;
   theme: 'light' | 'dark' | 'system';
+  showSOSCard: boolean;
 }
 
 export interface AppData {
@@ -65,6 +66,7 @@ const defaultSettings: UserSettings = {
   audioEnabled: true,
   onboardingCompleted: false,
   theme: 'light',
+  showSOSCard: true,
 };
 
 const defaultData: AppData = {

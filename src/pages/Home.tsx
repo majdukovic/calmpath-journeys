@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import WeeklyDots from '@/components/WeeklyDots';
 import MascotCompanion from '@/components/MascotCompanion';
 import GrowthGarden from '@/components/GrowthGarden';
-import { isTodayDailyCalmDone, getData } from '@/lib/storage';
+import { isTodayDailyCalmDone, getData, updateSettings } from '@/lib/storage';
+import { X, Info } from 'lucide-react';
 
 const getGreeting = () => {
   const h = new Date().getHours();
@@ -14,25 +16,64 @@ const getGreeting = () => {
 const Home = () => {
   const navigate = useNavigate();
   const done = isTodayDailyCalmDone();
-  const name = getData().settings.name;
+  const data = getData();
+  const name = data.settings.name;
+  const [showSOS, setShowSOS] = useState(data.settings.showSOSCard);
+  const [showInfoTooltip, setShowInfoTooltip] = useState(false);
+
+  const handleDismissSOS = () => {
+    updateSettings({ showSOSCard: false });
+    setShowSOS(false);
+  };
 
   return (
     <div className="py-grid-4 flex flex-col gap-grid-3">
       {/* Mascot Companion */}
       <MascotCompanion />
 
-      {/* SOS Card — warm gradient, inviting not alarming */}
-      <div className="gradient-peach rounded-card p-grid-3 card-shadow flex flex-col items-center gap-grid-2 text-center">
-        <p className="text-sm text-muted-foreground">If you're feeling overwhelmed</p>
-        <button
-          onClick={() => navigate('/sos')}
-          className="w-20 h-20 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold text-lg animate-pulse-soft card-shadow"
-          aria-label="SOS - I need calm now"
-        >
-          SOS
-        </button>
-        <p className="text-base font-semibold text-foreground">I need calm now</p>
-      </div>
+      {/* SOS Card — dismissible */}
+      {showSOS && (
+        <div className="gradient-peach rounded-card p-grid-3 card-shadow relative">
+          {/* Action icons */}
+          <div className="absolute top-3 right-3 flex items-center gap-1">
+            <button
+              onClick={() => setShowInfoTooltip(!showInfoTooltip)}
+              className="w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+              aria-label="Info about SOS card"
+            >
+              <Info size={16} />
+            </button>
+            <button
+              onClick={handleDismissSOS}
+              className="w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+              aria-label="Hide SOS card from home screen"
+            >
+              <X size={16} />
+            </button>
+          </div>
+
+          {/* Info tooltip */}
+          {showInfoTooltip && (
+            <div className="absolute top-12 right-3 bg-card rounded-2xl p-grid-2 card-shadow max-w-[240px] z-10 animate-fade-in">
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                You can hide this card with the ✕ button. The SOS button is always available in the bottom navigation bar. To bring this card back, go to <span className="font-semibold text-foreground">Settings → Home Screen</span>.
+              </p>
+            </div>
+          )}
+
+          <div className="flex flex-col items-center gap-grid-2 text-center pt-grid">
+            <p className="text-sm text-muted-foreground">If you're feeling overwhelmed</p>
+            <button
+              onClick={() => navigate('/sos')}
+              className="w-20 h-20 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold text-lg card-shadow transition-transform hover:scale-105"
+              aria-label="SOS - I need calm now"
+            >
+              SOS
+            </button>
+            <p className="text-base font-semibold text-foreground">I need calm now</p>
+          </div>
+        </div>
+      )}
 
       {/* Daily Calm Card */}
       <div className="bg-card rounded-card p-grid-3 card-shadow">
@@ -72,7 +113,7 @@ const Home = () => {
       {/* Growth Garden */}
       <GrowthGarden />
 
-      {/* Quick links — soft pastel cards */}
+      {/* Quick links */}
       <div className="grid grid-cols-2 gap-grid-2">
         <button
           onClick={() => navigate('/learn')}

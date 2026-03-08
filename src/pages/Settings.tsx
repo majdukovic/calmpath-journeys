@@ -79,7 +79,21 @@ const Settings = () => {
         </div>
       </Section>
 
-      {/* Notifications */}
+      {/* Home Screen */}
+      <Section title="Home Screen">
+        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
+          <ToggleRow
+            label="Show SOS card on Home"
+            value={settings.showSOSCard}
+            onChange={v => update({ showSOSCard: v })}
+          />
+          <p className="text-xs text-muted-foreground italic">
+            The SOS button is always available in the bottom navigation bar
+          </p>
+        </div>
+      </Section>
+
+
       <Section title="Notifications">
         <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
           <div className="flex items-center justify-between min-h-[48px]">
