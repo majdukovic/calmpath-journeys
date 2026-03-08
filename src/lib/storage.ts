@@ -39,6 +39,10 @@ export interface EmergencyContact {
   phone: string;
 }
 
+  emergencyContact?: EmergencyContact;
+  completedSelfCareTasks: { date: string; taskId: string }[];
+}
+
 export interface UserSettings {
   name: string;
   reminderEnabled: boolean;
