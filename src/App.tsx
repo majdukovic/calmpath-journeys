@@ -13,6 +13,7 @@ import SOSFlow from "./pages/SOSFlow";
 import DailyCalm from "./pages/DailyCalm";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
+import Install from "./pages/Install";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
