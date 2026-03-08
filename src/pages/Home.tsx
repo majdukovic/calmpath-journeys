@@ -164,6 +164,9 @@ const Home = () => {
         );
       })()}
 
+      {/* AI Mood Insights — premium feature */}
+      <MoodInsights />
+
       {/* Daily Self-Care Checklist */}
       <DailySelfCare />
 
