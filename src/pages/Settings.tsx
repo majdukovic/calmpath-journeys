@@ -12,6 +12,7 @@ import {
   requestNotificationPermission,
   startNotificationScheduler,
   stopNotificationScheduler,
+  rescheduleNotification,
 } from '@/lib/notifications';
 
 const GoogleIcon = () => (
@@ -299,7 +300,10 @@ const Settings = () => {
                 <input
                   type="time"
                   value={settings.reminderTime}
-                  onChange={e => update({ reminderTime: e.target.value })}
+                  onChange={e => {
+                    update({ reminderTime: e.target.value });
+                    rescheduleNotification();
+                  }}
                   className="text-sm bg-muted rounded-md px-2 py-1 text-foreground"
                 />
               </div>
@@ -313,7 +317,7 @@ const Settings = () => {
           )}
 
           <p className="text-xs text-muted-foreground italic">
-            Reminders work while the app is open or in the background
+            Reminders work even when the app is closed on mobile
           </p>
         </div>
       </Section>
