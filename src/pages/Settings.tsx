@@ -317,7 +317,7 @@ const Settings = () => {
           )}
 
           <p className="text-xs text-muted-foreground italic">
-            Reminders work while the app is open or in the background
+            Reminders work even when the app is closed on mobile
           </p>
         </div>
       </Section>
