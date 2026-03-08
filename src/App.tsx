@@ -13,25 +13,51 @@ import SOSFlow from "./pages/SOSFlow";
 import DailyCalm from "./pages/DailyCalm";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
-import Install from "./pages/Install";
 import Upgrade from "./pages/Upgrade";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import LandingPage from "./pages/LandingPage";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
 import { PremiumProvider } from "./contexts/PremiumContext";
+import { isNativeApp } from "./lib/platform";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [showOnboarding, setShowOnboarding] = useState(!getData().settings.onboardingCompleted);
+  const [showOnboarding, setShowOnboarding] = useState(
+    isNativeApp && !getData().settings.onboardingCompleted
+  );
 
   useEffect(() => {
     initTheme();
-    initNotifications();
+    if (isNativeApp) {
+      initNotifications();
+    }
   }, []);
 
+  // Web visitors see the marketing landing page
+  if (!isNativeApp) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="*" element={<LandingPage />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  }
+
+  // Native app users get the full app experience
   return (
     <QueryClientProvider client={queryClient}>
       <PremiumProvider>
@@ -47,7 +73,6 @@ const App = () => {
               <Route path="/journal" element={<Layout><Journal /></Layout>} />
               <Route path="/learn" element={<Layout><Learn /></Layout>} />
               <Route path="/settings" element={<Layout><Settings /></Layout>} />
-              <Route path="/install" element={<Install />} />
               <Route path="/upgrade" element={<Upgrade />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
