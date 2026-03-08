@@ -90,6 +90,7 @@ const defaultData: AppData = {
   sosSessions: [],
   dailyCalmSessions: [],
   selfCareTasks: [],
+  customSelfCareTasks: [],
   settings: defaultSettings,
   shownPromptIds: [],
 };
