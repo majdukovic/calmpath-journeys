@@ -459,6 +459,10 @@ Asking for help isn't a sign of weakness — it's a sign that you're taking your
 **The most important factor isn't the type of therapy — it's the relationship with your therapist.** Research consistently shows that feeling safe, understood, and respected by your therapist matters more than the specific approach they use.
 
 Don't be afraid to ask potential therapists about their approach and why they think it might help you.`,
+    sources: [
+      { label: 'Hofmann et al., 2012 — CBT Efficacy Meta-Analysis', url: 'https://doi.org/10.1007/s10608-012-9476-1' },
+      { label: 'Wampold, 2015 — Therapeutic Relationship', url: 'https://doi.org/10.1037/a0038360' },
+    ],
   },
   {
     id: 'medication',
