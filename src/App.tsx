@@ -21,6 +21,7 @@ import LandingPage from "./pages/LandingPage";
 import MarketingStrategy from "./pages/MarketingStrategy";
 import Roadmap from "./pages/Roadmap";
 import Changelog from "./pages/Changelog";
+import Install from "./pages/Install";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
@@ -97,6 +98,9 @@ const NativeAppRoutes = ({ showOnboarding, setShowOnboarding }: { showOnboarding
         <Route path="/settings" element={<Layout><Settings /></Layout>} />
         <Route path="/upgrade" element={<Upgrade />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/install" element={<Install />} />
+        <Route path="/roadmap" element={<Roadmap />} />
+        <Route path="/changelog" element={<Changelog />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="*" element={<NotFound />} />
