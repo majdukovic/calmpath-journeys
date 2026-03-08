@@ -109,6 +109,7 @@ const defaultData: AppData = {
   dailyCalmSessions: [],
   selfCareTasks: [],
   customSelfCareTasks: [],
+  freewriteEntries: [],
   settings: defaultSettings,
   shownPromptIds: [],
 };
