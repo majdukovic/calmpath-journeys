@@ -197,22 +197,35 @@ const Settings = () => {
           <div>
             <span className="text-sm text-foreground block mb-grid font-medium">Breathing pattern</span>
             <div className="flex flex-col gap-1">
-              {breathingPatterns.map(p => (
-                <button
-                  key={p.id}
-                  onClick={() => update({ defaultBreathingPattern: p.id })}
-                  className={`text-left px-grid-2 py-grid rounded-md min-h-[44px] transition-colors ${
-                    settings.defaultBreathingPattern === p.id
-                      ? 'bg-primary/10 border border-primary/20'
-                      : 'hover:bg-muted'
-                  }`}
-                >
-                  <span className={`text-sm ${settings.defaultBreathingPattern === p.id ? 'text-primary font-medium' : 'text-foreground'}`}>
-                    {p.label}
-                  </span>
-                  <p className="text-[11px] text-muted-foreground">{patternDescriptions[p.id]}</p>
-                </button>
-              ))}
+              {breathingPatterns.map(p => {
+                const isLocked = p.premium && !isPremium;
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => {
+                      if (isLocked) {
+                        navigate('/upgrade');
+                        return;
+                      }
+                      update({ defaultBreathingPattern: p.id });
+                    }}
+                    className={`text-left px-grid-2 py-grid rounded-md min-h-[44px] transition-colors ${
+                      settings.defaultBreathingPattern === p.id
+                        ? 'bg-primary/10 border border-primary/20'
+                        : isLocked ? 'opacity-60 hover:bg-muted' : 'hover:bg-muted'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span className={`text-sm ${settings.defaultBreathingPattern === p.id ? 'text-primary font-medium' : 'text-foreground'}`}>
+                        {p.label}
+                      </span>
+                      {isLocked && <Lock size={12} className="text-muted-foreground" />}
+                      {p.premium && isPremium && <Sparkles size={12} className="text-primary" />}
+                    </div>
+                    <p className="text-[11px] text-muted-foreground">{patternDescriptions[p.id]}</p>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
