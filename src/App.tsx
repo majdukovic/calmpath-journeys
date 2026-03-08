@@ -18,6 +18,7 @@ import Community from "./pages/Community";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import LandingPage from "./pages/LandingPage";
+import MarketingStrategy from "./pages/MarketingStrategy";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
