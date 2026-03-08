@@ -50,8 +50,6 @@ const LandingPage = () => {
           <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
             <a href="#features" className="hover:text-foreground transition-colors">Features</a>
             <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
-            <Link to="/roadmap" className="hover:text-foreground transition-colors">Roadmap</Link>
-            <Link to="/changelog" className="hover:text-foreground transition-colors">Changelog</Link>
           </div>
           <a
             href="#download"
@@ -296,8 +294,6 @@ const LandingPage = () => {
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
               <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
               <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
-              <Link to="/roadmap" className="hover:text-foreground transition-colors">Roadmap</Link>
-              <Link to="/changelog" className="hover:text-foreground transition-colors">Changelog</Link>
               <a href="mailto:hello@breezeapp.co" className="hover:text-foreground transition-colors">Contact</a>
             </div>
           </div>
