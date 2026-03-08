@@ -15,13 +15,17 @@ import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
+import { initNotifications } from "./lib/notifications";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [showOnboarding, setShowOnboarding] = useState(!getData().settings.onboardingCompleted);
 
-  useEffect(() => { initTheme(); }, []);
+  useEffect(() => {
+    initTheme();
+    initNotifications();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
