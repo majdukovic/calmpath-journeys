@@ -58,6 +58,10 @@ const BreathingAnimation = ({ patternId, totalCycles, darkMode = true, onComplet
       }
       const next = seq[phaseIndexRef.current];
       setPhase(next.phase);
+      // Haptic feedback on phase change
+      if (next.phase === 'inhale') hapticInhale();
+      else if (next.phase === 'exhale') hapticExhale();
+      else hapticPulse();
       timerRef.current = setTimeout(advance, next.duration * 1000);
     };
 
