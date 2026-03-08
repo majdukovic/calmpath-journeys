@@ -42,6 +42,7 @@ const App = () => {
             <Route path="/journal" element={<Layout><Journal /></Layout>} />
             <Route path="/learn" element={<Layout><Learn /></Layout>} />
             <Route path="/settings" element={<Layout><Settings /></Layout>} />
+            <Route path="/install" element={<Install />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
