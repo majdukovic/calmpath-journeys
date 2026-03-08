@@ -114,7 +114,7 @@ const Onboarding = ({ onComplete }: { onComplete: () => void }) => {
         <div className={`absolute inset-0 bg-gradient-to-b ${slide.bg} bg-background`} />
 
         {/* Progress dots */}
-        <div className="relative z-10 flex gap-1.5 pt-safe-top px-grid-3 mt-4 w-full max-w-[360px]">
+        <div className="relative z-10 flex gap-1.5 pt-safe-top px-grid-3 mt-14 w-full max-w-[360px]">
           {introSlides.map((_, i) => (
             <div
               key={i}
