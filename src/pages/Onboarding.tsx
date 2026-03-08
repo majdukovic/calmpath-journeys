@@ -80,8 +80,14 @@ const Onboarding = ({ onComplete }: { onComplete: () => void }) => {
     setStage('reminder');
   };
 
-  const handleReminderDone = () => {
-    updateSettings({ reminderEnabled: true, reminderTime });
+  const handleReminderDone = async () => {
+    const granted = await requestNotificationPermission();
+    if (granted) {
+      updateSettings({ reminderEnabled: true, reminderTime });
+      startNotificationScheduler();
+    } else {
+      updateSettings({ reminderEnabled: false, reminderTime });
+    }
     setStage('ready');
   };
 
