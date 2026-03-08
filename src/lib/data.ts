@@ -267,6 +267,10 @@ If you're experiencing frequent panic attacks, it's worth talking to a healthcar
 **Knowing this changes everything.** When you truly understand that panic cannot hurt you, the fear of panic itself starts to diminish. And since fear of panic is often what keeps the cycle going, this knowledge is genuinely therapeutic.
 
 You are safe. Your body is strong. This will pass.`,
+    sources: [
+      { label: 'Meuret et al., 2010 — Panic Attack Symptom Dimensions', url: 'https://doi.org/10.1016/j.jad.2009.09.006' },
+      { label: 'Craske & Barlow, 2007 — Mastery of Your Anxiety and Panic', url: 'https://global.oup.com/academic/product/mastery-of-your-anxiety-and-panic-9780195311358' },
+    ],
   },
   {
     id: 'nervous-system-explained',
