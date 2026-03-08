@@ -56,19 +56,23 @@ const Settings = () => {
       {/* Appearance */}
       <Section title="Appearance">
         <div className="bg-card rounded-card p-grid-2 card-shadow">
-          <span className="text-sm text-foreground block mb-grid">Theme</span>
-          <div className="flex gap-1">
-            {(['light', 'dark', 'system'] as const).map(t => (
+          <span className="text-sm text-foreground block mb-grid font-medium">Theme</span>
+          <div className="flex gap-1 bg-muted rounded-button p-1">
+            {([
+              { value: 'light' as const, label: '☀️ Light' },
+              { value: 'dark' as const, label: '🌙 Dark' },
+              { value: 'system' as const, label: '⚙️ System' },
+            ]).map(t => (
               <button
-                key={t}
-                onClick={() => setTheme(t)}
-                className={`flex-1 text-sm px-grid-2 py-grid rounded-button min-h-[40px] transition-colors capitalize ${
-                  theme === t
-                    ? 'bg-primary/10 text-primary font-medium'
-                    : 'text-foreground hover:bg-muted'
+                key={t.value}
+                onClick={() => setTheme(t.value)}
+                className={`flex-1 text-sm px-grid py-grid-2 rounded-button min-h-[40px] transition-all font-medium ${
+                  theme === t.value
+                    ? 'bg-card text-primary card-shadow'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                {t}
+                {t.label}
               </button>
             ))}
           </div>

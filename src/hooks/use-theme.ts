@@ -13,7 +13,7 @@ function applyTheme(theme: Theme) {
 }
 
 export function useTheme() {
-  const [theme, setThemeState] = useState<Theme>(() => getData().settings.theme || 'system');
+  const [theme, setThemeState] = useState<Theme>(() => getData().settings.theme || 'light');
 
   useEffect(() => {
     applyTheme(theme);
@@ -34,6 +34,6 @@ export function useTheme() {
 
 // Initialize theme on load (call once in App)
 export function initTheme() {
-  const theme = getData().settings.theme || 'system';
+  const theme = getData().settings.theme || 'light';
   applyTheme(theme);
 }
