@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ShareBreeze from '@/components/ShareBreeze';
 import WeeklyDots from '@/components/WeeklyDots';
 import MascotCompanion from '@/components/MascotCompanion';
 import GrowthGarden from '@/components/GrowthGarden';
