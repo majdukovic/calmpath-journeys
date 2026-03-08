@@ -53,6 +53,7 @@ const Settings = () => {
   const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState('');
+  const { isPremium, openPortal } = usePremium();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
