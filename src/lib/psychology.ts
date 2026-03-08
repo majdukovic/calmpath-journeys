@@ -71,27 +71,20 @@ export function getIdentityMessage(): string {
 // Key: never ask "why" (triggers rumination). Ask "what" and "how" (triggers curiosity).
 
 export const curiosityPrompts = [
-  // Body awareness (interoception — calms the overactive insula)
-  'What does your body feel like right now? Just notice, no need to change anything.',
-  'Where do you feel the most relaxed in your body right now?',
-  'How does your breathing feel compared to when you started?',
-  'What sensation surprised you during the breathing exercise?',
-
-  // Pattern mapping (Dr. Jud's Gear 1 — disenchantment through observation)
-  'What was on your mind before you opened the app?',
-  'Did any thoughts come and go during the breathing? What did you notice?',
-  'What usually happens right before you feel anxious? Just curious.',
-  'When your mind wandered, where did it go? No judgment — just noticing.',
-
-  // Reward evaluation (Gear 2 — updating the reward value of worry)
-  'How does this moment feel different from 3 minutes ago?',
-  'What does calm actually feel like for you? Describe it in one word.',
-  'Is there something you were worried about that feels smaller now?',
-
-  // Future self (identity bridging — Atomic Habits)
-  'What would tomorrow-you say about this moment?',
-  'If calm was a place, what would it look like for you?',
-  'What's one tiny thing you could do today that future-you would thank you for?',
+  "What does your body feel like right now? Just notice, no need to change anything.",
+  "Where do you feel the most relaxed in your body right now?",
+  "How does your breathing feel compared to when you started?",
+  "What sensation surprised you during the breathing exercise?",
+  "What was on your mind before you opened the app?",
+  "Did any thoughts come and go during the breathing? What did you notice?",
+  "What usually happens right before you feel anxious? Just curious.",
+  "When your mind wandered, where did it go? No judgment — just noticing.",
+  "How does this moment feel different from 3 minutes ago?",
+  "What does calm actually feel like for you? Describe it in one word.",
+  "Is there something you were worried about that feels smaller now?",
+  "What would tomorrow-you say about this moment?",
+  "If calm was a place, what would it look like for you?",
+  "What is one tiny thing you could do today that future-you would thank you for?",
 ];
 
 export function getCuriosityPrompt(): string {
