@@ -348,7 +348,7 @@ const Settings = () => {
               <Sparkles size={18} className="text-primary" />
               <div className="text-left flex-1">
                 <span className="text-sm font-semibold text-foreground">Upgrade to Plus</span>
-                <p className="text-[11px] text-muted-foreground">AI insights, more breathing patterns</p>
+                <p className="text-[11px] text-muted-foreground">AI insights, voice sessions, sleep routines & more</p>
               </div>
               <ChevronRight size={14} className="text-muted-foreground" />
             </button>
