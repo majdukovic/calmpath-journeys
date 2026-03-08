@@ -300,7 +300,10 @@ const Settings = () => {
                 <input
                   type="time"
                   value={settings.reminderTime}
-                  onChange={e => update({ reminderTime: e.target.value })}
+                  onChange={e => {
+                    update({ reminderTime: e.target.value });
+                    rescheduleNotification();
+                  }}
                   className="text-sm bg-muted rounded-md px-2 py-1 text-foreground"
                 />
               </div>
