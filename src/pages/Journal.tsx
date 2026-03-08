@@ -4,11 +4,21 @@ import { moodOptions } from '@/lib/data';
 import { Textarea } from '@/components/ui/textarea';
 
 // Science-backed nudges about why journaling helps — rotates daily
-const journalingNudges = [
+interface JournalingNudge {
+  emoji: string;
+  title: string;
+  body: string;
+  source?: string;
+  sourceUrl?: string;
+}
+
+const journalingNudges: JournalingNudge[] = [
   {
     emoji: '🧠',
     title: 'Get it out of your head',
     body: 'Writing down worries moves them from your amygdala (the alarm center) to your prefrontal cortex, where you can actually process them. It literally calms your brain.',
+    source: 'Torre & Lieberman, 2018 — "Affect Labeling"',
+    sourceUrl: 'https://doi.org/10.1177/1754073917742706',
   },
   {
     emoji: '📝',
