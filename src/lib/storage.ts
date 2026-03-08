@@ -60,6 +60,7 @@ export interface AppData {
   selfCareTasks: { date: string; taskId: string }[];
   settings: UserSettings;
   shownPromptIds: { id: number; shownAt: string }[];
+  lastOpenedDate?: string; // ISO date string for return-welcome tracking
 }
 
 const STORAGE_KEY = 'calmpath_data';
