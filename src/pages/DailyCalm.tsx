@@ -152,13 +152,23 @@ const DailyCalm = () => {
   const nextMilestone = getNextMilestone();
 
   return (
-    <div className="fixed inset-0 z-[100] bg-primary-light flex flex-col items-center justify-center gap-grid-4 px-grid-3">
+    <div className="fixed inset-0 z-[100] bg-primary-light flex flex-col items-center justify-center gap-grid-3 px-grid-3 overflow-y-auto py-grid-6">
       <CelebrationOverlay show={showCelebration} milestone={milestone} />
 
       <div className="text-5xl mb-grid animate-soft-pop">✨</div>
-      <p className="text-xl text-foreground text-center font-light max-w-[320px] leading-relaxed animate-fade-in">
-        {affirmation}
+
+      {/* Identity-reinforcing message (not a generic affirmation) */}
+      <p className="text-lg text-foreground text-center font-medium max-w-[320px] leading-relaxed animate-fade-in">
+        {identityMessage}
       </p>
+
+      {/* Variable reward: garden discovery (shows ~30% of sessions) */}
+      {discovery && (
+        <div className="bg-card rounded-card px-grid-3 py-grid-2 card-shadow animate-fade-in flex items-center gap-grid-2" style={{ animationDelay: '0.3s' }}>
+          <span className="text-2xl">{discovery.emoji}</span>
+          <p className="text-sm text-muted-foreground">{discovery.message}</p>
+        </div>
+      )}
 
       {/* Total days counter */}
       <div className="bg-card rounded-card px-grid-4 py-grid-2 card-shadow animate-fade-in" style={{ animationDelay: '0.2s' }}>
@@ -175,7 +185,15 @@ const DailyCalm = () => {
         )}
       </div>
 
-      <div className="my-grid-2">
+      {/* Curiosity-based reflection prompt */}
+      <div className="bg-card/60 rounded-card px-grid-3 py-grid-2 max-w-[320px] animate-fade-in" style={{ animationDelay: '0.5s' }}>
+        <p className="text-xs text-primary font-medium uppercase tracking-wide mb-1">A moment of curiosity</p>
+        <p className="text-sm text-muted-foreground italic leading-relaxed">
+          "{curiosityPrompt}"
+        </p>
+      </div>
+
+      <div className="my-grid">
         <WeeklyDots />
       </div>
 
