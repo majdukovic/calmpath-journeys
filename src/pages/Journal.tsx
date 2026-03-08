@@ -12,8 +12,10 @@ const journalingNudges = [
   },
   {
     emoji: '📝',
-    title: 'See it on paper, shrink the fear',
-    body: 'Research shows that naming emotions in writing reduces their intensity by up to 50%. What feels overwhelming in your head often looks manageable on paper.',
+    title: 'See it on paper, lighten the load',
+    body: 'Research shows that naming emotions in writing reduces their intensity by up to 50%.',
+    source: 'Lieberman et al., 2007 — "Putting Feelings Into Words"',
+    sourceUrl: 'https://doi.org/10.1111/j.1467-9280.2007.01916.x',
   },
   {
     emoji: '💭',
