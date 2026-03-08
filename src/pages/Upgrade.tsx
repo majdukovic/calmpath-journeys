@@ -15,6 +15,21 @@ const features = [
     title: 'Extended Breathing Library',
     description: '5 additional breathing techniques for sleep, energy, beginners, and deep relaxation.',
   },
+  {
+    icon: BarChart3,
+    title: 'Advanced Analytics & Trends',
+    description: 'Weekly and monthly mood trend charts, streak stats, best time-of-day insights, and exportable PDF reports.',
+  },
+  {
+    icon: Mic,
+    title: 'Guided Voice Sessions',
+    description: 'Calming narrated breathing sessions that guide you through each inhale, hold, and exhale with a soothing voice.',
+  },
+  {
+    icon: Moon,
+    title: 'Sleep Wind-Down Routine',
+    description: 'A multi-step bedtime flow: gentle breathing → gratitude reflection → sleep soundscape to ease you into rest.',
+  },
 ];
 
 const UpgradePage = () => {
