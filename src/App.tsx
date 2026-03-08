@@ -26,6 +26,7 @@ import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
 import { PremiumProvider } from "./contexts/PremiumContext";
 import { isNativeApp } from "./lib/platform";
+import { useBackButton } from "./hooks/use-back-button";
 
 const queryClient = new QueryClient();
 
