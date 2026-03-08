@@ -19,6 +19,7 @@ const DailyCalm = () => {
   const [moodNote, setMoodNote] = useState('');
   const [showCelebration, setShowCelebration] = useState(false);
   const [milestone, setMilestone] = useState<{ emoji: string; label: string } | null>(null);
+  const [discovery, setDiscovery] = useState<{ emoji: string; message: string } | null>(null);
 
   const promptIndex = useMemo(() => getUnusedPromptId(gratitudePrompts.length), []);
   const prompt = gratitudePrompts[promptIndex];
