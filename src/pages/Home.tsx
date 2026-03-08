@@ -5,6 +5,7 @@ import MascotCompanion from '@/components/MascotCompanion';
 import GrowthGarden from '@/components/GrowthGarden';
 import DailySelfCare from '@/components/DailySelfCare';
 import AmbientSounds from '@/components/AmbientSounds';
+import MoodInsights from '@/components/MoodInsights';
 import { isTodayDailyCalmDone, getData, updateSettings, getTotalCalmDays, getNextMilestone } from '@/lib/storage';
 import { X, Info } from 'lucide-react';
 import { getContextCue } from '@/lib/psychology';
@@ -162,6 +163,9 @@ const Home = () => {
           </div>
         );
       })()}
+
+      {/* AI Mood Insights — premium feature */}
+      <MoodInsights />
 
       {/* Daily Self-Care Checklist */}
       <DailySelfCare />

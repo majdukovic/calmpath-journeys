@@ -1,5 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { getData, addFreewriteEntry, type FreewriteEntry } from '@/lib/storage';
+import { usePremium } from '@/contexts/PremiumContext';
+import { useNavigate } from 'react-router-dom';
 import { moodOptions } from '@/lib/data';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -143,6 +145,9 @@ function getRandomPrompt() {
 }
 
 const FreewriteTab = ({ entries, onSave }: { entries: FreewriteEntry[]; onSave: () => void }) => {
+  const { isPremium } = usePremium();
+  const navigate = useNavigate();
+  const FREE_ENTRY_LIMIT = 3;
   const [text, setText] = useState('');
   const [saved, setSaved] = useState(false);
   const [placeholder] = useState(() => getRandomPrompt());
@@ -163,12 +168,7 @@ const FreewriteTab = ({ entries, onSave }: { entries: FreewriteEntry[]; onSave: 
     onSave();
   };
 
-  // Group past entries by date
-  const grouped: Record<string, FreewriteEntry[]> = {};
-  entries.forEach(e => {
-    if (!grouped[e.date]) grouped[e.date] = [];
-    grouped[e.date].push(e);
-  });
+  // (grouping moved inside the render block below)
 
   return (
     <div className="flex flex-col gap-grid-3">
@@ -204,26 +204,51 @@ const FreewriteTab = ({ entries, onSave }: { entries: FreewriteEntry[]; onSave: 
       </div>
 
       {/* Past entries */}
-      {entries.length > 0 && (
-        <div>
-          <p className="text-xs text-muted-foreground font-medium mb-grid-2 uppercase tracking-wide">Past entries</p>
-          {Object.entries(grouped).map(([date, items]) => (
-            <div key={date} className="mb-grid-3">
-              <p className="text-xs text-muted-foreground font-medium mb-grid uppercase tracking-wide">
-                {new Date(date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
-              </p>
-              {items.map(item => (
-                <div key={item.id} className="bg-card rounded-card p-grid-2 card-shadow mb-grid-2">
-                  <p className="text-sm text-foreground whitespace-pre-wrap">{item.text}</p>
-                  <p className="text-[10px] text-muted-foreground mt-grid">
-                    {new Date(item.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
-                  </p>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
+      {entries.length > 0 && (() => {
+        const visibleEntries = isPremium ? entries : entries.slice(0, FREE_ENTRY_LIMIT);
+        const hiddenCount = entries.length - visibleEntries.length;
+        
+        // Group visible entries by date
+        const grouped: Record<string, FreewriteEntry[]> = {};
+        visibleEntries.forEach(e => {
+          if (!grouped[e.date]) grouped[e.date] = [];
+          grouped[e.date].push(e);
+        });
+
+        return (
+          <div>
+            <p className="text-xs text-muted-foreground font-medium mb-grid-2 uppercase tracking-wide">Past entries</p>
+            {Object.entries(grouped).map(([date, items]) => (
+              <div key={date} className="mb-grid-3">
+                <p className="text-xs text-muted-foreground font-medium mb-grid uppercase tracking-wide">
+                  {new Date(date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+                </p>
+                {items.map(item => (
+                  <div key={item.id} className="bg-card rounded-card p-grid-2 card-shadow mb-grid-2">
+                    <p className="text-sm text-foreground whitespace-pre-wrap">{item.text}</p>
+                    <p className="text-[10px] text-muted-foreground mt-grid">
+                      {new Date(item.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ))}
+            {hiddenCount > 0 && (
+              <button
+                onClick={() => navigate('/upgrade')}
+                className="w-full bg-primary/5 border border-primary/20 rounded-card p-grid-2 text-center transition-all hover:bg-primary/10"
+              >
+                <p className="text-sm font-semibold text-foreground">
+                  🔒 {hiddenCount} more {hiddenCount === 1 ? 'entry' : 'entries'} in your journal
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Upgrade to Breeze Plus to see your full history
+                </p>
+              </button>
+            )}
+          </div>
+        );
+      })()}
 
       {entries.length === 0 && text.length === 0 && (
         <div className="text-center py-grid-4 text-muted-foreground">
