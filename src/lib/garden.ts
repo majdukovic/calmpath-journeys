@@ -30,7 +30,7 @@ export interface GardenStats {
 export function getGardenStats(): GardenStats {
   const data = getData();
   const now = new Date();
-  const today = now.toISOString().split('T')[0];
+  const today = toLocalDateStr(now);
   const hour = now.getHours();
 
   // Weekly count
