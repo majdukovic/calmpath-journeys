@@ -296,6 +296,8 @@ const LandingPage = () => {
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
               <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
               <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
+              <Link to="/roadmap" className="hover:text-foreground transition-colors">Roadmap</Link>
+              <Link to="/changelog" className="hover:text-foreground transition-colors">Changelog</Link>
               <a href="mailto:hello@breezeapp.co" className="hover:text-foreground transition-colors">Contact</a>
             </div>
           </div>

@@ -202,6 +202,9 @@ const Home = () => {
           <span className="text-sm font-semibold text-foreground">Your journal</span>
         </button>
       </div>
+
+      {/* Share */}
+      <ShareBreeze />
     </div>
   );
 };
