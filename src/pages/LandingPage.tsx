@@ -298,7 +298,7 @@ const LandingPage = () => {
               className="bg-foreground text-background px-8 py-4 rounded-2xl text-base font-semibold flex items-center justify-center gap-3 hover:opacity-90 transition-opacity"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M3 20.5v-17c0-.83.94-1.3 1.6-.8l12.87 8.5a1 1 0 0 1 0 1.6l-12.87 8.5c-.66.5-1.6.03-1.6-.8z"/>
+                <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-1.4l2.5 1.45a1 1 0 0 1 0 1.486l-2.5 1.45-2.537-2.536 2.537-2.85zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/>
               </svg>
               <div className="text-left">
                 <p className="text-[10px] opacity-80 leading-none">Get it on</p>
