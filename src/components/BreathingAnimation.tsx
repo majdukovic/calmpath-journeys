@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { breathingPatterns, type PatternId } from '@/lib/data';
 import { hapticInhale, hapticExhale, hapticPulse } from '@/lib/haptics';
 import { initVoiceGuide, speakOpening, speakPhase, stopVoiceGuide, isVoiceAvailable } from '@/lib/voiceGuide';
-import { getData } from '@/lib/storage';
+import { getData, updateSettings } from '@/lib/storage';
 import { Volume2, VolumeX } from 'lucide-react';
 
 interface Props {
