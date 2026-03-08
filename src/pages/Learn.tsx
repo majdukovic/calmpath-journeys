@@ -10,7 +10,7 @@ const Learn = () => {
     return <ArticleView article={selectedArticle} onBack={() => setSelectedArticle(null)} />;
   }
 
-  const categories = ['Understanding Anxiety', 'Coping Tools', 'Getting Help'] as const;
+  const categories = ['Understanding Anxiety', 'The Science', 'Coping Tools', 'Getting Help'] as const;
 
   return (
     <div className="py-grid-4">

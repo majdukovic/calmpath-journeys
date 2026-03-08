@@ -123,6 +123,36 @@ const Settings = () => {
         </div>
       </Section>
 
+      {/* Emergency Contact */}
+      <Section title="Emergency Contact">
+        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
+          <p className="text-xs text-muted-foreground">
+            Save a trusted person to quick-call from the SOS screen
+          </p>
+          <div className="space-y-grid">
+            <input
+              type="text"
+              placeholder="Contact name"
+              value={settings.emergencyContact?.name || ''}
+              onChange={e => update({ emergencyContact: { ...settings.emergencyContact, name: e.target.value, phone: settings.emergencyContact?.phone || '' } })}
+              className="w-full text-sm bg-muted rounded-md px-grid-2 py-grid-2 text-foreground placeholder:text-muted-foreground min-h-[44px]"
+            />
+            <input
+              type="tel"
+              placeholder="Phone number"
+              value={settings.emergencyContact?.phone || ''}
+              onChange={e => update({ emergencyContact: { ...settings.emergencyContact, phone: e.target.value, name: settings.emergencyContact?.name || '' } })}
+              className="w-full text-sm bg-muted rounded-md px-grid-2 py-grid-2 text-foreground placeholder:text-muted-foreground min-h-[44px]"
+            />
+          </div>
+          {settings.emergencyContact?.phone && (
+            <p className="text-xs text-primary">
+              ✓ This contact will appear in your SOS flow
+            </p>
+          )}
+        </div>
+      </Section>
+
       {/* SOS Preferences */}
       <Section title="SOS Preferences">
         <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">

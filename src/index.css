@@ -226,3 +226,13 @@
 .animate-soft-pop {
   animation: soft-pop 0.4s ease-out forwards;
 }
+
+/* Extended calm breathing — slow, ambient */
+@keyframes extended-breathe {
+  0%, 100% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}

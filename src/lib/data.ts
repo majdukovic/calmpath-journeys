@@ -8,11 +8,11 @@ export const breathingPatterns = [
 
 export type PatternId = typeof breathingPatterns[number]['id'];
 
-export const affirmations = [
+// Gentle / comfort affirmations — "Help me feel okay" mode
+export const gentleAffirmations = [
   "You just did something really brave. This moment will pass.",
   "You showed up for yourself. That takes courage.",
   "Every breath you took was a step toward calm.",
-  "You are stronger than you realize.",
   "This feeling is temporary. You are not.",
   "You chose to pause, and that matters.",
   "Right now, in this moment, you are safe.",
@@ -21,7 +21,63 @@ export const affirmations = [
   "You deserve this peace. Hold onto it gently.",
   "One breath at a time — that's all it takes.",
   "You are learning to ride the waves, and that's beautiful.",
+  "Nothing is wrong with you. Your body is just being protective.",
+  "You have survived every hard moment before this one.",
+  "It's okay to not be okay right now.",
+  "This storm will pass, just like every one before it.",
+  "You don't have to figure everything out right now.",
+  "Your only job right now is to breathe.",
+  "You are held, even when it doesn't feel like it.",
+  "Waves always return to calm. So will you.",
+  "There is nothing you need to fix right now.",
+  "Your feelings are valid, and they will shift.",
+  "You are not your anxiety. You are the person watching it.",
+  "Softness is not weakness. Rest is not giving up.",
+  "Let your shoulders drop. Let your jaw unclench. You're safe.",
+  "The hardest part is already behind you.",
+  "You are doing better than you think.",
+  "This moment is not forever. Relief is coming.",
+  "It's okay to take up space. It's okay to rest.",
+  "You are worthy of gentle things.",
+  "Your body knows how to return to calm. Trust it.",
 ];
+
+// Empowering affirmations — "Let's do this" mode
+export const empoweringAffirmations = [
+  "You are stronger than you realize.",
+  "You are learning to ride the waves, and that's powerful.",
+  "Anxiety picked the wrong person today.",
+  "You've beaten this before. You'll beat it again.",
+  "Your courage is bigger than your fear.",
+  "Every time you face this, you get stronger.",
+  "You are not fragile. You are fierce.",
+  "This panic has no power over you.",
+  "You are the calm in your own storm.",
+  "Fear is just excitement without breath. Breathe.",
+  "You chose to fight, and that's already winning.",
+  "Your brain is lying to you. Your body is safe.",
+  "You are building resilience with every breath.",
+  "This is temporary. Your strength is permanent.",
+  "You are reclaiming your peace, one breath at a time.",
+  "Warriors rest too. This is your moment of power.",
+  "You showed up. That's the hardest part.",
+  "Panic is loud, but you are louder.",
+  "You are not running from this. You are moving through it.",
+  "Every second that passes, you are winning.",
+  "You have 100% survival rate for bad days.",
+  "Your nervous system doesn't get to decide your day.",
+  "You are choosing calm. That is an act of strength.",
+  "This feeling? It has an expiration date. You don't.",
+  "You are training your brain to be brave.",
+  "The fact that you're here means you're already fighting.",
+  "Breathe like you mean it. You've got this.",
+  "Your anxiety is a chapter, not the whole story.",
+  "You are not stuck. You are growing.",
+  "Every warrior has scars. Yours make you unstoppable.",
+];
+
+// Combined pool for backward compatibility
+export const affirmations = [...gentleAffirmations, ...empoweringAffirmations];
 
 export const groundingPrompts = [
   { count: 5, sense: 'see', prompt: 'Name 5 things you can see' },
@@ -87,7 +143,7 @@ export const gratitudePrompts: GratitudePrompt[] = [
 export interface Article {
   id: string;
   title: string;
-  category: 'Understanding Anxiety' | 'Coping Tools' | 'Getting Help';
+  category: 'Understanding Anxiety' | 'Coping Tools' | 'Getting Help' | 'The Science';
   readTime: string;
   content: string;
   hasMedDisclaimer?: boolean;
@@ -155,6 +211,84 @@ These thoughts feel absolutely real in the moment, but they're part of the panic
 **Panic attacks typically peak within 10 minutes** and rarely last more than 30 minutes. They always end. Always.
 
 If you're experiencing frequent panic attacks, it's worth talking to a healthcare provider. Effective treatments exist that can significantly reduce their frequency and intensity. You don't have to just push through this alone.`,
+  },
+  {
+    id: 'why-panic-not-dangerous',
+    title: 'Why Panic Attacks Are Not Dangerous',
+    category: 'The Science',
+    readTime: '5 min read',
+    content: `This might be the most important thing you ever read about panic attacks: **they cannot hurt you.** Not once in medical history has a panic attack caused death, heart failure, or permanent damage. Let's understand why.
+
+**Your body is built for this.** The fight-or-flight response that causes panic attacks is the same system that would save your life if you were in actual danger. It's a feature, not a bug. When it activates at the wrong time, it's uncomfortable and scary — but it's not dangerous.
+
+**"But my heart is racing so fast..."** During a panic attack, your heart rate might reach 120-150 beats per minute. That sounds alarming, but consider this: during moderate exercise, your heart does the exact same thing. A healthy heart can sustain 200+ beats per minute during intense exercise. Your heart is designed for this.
+
+**"I feel like I can't breathe..."** You actually can breathe during a panic attack — you're just breathing differently. Panic causes rapid, shallow breathing (hyperventilation), which creates the sensation of not getting enough air. In reality, you're getting too much oxygen. This is uncomfortable but not dangerous.
+
+**"I feel dizzy and disconnected..."** This is caused by hyperventilation changing the CO2 levels in your blood. It's temporary and harmless. Slow breathing corrects it within minutes.
+
+**"What if I pass out?"** Panic attacks cause your blood pressure to rise. Fainting is caused by blood pressure dropping. So panic attacks actually make fainting less likely, not more.
+
+**"What if I'm going crazy?"** Feeling disconnected from reality (derealization/depersonalization) is a common panic symptom. It's your brain's way of creating emotional distance from the perceived threat. It does not mean you're losing your mind.
+
+**The cruel trick of panic:** The symptoms of a panic attack perfectly mimic what a real emergency would feel like. That's why your brain convinces you something is terribly wrong. But the symptoms themselves are just your nervous system doing its job — just at the wrong time.
+
+**What actually happens after a panic attack:**
+- Your body returns to normal within 20-30 minutes
+- No damage occurs to any organ
+- Your heart, lungs, and brain are completely fine
+- You might feel tired (adrenaline crash), but that's all
+
+**Knowing this changes everything.** When you truly understand that panic cannot hurt you, the fear of panic itself starts to diminish. And since fear of panic is often what keeps the cycle going, this knowledge is genuinely therapeutic.
+
+You are safe. Your body is strong. This will pass.`,
+  },
+  {
+    id: 'nervous-system-explained',
+    title: 'Your Nervous System: A Friendly Guide',
+    category: 'The Science',
+    readTime: '5 min read',
+    content: `Understanding your nervous system is like getting the user manual for your own body. Once you know how it works, anxiety starts to make a lot more sense — and feel a lot less scary.
+
+**Think of your nervous system as having two main modes:**
+
+**Mode 1: The Gas Pedal (Sympathetic Nervous System)**
+This is your "go" system. It activates when your brain detects danger (real or perceived). It's responsible for:
+- Increased heart rate
+- Rapid breathing
+- Tense muscles
+- Heightened alertness
+- Butterflies in your stomach
+- Sweating
+
+Sound familiar? These are the exact symptoms of anxiety. That's because anxiety IS this system activating.
+
+**Mode 2: The Brake (Parasympathetic Nervous System)**
+This is your "rest and digest" system. It's responsible for:
+- Slow, steady heart rate
+- Deep, calm breathing
+- Relaxed muscles
+- Clear thinking
+- Good digestion
+- Feeling safe and content
+
+**The key insight:** You can't be in both modes at full power simultaneously. When you activate the brake (through slow breathing, for example), the gas pedal naturally eases off.
+
+**The Vagus Nerve: Your Secret Weapon**
+Running from your brain stem down through your chest and abdomen is the vagus nerve — the longest nerve in your body. It's the main highway of your parasympathetic (calming) system. When you stimulate it, you literally tell your body to calm down.
+
+**How to activate your vagus nerve:**
+- **Slow exhales** — breathing out longer than you breathe in
+- **Cold water on your face** — triggers the "dive reflex" that slows your heart
+- **Humming or singing** — vibrates the vagus nerve in your throat
+- **Gentle stretching** — releases tension that blocks vagal signals
+
+**Why your body gets "stuck" in anxiety mode:**
+Sometimes, after repeated stress or trauma, your nervous system's baseline shifts. Your gas pedal becomes more sensitive, and your brake becomes less effective. This is called "nervous system dysregulation." It's not permanent — your nervous system can be retrained with practice.
+
+**The beautiful truth:** Every time you practice slow breathing, grounding, or any calming technique, you're literally rewiring your nervous system. You're strengthening the brake and making the gas pedal less hair-trigger.
+
+**You are not broken.** Your nervous system is just doing what it learned to do. And it can learn something new.`,
   },
   {
     id: 'breathing-science',
