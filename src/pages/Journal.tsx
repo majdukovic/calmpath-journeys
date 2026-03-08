@@ -87,6 +87,16 @@ const Journal = () => {
             <div className="pr-4">
               <p className="text-sm font-semibold text-foreground mb-0.5">{nudge.title}</p>
               <p className="text-xs text-muted-foreground leading-relaxed">{nudge.body}</p>
+              {nudge.source && nudge.sourceUrl && (
+                <a
+                  href={nudge.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] text-primary/70 hover:text-primary underline mt-1 inline-block"
+                >
+                  📎 {nudge.source}
+                </a>
+              )}
             </div>
           </div>
         </div>
