@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { usePremium } from '@/contexts/PremiumContext';
 import { Check, Sparkles, Brain, Wind, Crown, ArrowLeft, BarChart3, Mic, Moon } from 'lucide-react';
