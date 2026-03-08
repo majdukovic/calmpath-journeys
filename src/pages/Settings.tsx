@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { getData, updateSettings, exportDataAsCSV, deleteAllData } from '@/lib/storage';
 import { breathingPatterns } from '@/lib/data';
+import { useTheme } from '@/hooks/use-theme';
 
 const Settings = () => {
   const [settings, setSettings] = useState(getData().settings);
