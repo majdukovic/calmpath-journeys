@@ -323,8 +323,8 @@ const Settings = () => {
         </div>
       </Section>
 
-      {/* ── Breathly Plus ── */}
-      <Section title="Breathly Plus">
+      {/* ── Breeze Plus ── */}
+      <Section title="Breeze Plus">
         <div className="bg-card rounded-card p-grid-2 card-shadow">
           {isPremium ? (
             <div className="space-y-grid-2">
