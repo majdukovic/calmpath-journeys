@@ -20,14 +20,18 @@ export interface GardenStats {
   totalJournals: number;
   totalSOS: number;
   totalMoodLogs: number;
+  totalSelfCareToday: number;
+  totalSelfCareAllTime: number;
   weeklyCount: number;
   daysSinceLastActivity: number;
+  timeOfDay: 'morning' | 'afternoon' | 'evening' | 'night';
 }
 
 export function getGardenStats(): GardenStats {
   const data = getData();
   const now = new Date();
   const today = now.toISOString().split('T')[0];
+  const hour = now.getHours();
 
   // Weekly count
   const day = now.getDay();
@@ -47,13 +51,27 @@ export function getGardenStats(): GardenStats {
   const lastDate = allDates.sort().reverse()[0] || today;
   const daysSince = Math.floor((now.getTime() - new Date(lastDate).getTime()) / 86400000);
 
+  // Self-care tasks
+  const selfCareTasks = data.selfCareTasks || [];
+  const totalSelfCareToday = selfCareTasks.filter(t => t.date === today).length;
+  const totalSelfCareAllTime = selfCareTasks.length;
+
+  // Time of day
+  let timeOfDay: GardenStats['timeOfDay'] = 'morning';
+  if (hour >= 17) timeOfDay = 'evening';
+  else if (hour >= 21 || hour < 5) timeOfDay = 'night';
+  else if (hour >= 12) timeOfDay = 'afternoon';
+
   return {
     totalSessions: data.dailyCalmSessions.length,
     totalJournals: data.gratitudeEntries.length,
     totalSOS: data.sosSessions.length,
     totalMoodLogs: data.moodEntries.length,
+    totalSelfCareToday,
+    totalSelfCareAllTime,
     weeklyCount,
     daysSinceLastActivity: daysSince,
+    timeOfDay,
   };
 }
 
@@ -82,6 +100,14 @@ export const gardenElements: GardenElement[] = [
     description: 'A butterfly was drawn to your gratitude',
     requirement: '5 journal entries',
     check: (s) => s.totalJournals >= 5,
+  },
+  {
+    id: 'sunflower',
+    name: 'Sunflower',
+    emoji: '🌻',
+    description: 'Your self-care grew a sunflower',
+    requirement: '10 self-care tasks completed',
+    check: (s) => s.totalSelfCareAllTime >= 10,
   },
   {
     id: 'tulip',
@@ -116,6 +142,14 @@ export const gardenElements: GardenElement[] = [
     check: (s) => s.totalJournals >= 20,
   },
   {
+    id: 'fireflies',
+    name: 'Fireflies',
+    emoji: '✨',
+    description: 'Fireflies dance in your garden at night',
+    requirement: '50 self-care tasks completed',
+    check: (s) => s.totalSelfCareAllTime >= 50,
+  },
+  {
     id: 'pond',
     name: 'Calm Pond',
     emoji: '🪷',
@@ -141,34 +175,94 @@ export function getMascotMood(stats: GardenStats): MascotMood {
   return 'happy'; // Active user
 }
 
-// Contextual encouragement from Breeze — warm, never guilt-inducing
+// Rich, varied contextual messages from Breeze — warm, never guilt-inducing
+// Messages vary by time of day, activity level, and milestones
 export function getMascotMessage(stats: GardenStats, name?: string): string {
   const greeting = name ? `${name}, ` : '';
+  const { timeOfDay } = stats;
 
+  // Brand new user
   if (stats.totalSessions === 0) {
-    return `Hi ${greeting}I'm Breeze! 🦊 Let's grow a garden together — one breath at a time.`;
+    const intros = [
+      `Hi ${greeting}I'm Breeze! 🦊 Let's grow a garden together — one breath at a time.`,
+      `Hey ${greeting}I'm Breeze! 🦊 I'll be right here whenever you need a moment of calm.`,
+      `Welcome ${greeting}I'm Breeze, your calm companion! 🦊 Ready when you are.`,
+    ];
+    return intros[Math.floor(Date.now() / 86400000) % intros.length];
   }
 
+  // Been away a long time
   if (stats.daysSinceLastActivity >= 7) {
-    return `${greeting}I've been napping here in the garden 😊 No rush — I'm always here when you're ready.`;
+    const awayMessages = [
+      `${greeting}I've been napping here in the garden 😊 No rush — I'm always here when you're ready.`,
+      `${greeting}I missed you! Your garden kept growing while you were away 🌱`,
+      `${greeting}welcome back! I saved you a cozy spot in the garden 🦊`,
+    ];
+    return awayMessages[Math.floor(Date.now() / 86400000) % awayMessages.length];
   }
 
+  // Been away a few days
   if (stats.daysSinceLastActivity >= 3) {
-    return `${greeting}your garden is still blooming! Come sit with me whenever you'd like.`;
+    return `${greeting}your garden is still blooming! Come sit with me whenever you'd like 🌿`;
   }
 
+  // Great week
   if (stats.weeklyCount >= 5) {
-    return `Wow ${greeting}5 sessions this week! 🌟 Your garden is absolutely thriving!`;
+    const proudMessages = [
+      `Wow ${greeting}5 sessions this week! 🌟 Your garden is absolutely thriving!`,
+      `${greeting}you've been incredible this week! Look at how your garden has grown 💚`,
+      `${greeting}I'm so proud of you! Your dedication is making the garden beautiful 🌸`,
+    ];
+    return proudMessages[Math.floor(Date.now() / 3600000) % proudMessages.length];
   }
 
+  // Completed self-care tasks today
+  if (stats.totalSelfCareToday >= 3) {
+    return `${greeting}look at you taking care of yourself today! That makes me happy 🦊💛`;
+  }
+
+  // Time-of-day messages for active users
+  if (timeOfDay === 'morning') {
+    const morningMessages = [
+      `Good morning ${greeting}🌅 A new day, a fresh start. How are you feeling?`,
+      `${greeting}the morning sun is warming the garden 🌞 Ready for a gentle start?`,
+      `Rise and shine ${greeting}☀️ Your garden woke up early just for you!`,
+    ];
+    return morningMessages[Math.floor(Date.now() / 86400000) % morningMessages.length];
+  }
+
+  if (timeOfDay === 'evening') {
+    const eveningMessages = [
+      `${greeting}the garden is settling in for the evening 🌙 Time to wind down?`,
+      `${greeting}you did great today. Take a breath and let the day go 🌅`,
+      `${greeting}evening time — the garden glows softly. You've earned some rest 🦊`,
+    ];
+    return eveningMessages[Math.floor(Date.now() / 86400000) % eveningMessages.length];
+  }
+
+  if (timeOfDay === 'night') {
+    const nightMessages = [
+      `${greeting}the garden is peaceful at night 🌙 Can't sleep? I'm here.`,
+      `${greeting}the stars are out. Let's breathe together under them ✨`,
+      `${greeting}it's quiet here. A good time for a gentle breath 🦊`,
+    ];
+    return nightMessages[Math.floor(Date.now() / 86400000) % nightMessages.length];
+  }
+
+  // Active user, afternoon, varied messages
   if (stats.weeklyCount >= 3) {
     return `${greeting}you're building something beautiful. I can see your garden growing! 🌿`;
   }
 
-  // Milestone messages
+  // Milestone proximity
   const nextEl = getNextElement(stats);
   if (nextEl) {
-    return `${greeting}keep going — something new is about to bloom in your garden! 🌱`;
+    const proximityMessages = [
+      `${greeting}keep going — something new is about to bloom in your garden! 🌱`,
+      `${greeting}I can feel the garden humming. A new bloom is close! 🌼`,
+      `${greeting}the soil is warm today. Perfect for growing 🦊`,
+    ];
+    return proximityMessages[Math.floor(Date.now() / 86400000) % proximityMessages.length];
   }
 
   return `${greeting}your garden is a testament to your care. I'm so proud of you! 💚`;
