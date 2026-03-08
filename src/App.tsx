@@ -19,6 +19,8 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import LandingPage from "./pages/LandingPage";
 import MarketingStrategy from "./pages/MarketingStrategy";
+import Roadmap from "./pages/Roadmap";
+import Changelog from "./pages/Changelog";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
@@ -51,6 +53,8 @@ const App = () => {
               <Route path="/" element={<LandingPage />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
+              <Route path="/roadmap" element={<Roadmap />} />
+              <Route path="/changelog" element={<Changelog />} />
               <Route path="/strategy" element={<MarketingStrategy />} />
               <Route path="*" element={<LandingPage />} />
             </Routes>
