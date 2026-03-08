@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateSettings } from '@/lib/storage';
+import { requestNotificationPermission, startNotificationScheduler } from '@/lib/notifications';
 import mascotWave from '@/assets/mascot-wave.png';
 import mascotHappy from '@/assets/mascot-happy.png';
 import mascotProud from '@/assets/mascot-proud.png';
