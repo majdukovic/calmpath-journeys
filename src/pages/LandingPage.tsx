@@ -39,6 +39,8 @@ const features = [
 
 
 const LandingPage = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Nav */}
@@ -54,13 +56,31 @@ const LandingPage = () => {
             <Link to="/roadmap" className="hover:text-foreground transition-colors">Roadmap</Link>
             <Link to="/changelog" className="hover:text-foreground transition-colors">What's New</Link>
           </div>
-          <a
-            href="#download"
-            className="bg-primary text-primary-foreground px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
-          >
-            Download Free
-          </a>
+          <div className="flex items-center gap-3">
+            <a
+              href="#download"
+              className="bg-primary text-primary-foreground px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
+            >
+              Download Free
+            </a>
+            <button
+              className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
+              onClick={() => setMobileMenuOpen(v => !v)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-md px-6 py-4 flex flex-col gap-4 text-sm">
+            <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors py-1" onClick={() => setMobileMenuOpen(false)}>Features</a>
+            <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors py-1" onClick={() => setMobileMenuOpen(false)}>Pricing</a>
+            <Link to="/roadmap" className="text-muted-foreground hover:text-foreground transition-colors py-1" onClick={() => setMobileMenuOpen(false)}>Roadmap</Link>
+            <Link to="/changelog" className="text-muted-foreground hover:text-foreground transition-colors py-1" onClick={() => setMobileMenuOpen(false)}>What's New</Link>
+          </div>
+        )}
       </nav>
 
       {/* Hero */}
