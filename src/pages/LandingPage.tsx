@@ -50,6 +50,8 @@ const LandingPage = () => {
           <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
             <a href="#features" className="hover:text-foreground transition-colors">Features</a>
             <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
+            <Link to="/roadmap" className="hover:text-foreground transition-colors">Roadmap</Link>
+            <Link to="/changelog" className="hover:text-foreground transition-colors">What's New</Link>
           </div>
           <a
             href="#download"
