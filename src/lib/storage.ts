@@ -52,15 +52,22 @@ export interface UserSettings {
   emergencyContact?: EmergencyContact;
 }
 
+export interface CustomSelfCareTask {
+  id: string;
+  emoji: string;
+  label: string;
+}
+
 export interface AppData {
   gratitudeEntries: GratitudeEntry[];
   moodEntries: MoodEntry[];
   sosSessions: SOSSession[];
   dailyCalmSessions: DailyCalmSession[];
   selfCareTasks: { date: string; taskId: string }[];
+  customSelfCareTasks: CustomSelfCareTask[];
   settings: UserSettings;
   shownPromptIds: { id: number; shownAt: string }[];
-  lastOpenedDate?: string; // ISO date string for return-welcome tracking
+  lastOpenedDate?: string;
 }
 
 const STORAGE_KEY = 'calmpath_data';
@@ -83,6 +90,7 @@ const defaultData: AppData = {
   sosSessions: [],
   dailyCalmSessions: [],
   selfCareTasks: [],
+  customSelfCareTasks: [],
   settings: defaultSettings,
   shownPromptIds: [],
 };
