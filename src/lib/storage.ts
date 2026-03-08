@@ -34,6 +34,11 @@ export interface DailyCalmSession {
   moodEntry?: number;
 }
 
+export interface EmergencyContact {
+  name: string;
+  phone: string;
+}
+
 export interface UserSettings {
   name: string;
   reminderEnabled: boolean;
@@ -44,6 +49,7 @@ export interface UserSettings {
   onboardingCompleted: boolean;
   theme: 'light' | 'dark' | 'system';
   showSOSCard: boolean;
+  emergencyContact?: EmergencyContact;
 }
 
 export interface AppData {
