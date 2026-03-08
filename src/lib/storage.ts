@@ -66,6 +66,7 @@ const defaultSettings: UserSettings = {
   audioEnabled: true,
   onboardingCompleted: false,
   theme: 'light',
+  showSOSCard: true,
 };
 
 const defaultData: AppData = {
