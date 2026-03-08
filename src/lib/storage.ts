@@ -190,7 +190,7 @@ export function getWeeklyProgress(): boolean[] {
   for (let i = 0; i < 7; i++) {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
-    const dateStr = d.toISOString().split('T')[0];
+    const dateStr = toLocalDateStr(d);
     result.push(data.dailyCalmSessions.some(s => s.date === dateStr));
   }
   return result;
