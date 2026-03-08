@@ -5,7 +5,8 @@ import { breathingPatterns } from '@/lib/data';
 import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/integrations/supabase/client';
 import { lovable } from '@/integrations/lovable/index';
-import { Mail, LogOut, Bell, BellOff, Download, Trash2, ExternalLink, Smartphone, MessageCircle, Shield, ChevronRight } from 'lucide-react';
+import { Mail, LogOut, Bell, BellOff, Download, Trash2, ExternalLink, Smartphone, MessageCircle, Shield, ChevronRight, Sparkles, Crown, Lock } from 'lucide-react';
+import { usePremium } from '@/contexts/PremiumContext';
 import type { User } from '@supabase/supabase-js';
 import {
   isNotificationSupported,
@@ -35,6 +36,11 @@ const patternDescriptions: Record<string, string> = {
   '4-7-8': 'Calming technique for sleep & anxiety',
   'box': 'Balanced breathing used by Navy SEALs',
   'sigh': 'Fastest way to calm down (Stanford research)',
+  '2-4-6': 'Gentle intro for beginners',
+  'calm': 'Simple equal breathing for calm',
+  'energize': 'Short inhale, long exhale for energy',
+  'sleep': 'Extended exhale to ease into sleep',
+  'resonance': 'Heart-rate coherence technique',
 };
 
 const Settings = () => {
@@ -47,6 +53,7 @@ const Settings = () => {
   const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState('');
+  const { isPremium, openPortal } = usePremium();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -190,22 +197,35 @@ const Settings = () => {
           <div>
             <span className="text-sm text-foreground block mb-grid font-medium">Breathing pattern</span>
             <div className="flex flex-col gap-1">
-              {breathingPatterns.map(p => (
-                <button
-                  key={p.id}
-                  onClick={() => update({ defaultBreathingPattern: p.id })}
-                  className={`text-left px-grid-2 py-grid rounded-md min-h-[44px] transition-colors ${
-                    settings.defaultBreathingPattern === p.id
-                      ? 'bg-primary/10 border border-primary/20'
-                      : 'hover:bg-muted'
-                  }`}
-                >
-                  <span className={`text-sm ${settings.defaultBreathingPattern === p.id ? 'text-primary font-medium' : 'text-foreground'}`}>
-                    {p.label}
-                  </span>
-                  <p className="text-[11px] text-muted-foreground">{patternDescriptions[p.id]}</p>
-                </button>
-              ))}
+              {breathingPatterns.map(p => {
+                const isLocked = p.premium && !isPremium;
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => {
+                      if (isLocked) {
+                        navigate('/upgrade');
+                        return;
+                      }
+                      update({ defaultBreathingPattern: p.id });
+                    }}
+                    className={`text-left px-grid-2 py-grid rounded-md min-h-[44px] transition-colors ${
+                      settings.defaultBreathingPattern === p.id
+                        ? 'bg-primary/10 border border-primary/20'
+                        : isLocked ? 'opacity-60 hover:bg-muted' : 'hover:bg-muted'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span className={`text-sm ${settings.defaultBreathingPattern === p.id ? 'text-primary font-medium' : 'text-foreground'}`}>
+                        {p.label}
+                      </span>
+                      {isLocked && <Lock size={12} className="text-muted-foreground" />}
+                      {p.premium && isPremium && <Sparkles size={12} className="text-primary" />}
+                    </div>
+                    <p className="text-[11px] text-muted-foreground">{patternDescriptions[p.id]}</p>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -300,6 +320,39 @@ const Settings = () => {
               </button>
             </div>
           ) : null}
+        </div>
+      </Section>
+
+      {/* ── Breathly Plus ── */}
+      <Section title="Breathly Plus">
+        <div className="bg-card rounded-card p-grid-2 card-shadow">
+          {isPremium ? (
+            <div className="space-y-grid-2">
+              <div className="flex items-center gap-2">
+                <Crown size={18} className="text-primary" />
+                <span className="text-sm font-semibold text-foreground">Active subscriber</span>
+              </div>
+              <button
+                onClick={openPortal}
+                className="w-full flex items-center justify-center gap-2 py-grid-2 rounded-button bg-muted text-foreground font-medium min-h-[48px] text-sm hover:bg-muted/80 transition-colors"
+              >
+                Manage subscription
+                <ChevronRight size={14} />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => navigate('/upgrade')}
+              className="w-full flex items-center gap-grid-2 px-grid-2 py-grid-2 rounded-md text-sm min-h-[48px] transition-colors hover:bg-primary/5"
+            >
+              <Sparkles size={18} className="text-primary" />
+              <div className="text-left flex-1">
+                <span className="text-sm font-semibold text-foreground">Upgrade to Plus</span>
+                <p className="text-[11px] text-muted-foreground">AI insights, more breathing patterns</p>
+              </div>
+              <ChevronRight size={14} className="text-muted-foreground" />
+            </button>
+          )}
         </div>
       </Section>
 

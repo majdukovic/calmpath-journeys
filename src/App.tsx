@@ -14,9 +14,11 @@ import DailyCalm from "./pages/DailyCalm";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import Install from "./pages/Install";
+import Upgrade from "./pages/Upgrade";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
+import { PremiumProvider } from "./contexts/PremiumContext";
 
 const queryClient = new QueryClient();
 
@@ -30,23 +32,26 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}
-          <Routes>
-            <Route path="/sos" element={<SOSFlow />} />
-            <Route path="/daily-calm" element={<DailyCalm />} />
-            <Route path="/" element={<Layout><Home /></Layout>} />
-            <Route path="/journal" element={<Layout><Journal /></Layout>} />
-            <Route path="/learn" element={<Layout><Learn /></Layout>} />
-            <Route path="/settings" element={<Layout><Settings /></Layout>} />
-            <Route path="/install" element={<Install />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <PremiumProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}
+            <Routes>
+              <Route path="/sos" element={<SOSFlow />} />
+              <Route path="/daily-calm" element={<DailyCalm />} />
+              <Route path="/" element={<Layout><Home /></Layout>} />
+              <Route path="/journal" element={<Layout><Journal /></Layout>} />
+              <Route path="/learn" element={<Layout><Learn /></Layout>} />
+              <Route path="/settings" element={<Layout><Settings /></Layout>} />
+              <Route path="/install" element={<Install />} />
+              <Route path="/upgrade" element={<Upgrade />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </PremiumProvider>
     </QueryClientProvider>
   );
 };

@@ -1,12 +1,28 @@
 // Breathly content data
 
-export const breathingPatterns = [
+export interface BreathingPattern {
+  id: string;
+  label: string;
+  inhale: number;
+  hold: number;
+  exhale: number;
+  holdAfter: number;
+  premium?: boolean;
+}
+
+export const breathingPatterns: BreathingPattern[] = [
   { id: '4-7-8', label: '4-7-8 Relaxing', inhale: 4, hold: 7, exhale: 8, holdAfter: 0 },
   { id: 'box', label: 'Box Breathing', inhale: 4, hold: 4, exhale: 4, holdAfter: 4 },
   { id: 'sigh', label: 'Physiological Sigh', inhale: 3, hold: 0, exhale: 6, holdAfter: 0 },
-] as const;
+  // Premium patterns
+  { id: '2-4-6', label: '2-4-6 Beginner', inhale: 2, hold: 4, exhale: 6, holdAfter: 0, premium: true },
+  { id: 'calm', label: '5-5 Calm Breath', inhale: 5, hold: 0, exhale: 5, holdAfter: 0, premium: true },
+  { id: 'energize', label: '3-3-6 Energizing', inhale: 3, hold: 3, exhale: 6, holdAfter: 0, premium: true },
+  { id: 'sleep', label: '4-8 Sleep Breath', inhale: 4, hold: 0, exhale: 8, holdAfter: 0, premium: true },
+  { id: 'resonance', label: 'Resonance (5.5-5.5)', inhale: 5.5, hold: 0, exhale: 5.5, holdAfter: 0, premium: true },
+];
 
-export type PatternId = typeof breathingPatterns[number]['id'];
+export type PatternId = string;
 
 // Gentle / comfort affirmations — "Help me feel okay" mode
 export const gentleAffirmations = [
