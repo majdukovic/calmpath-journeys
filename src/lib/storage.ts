@@ -159,6 +159,17 @@ export function addDailyCalmSession(session: Omit<DailyCalmSession, 'id'>): void
   saveData(data);
 }
 
+export function addFreewriteEntry(text: string): void {
+  const data = getData();
+  data.freewriteEntries.unshift({
+    id: crypto.randomUUID(),
+    date: toLocalDateStr(),
+    text,
+    createdAt: new Date().toISOString(),
+  });
+  saveData(data);
+}
+
 export function markPromptShown(promptId: number): void {
   const data = getData();
   data.shownPromptIds.push({ id: promptId, shownAt: new Date().toISOString() });
