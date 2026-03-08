@@ -15,6 +15,8 @@ import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import Install from "./pages/Install";
 import Upgrade from "./pages/Upgrade";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
