@@ -3,6 +3,8 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
+const DEV_PREMIUM_KEY = 'breeze_dev_premium';
+
 interface PremiumState {
   isPremium: boolean;
   isLoading: boolean;
@@ -10,6 +12,8 @@ interface PremiumState {
   checkSubscription: () => Promise<void>;
   startCheckout: (plan: 'monthly' | 'yearly') => Promise<void>;
   openPortal: () => Promise<void>;
+  toggleDevPremium: () => void;
+  isDevOverride: boolean;
 }
 
 const PremiumContext = createContext<PremiumState>({
@@ -19,6 +23,8 @@ const PremiumContext = createContext<PremiumState>({
   checkSubscription: async () => {},
   startCheckout: async () => {},
   openPortal: async () => {},
+  toggleDevPremium: () => {},
+  isDevOverride: false,
 });
 
 export const usePremium = () => useContext(PremiumContext);
@@ -30,15 +36,28 @@ const PRICES = {
 } as const;
 
 export const PremiumProvider = ({ children }: { children: ReactNode }) => {
-  const [isPremium, setIsPremium] = useState(false);
+  const [isPremiumReal, setIsPremiumReal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
+  const [isDevOverride, setIsDevOverride] = useState(() => {
+    try { return localStorage.getItem(DEV_PREMIUM_KEY) === 'true'; } catch { return false; }
+  });
+
+  const isPremium = isDevOverride || isPremiumReal;
+
+  const toggleDevPremium = useCallback(() => {
+    setIsDevOverride(prev => {
+      const next = !prev;
+      try { localStorage.setItem(DEV_PREMIUM_KEY, String(next)); } catch {}
+      return next;
+    });
+  }, []);
 
   const checkSubscription = useCallback(async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
-        setIsPremium(false);
+        setIsPremiumReal(false);
         setIsLoading(false);
         return;
       }
@@ -46,11 +65,11 @@ export const PremiumProvider = ({ children }: { children: ReactNode }) => {
       const { data, error } = await supabase.functions.invoke('check-subscription');
       if (error) throw error;
 
-      setIsPremium(data?.subscribed ?? false);
+      setIsPremiumReal(data?.subscribed ?? false);
       setSubscriptionEnd(data?.subscription_end ?? null);
     } catch (e) {
       console.error('Failed to check subscription:', e);
-      setIsPremium(false);
+      setIsPremiumReal(false);
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +82,6 @@ export const PremiumProvider = ({ children }: { children: ReactNode }) => {
       checkSubscription();
     });
 
-    // Auto-refresh every 60s
     const interval = setInterval(checkSubscription, 60_000);
 
     return () => {
@@ -91,7 +109,7 @@ export const PremiumProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <PremiumContext.Provider value={{ isPremium, isLoading, subscriptionEnd, checkSubscription, startCheckout, openPortal }}>
+    <PremiumContext.Provider value={{ isPremium, isLoading, subscriptionEnd, checkSubscription, startCheckout, openPortal, toggleDevPremium, isDevOverride }}>
       {children}
     </PremiumContext.Provider>
   );
