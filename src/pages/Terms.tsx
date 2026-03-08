@@ -22,7 +22,7 @@ const Terms = () => {
         <div className="space-y-grid-3 text-sm text-foreground/90 leading-relaxed">
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">1. Acceptance of Terms</h2>
-            <p>By using Breathly ("the App"), you agree to these Terms of Service. If you do not agree, please do not use the App.</p>
+            <p>By using Breeze ("the App"), you agree to these Terms of Service. If you do not agree, please do not use the App.</p>
           </section>
 
           <section>
