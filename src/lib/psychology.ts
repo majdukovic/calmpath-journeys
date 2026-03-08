@@ -41,21 +41,21 @@ export function maybeGetDiscovery(): typeof gardenDiscoveries[number] | null {
 // Triggers serotonin through self-worth, not dopamine through scores
 
 export const identityMessages = [
-  'You're someone who shows up for yourself. That's rare and beautiful.',
-  'You chose calm today. That says a lot about who you are.',
-  'You just proved that you can slow down when the world speeds up.',
-  'Not everyone pauses to breathe. You do. That matters.',
-  'You're building something no one can take from you — inner peace.',
-  'Every time you do this, you become a little more you.',
-  'This is what self-compassion looks like in action.',
-  'The person you were yesterday would be proud of you right now.',
-  'You're not just managing — you're growing.',
-  'You chose presence over panic. That's your superpower.',
-  'You're teaching your nervous system that you're safe. That's real.',
-  'Today you chose yourself. Tomorrow, it'll be a little easier.',
-  'You're becoming someone who meets hard moments with softness.',
-  'You didn't run from your feelings. You sat with them. That takes courage.',
-  'You're rewriting the story your anxiety tells you.',
+  "You're someone who shows up for yourself. That's rare and beautiful.",
+  "You chose calm today. That says a lot about who you are.",
+  "You just proved that you can slow down when the world speeds up.",
+  "Not everyone pauses to breathe. You do. That matters.",
+  "You're building something no one can take from you — inner peace.",
+  "Every time you do this, you become a little more you.",
+  "This is what self-compassion looks like in action.",
+  "The person you were yesterday would be proud of you right now.",
+  "You're not just managing — you're growing.",
+  "You chose presence over panic. That's your superpower.",
+  "You're teaching your nervous system that you're safe. That's real.",
+  "Today you chose yourself. Tomorrow, it'll be a little easier.",
+  "You're becoming someone who meets hard moments with softness.",
+  "You didn't run from your feelings. You sat with them. That takes courage.",
+  "You're rewriting the story your anxiety tells you.",
 ];
 
 export function getIdentityMessage(): string {
