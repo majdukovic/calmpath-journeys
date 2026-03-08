@@ -21,6 +21,7 @@ import LandingPage from "./pages/LandingPage";
 import MarketingStrategy from "./pages/MarketingStrategy";
 import Roadmap from "./pages/Roadmap";
 import Changelog from "./pages/Changelog";
+import Install from "./pages/Install";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
