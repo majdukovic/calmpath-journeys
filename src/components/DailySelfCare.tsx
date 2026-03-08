@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { getData, saveData } from '@/lib/storage';
 import { Check } from 'lucide-react';
+import { hapticTap } from '@/lib/haptics';
 
 interface SelfCareTask {
   id: string;
