@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { breathingPatterns, type PatternId } from '@/lib/data';
 import { hapticInhale, hapticExhale, hapticPulse } from '@/lib/haptics';
+import { initVoiceGuide, speakOpening, speakPhase, stopVoiceGuide, isVoiceAvailable } from '@/lib/voiceGuide';
+import { getData, updateSettings } from '@/lib/storage';
+import { Volume2, VolumeX } from 'lucide-react';
 
 interface Props {
   patternId: PatternId;
@@ -27,6 +30,25 @@ const BreathingAnimation = ({ patternId, totalCycles, darkMode = true, onComplet
   const [isRunning, setIsRunning] = useState(true);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
+  // Voice guide state
+  const settings = getData().settings;
+  const [voiceEnabled, setVoiceEnabled] = useState(
+    settings.voiceGuideEnabled !== false && isVoiceAvailable()
+  );
+  const voiceEnabledRef = useRef(voiceEnabled);
+
+  useEffect(() => {
+    voiceEnabledRef.current = voiceEnabled;
+  }, [voiceEnabled]);
+
+  // Init voice on mount
+  useEffect(() => {
+    if (isVoiceAvailable()) {
+      initVoiceGuide();
+    }
+    return () => stopVoiceGuide();
+  }, []);
+
   const getPhaseSequence = useCallback(() => {
     const seq: { phase: Phase; duration: number }[] = [];
     seq.push({ phase: 'inhale', duration: pattern.inhale });
@@ -43,7 +65,7 @@ const BreathingAnimation = ({ patternId, totalCycles, darkMode = true, onComplet
     if (!isRunning) return;
 
     const seq = getPhaseSequence();
-    
+
     const advance = () => {
       phaseIndexRef.current++;
       if (phaseIndexRef.current >= seq.length) {
@@ -52,16 +74,24 @@ const BreathingAnimation = ({ patternId, totalCycles, darkMode = true, onComplet
         setCycle(cycleRef.current);
         if (cycleRef.current > maxCycles) {
           setIsRunning(false);
+          stopVoiceGuide();
           onComplete(maxCycles);
           return;
         }
       }
       const next = seq[phaseIndexRef.current];
       setPhase(next.phase);
-      // Haptic feedback on phase change
+
+      // Haptic feedback
       if (next.phase === 'inhale') hapticInhale();
       else if (next.phase === 'exhale') hapticExhale();
       else hapticPulse();
+
+      // Voice cue
+      if (voiceEnabledRef.current) {
+        speakPhase(next.phase, cycleRef.current);
+      }
+
       timerRef.current = setTimeout(advance, next.duration * 1000);
     };
 
@@ -70,6 +100,16 @@ const BreathingAnimation = ({ patternId, totalCycles, darkMode = true, onComplet
     cycleRef.current = cycle;
     const first = seq[0];
     setPhase(first.phase);
+
+    // Speak opening cue + first phase
+    if (voiceEnabledRef.current) {
+      speakOpening();
+      // Delay first phase cue slightly so opening finishes
+      setTimeout(() => {
+        if (voiceEnabledRef.current) speakPhase('inhale', 1);
+      }, 2200);
+    }
+
     timerRef.current = setTimeout(advance, first.duration * 1000);
 
     return () => {
@@ -83,8 +123,16 @@ const BreathingAnimation = ({ patternId, totalCycles, darkMode = true, onComplet
 
   const handleFeelBetter = () => {
     setIsRunning(false);
+    stopVoiceGuide();
     if (timerRef.current) clearTimeout(timerRef.current);
     onComplete(Math.min(cycle, maxCycles));
+  };
+
+  const toggleVoice = () => {
+    const newVal = !voiceEnabled;
+    setVoiceEnabled(newVal);
+    if (!newVal) stopVoiceGuide();
+    updateSettings({ voiceGuideEnabled: newVal });
   };
 
   // Scale based on phase
@@ -101,24 +149,41 @@ const BreathingAnimation = ({ patternId, totalCycles, darkMode = true, onComplet
 
   return (
     <div className={`fixed inset-0 z-[100] ${bgClass} flex flex-col items-center justify-between py-grid-6 px-grid-2`}>
-      {/* Pattern selector */}
-      {onPatternChange && (
-        <div className="flex gap-grid bg-foreground/10 rounded-full p-1">
-          {breathingPatterns.map(p => (
-            <button
-              key={p.id}
-              onClick={() => onPatternChange(p.id)}
-              className={`px-grid-2 py-grid text-xs rounded-full transition-colors min-h-[36px] ${
-                p.id === patternId
-                  ? darkMode ? 'bg-sos-text/20 text-sos-text' : 'bg-primary text-primary-foreground'
-                  : `${mutedClass} hover:opacity-80`
-              }`}
-            >
-              {p.label}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Top bar: pattern selector + voice toggle */}
+      <div className="flex items-center gap-grid-2 w-full max-w-[400px]">
+        {onPatternChange && (
+          <div className="flex gap-grid bg-foreground/10 rounded-full p-1 flex-1">
+            {breathingPatterns.map(p => (
+              <button
+                key={p.id}
+                onClick={() => onPatternChange(p.id)}
+                className={`px-grid-2 py-grid text-xs rounded-full transition-colors min-h-[36px] ${
+                  p.id === patternId
+                    ? darkMode ? 'bg-sos-text/20 text-sos-text' : 'bg-primary text-primary-foreground'
+                    : `${mutedClass} hover:opacity-80`
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Voice toggle */}
+        {isVoiceAvailable() && (
+          <button
+            onClick={toggleVoice}
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+              voiceEnabled
+                ? darkMode ? 'bg-sos-text/15 text-sos-text' : 'bg-primary/15 text-primary'
+                : darkMode ? 'bg-sos-text/5 text-sos-text/30' : 'bg-muted text-muted-foreground/40'
+            }`}
+            aria-label={voiceEnabled ? 'Mute voice guide' : 'Enable voice guide'}
+          >
+            {voiceEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+          </button>
+        )}
+      </div>
 
       {/* Center: breathing circle */}
       <div className="flex-1 flex flex-col items-center justify-center gap-grid-4">

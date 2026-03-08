@@ -46,6 +46,7 @@ export interface UserSettings {
   defaultBreathingPattern: string;
   hapticsEnabled: boolean;
   audioEnabled: boolean;
+  voiceGuideEnabled: boolean;
   onboardingCompleted: boolean;
   theme: 'light' | 'dark' | 'system';
   showSOSCard: boolean;
@@ -77,6 +78,7 @@ const defaultSettings: UserSettings = {
   reminderEnabled: false,
   reminderTime: '09:00',
   defaultBreathingPattern: '4-7-8',
+  voiceGuideEnabled: true,
   hapticsEnabled: true,
   audioEnabled: true,
   onboardingCompleted: false,
