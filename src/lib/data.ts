@@ -347,6 +347,10 @@ When you're anxious, your gas pedal is pressed to the floor. Controlled breathin
 **You don't need to be in crisis to benefit.** Just a few minutes of controlled breathing each day can lower your baseline stress level, improve sleep, and increase your overall sense of well-being.
 
 The breath is always with you. It's a tool you carry everywhere, and nobody even needs to know you're using it.`,
+    sources: [
+      { label: 'Ma et al., 2017 — Effect of Diaphragmatic Breathing on Attention & Stress', url: 'https://doi.org/10.3389/fpsyg.2017.00874' },
+      { label: 'Huberman Lab — Physiological Sigh Research', url: 'https://doi.org/10.1016/j.cmet.2023.01.001' },
+    ],
   },
   {
     id: 'gratitude-science',
