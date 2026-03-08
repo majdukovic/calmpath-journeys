@@ -21,6 +21,8 @@ const queryClient = new QueryClient();
 const App = () => {
   const [showOnboarding, setShowOnboarding] = useState(!getData().settings.onboardingCompleted);
 
+  useEffect(() => { initTheme(); }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
