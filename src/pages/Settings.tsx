@@ -259,29 +259,61 @@ const Settings = () => {
 
       <Section title="Notifications">
         <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
+          {/* Permission status */}
+          {isNotificationSupported() && getNotificationPermission() === 'denied' && (
+            <div className="bg-destructive/10 rounded-2xl px-grid-2 py-grid text-xs text-destructive">
+              <BellOff size={14} className="inline mr-1" />
+              Notifications are blocked. Please enable them in your browser settings.
+            </div>
+          )}
+
           <div className="flex items-center justify-between min-h-[48px]">
             <span className="text-sm text-foreground">Daily reminder</span>
             <button
-              onClick={() => update({ reminderEnabled: !settings.reminderEnabled })}
+              onClick={async () => {
+                const enabling = !settings.reminderEnabled;
+                if (enabling) {
+                  const granted = await requestNotificationPermission();
+                  if (!granted) {
+                    // Permission denied — don't enable
+                    return;
+                  }
+                  update({ reminderEnabled: true });
+                  startNotificationScheduler();
+                } else {
+                  update({ reminderEnabled: false });
+                  stopNotificationScheduler();
+                }
+              }}
               className={`w-12 h-7 rounded-full transition-colors relative ${settings.reminderEnabled ? 'bg-primary' : 'bg-border'}`}
               aria-label="Toggle daily reminder"
             >
               <div className={`w-5 h-5 bg-card rounded-full absolute top-1 transition-transform ${settings.reminderEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
             </button>
           </div>
+
           {settings.reminderEnabled && (
-            <div className="flex items-center justify-between min-h-[48px]">
-              <span className="text-sm text-muted-foreground">Reminder time</span>
-              <input
-                type="time"
-                value={settings.reminderTime}
-                onChange={e => update({ reminderTime: e.target.value })}
-                className="text-sm bg-muted rounded-md px-2 py-1 text-foreground"
-              />
-            </div>
+            <>
+              <div className="flex items-center justify-between min-h-[48px]">
+                <span className="text-sm text-muted-foreground">Reminder time</span>
+                <input
+                  type="time"
+                  value={settings.reminderTime}
+                  onChange={e => update({ reminderTime: e.target.value })}
+                  className="text-sm bg-muted rounded-md px-2 py-1 text-foreground"
+                />
+              </div>
+              {getNotificationPermission() === 'granted' && (
+                <div className="flex items-center gap-1.5 text-xs text-primary">
+                  <Bell size={13} />
+                  <span>Notification enabled — we'll nudge you at {settings.reminderTime}</span>
+                </div>
+              )}
+            </>
           )}
+
           <p className="text-xs text-muted-foreground italic">
-            "Your Daily Calm is ready whenever you are"
+            Reminders work while the app is open or in the background
           </p>
         </div>
       </Section>
