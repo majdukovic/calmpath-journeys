@@ -24,9 +24,8 @@ const DailyCalm = () => {
   const promptIndex = useMemo(() => getUnusedPromptId(gratitudePrompts.length), []);
   const prompt = gratitudePrompts[promptIndex];
 
-  const affirmation = useMemo(() =>
-    affirmations[Math.floor(Math.random() * affirmations.length)],
-  []); // eslint-disable-line react-hooks/exhaustive-deps
+  const identityMessage = useMemo(() => getIdentityMessage(), []);
+  const curiosityPrompt = useMemo(() => getCuriosityPrompt(), []);
 
   const handleBreathingDone = () => {
     hapticTap();
