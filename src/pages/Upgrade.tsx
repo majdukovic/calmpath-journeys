@@ -45,7 +45,7 @@ const UpgradePage = () => {
       await startCheckout(selectedPlan);
     } catch (e: any) {
       const message = e?.message || 'Something went wrong. Please try again.';
-      toast.error(message);
+      toast.error(message, { duration: 5000 });
       console.error('Checkout error:', e);
     } finally {
       setLoading(false);

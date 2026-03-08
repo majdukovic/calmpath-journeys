@@ -26,6 +26,7 @@ import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
 import { PremiumProvider } from "./contexts/PremiumContext";
 import { isNativeApp } from "./lib/platform";
+import { useBackButton } from "./hooks/use-back-button";
 
 const queryClient = new QueryClient();
 
@@ -72,24 +73,35 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}
-            <Routes>
-              <Route path="/sos" element={<SOSFlow />} />
-              <Route path="/daily-calm" element={<DailyCalm />} />
-              <Route path="/" element={<Layout><Home /></Layout>} />
-              <Route path="/journal" element={<Layout><Journal /></Layout>} />
-              <Route path="/learn" element={<Layout><Learn /></Layout>} />
-              <Route path="/settings" element={<Layout><Settings /></Layout>} />
-              <Route path="/upgrade" element={<Upgrade />} />
-              <Route path="/community" element={<Community />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <NativeAppRoutes showOnboarding={showOnboarding} setShowOnboarding={setShowOnboarding} />
           </BrowserRouter>
         </TooltipProvider>
       </PremiumProvider>
     </QueryClientProvider>
+  );
+};
+
+/** Extracted so useBackButton can access router context */
+const NativeAppRoutes = ({ showOnboarding, setShowOnboarding }: { showOnboarding: boolean; setShowOnboarding: (v: boolean) => void }) => {
+  useBackButton();
+
+  return (
+    <>
+      {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}
+      <Routes>
+        <Route path="/sos" element={<SOSFlow />} />
+        <Route path="/daily-calm" element={<DailyCalm />} />
+        <Route path="/" element={<Layout><Home /></Layout>} />
+        <Route path="/journal" element={<Layout><Journal /></Layout>} />
+        <Route path="/learn" element={<Layout><Learn /></Layout>} />
+        <Route path="/settings" element={<Layout><Settings /></Layout>} />
+        <Route path="/upgrade" element={<Upgrade />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 };
 
