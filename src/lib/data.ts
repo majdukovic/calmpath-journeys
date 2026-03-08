@@ -579,6 +579,10 @@ Even a 10-minute walk can measurably reduce anxiety. The standard recommendation
 **The most important guideline: choose movement that feels good, not punishing.** Exercise shouldn't be another source of stress. If you dread it, try something different. The goal is to find movement that your body looks forward to.
 
 On days when anxiety makes it hard to start, try the "5-minute rule": commit to just 5 minutes. You can stop after that if you want to. Most of the time, once you start moving, you'll want to continue.`,
+    sources: [
+      { label: 'Stonerock et al., 2015 — Exercise as Treatment for Anxiety', url: 'https://doi.org/10.1016/j.acap.2014.09.009' },
+      { label: 'JAMA Psychiatry — Physical Activity and Mental Health', url: 'https://doi.org/10.1001/jamapsychiatry.2019.0600' },
+    ],
   },
   {
     id: 'sleep-anxiety',
