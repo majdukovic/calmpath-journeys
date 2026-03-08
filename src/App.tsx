@@ -17,6 +17,8 @@ import Upgrade from "./pages/Upgrade";
 import Community from "./pages/Community";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import Roadmap from "./pages/Roadmap";
+import Changelog from "./pages/Changelog";
 import LandingPage from "./pages/LandingPage";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
@@ -50,6 +52,8 @@ const App = () => {
               <Route path="/" element={<LandingPage />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
+              <Route path="/roadmap" element={<Roadmap />} />
+              <Route path="/changelog" element={<Changelog />} />
               <Route path="*" element={<LandingPage />} />
             </Routes>
           </BrowserRouter>
