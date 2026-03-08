@@ -168,12 +168,7 @@ const FreewriteTab = ({ entries, onSave }: { entries: FreewriteEntry[]; onSave: 
     onSave();
   };
 
-  // Group past entries by date
-  const grouped: Record<string, FreewriteEntry[]> = {};
-  entries.forEach(e => {
-    if (!grouped[e.date]) grouped[e.date] = [];
-    grouped[e.date].push(e);
-  });
+  // (grouping moved inside the render block below)
 
   return (
     <div className="flex flex-col gap-grid-3">
