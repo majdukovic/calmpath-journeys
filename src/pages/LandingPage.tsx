@@ -36,11 +36,6 @@ const features = [
   },
 ];
 
-const testimonials = [
-  { text: "Finally an anxiety app that doesn't feel clinical. Breeze feels like a friend.", name: 'Sarah K.', stars: 5 },
-  { text: "The SOS button has helped me through 3 panic attacks. Life-changing.", name: 'Marcus T.', stars: 5 },
-  { text: "I love that it doesn't guilt-trip me for missing days. Just gentle encouragement.", name: 'Priya M.', stars: 5 },
-];
 
 const LandingPage = () => {
   return (
@@ -54,7 +49,6 @@ const LandingPage = () => {
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
             <a href="#features" className="hover:text-foreground transition-colors">Features</a>
-            <a href="#reviews" className="hover:text-foreground transition-colors">Reviews</a>
             <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
           </div>
           <a
@@ -115,17 +109,9 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Social proof bar */}
+      {/* Value props bar */}
       <section className="border-y border-border bg-card/50">
         <div className="max-w-6xl mx-auto px-6 py-6 flex flex-wrap justify-center gap-8 md:gap-16 text-center">
-          <div>
-            <p className="text-2xl font-bold text-foreground">4.9★</p>
-            <p className="text-xs text-muted-foreground">App Store Rating</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-foreground">100K+</p>
-            <p className="text-xs text-muted-foreground">Breathing Sessions</p>
-          </div>
           <div>
             <p className="text-2xl font-bold text-foreground">3 min</p>
             <p className="text-xs text-muted-foreground">To Feel Calmer</p>
@@ -133,6 +119,14 @@ const LandingPage = () => {
           <div>
             <p className="text-2xl font-bold text-foreground">100%</p>
             <p className="text-xs text-muted-foreground">Science-Backed</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-foreground">Free</p>
+            <p className="text-xs text-muted-foreground">No Account Needed</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-foreground">Private</p>
+            <p className="text-xs text-muted-foreground">Your Data Stays Local</p>
           </div>
         </div>
       </section>
@@ -187,27 +181,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Reviews */}
-      <section id="reviews" className="py-20 md:py-28">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-16">
-            What people are saying
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <div key={i} className="bg-card rounded-3xl p-8 card-shadow">
-                <div className="flex gap-0.5 mb-4">
-                  {Array.from({ length: t.stars }).map((_, j) => (
-                    <Star key={j} size={16} className="text-accent fill-accent" />
-                  ))}
-                </div>
-                <p className="text-foreground text-sm leading-relaxed mb-4">"{t.text}"</p>
-                <p className="text-xs text-muted-foreground font-medium">— {t.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Pricing */}
       <section id="pricing" className="py-20 bg-card/50 border-y border-border">
