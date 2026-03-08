@@ -59,7 +59,7 @@ const Terms = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">8. Contact</h2>
-            <p>If you have questions about these Terms, please contact us at <a href="mailto:feedback@breathly.app" className="text-primary underline">feedback@breathly.app</a>.</p>
+            <p>If you have questions about these Terms, please contact us at <a href="mailto:hello@breezeapp.co" className="text-primary underline">hello@breezeapp.co</a>.</p>
           </section>
         </div>
       </div>
