@@ -5,7 +5,8 @@ import { breathingPatterns } from '@/lib/data';
 import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/integrations/supabase/client';
 import { lovable } from '@/integrations/lovable/index';
-import { Mail, LogOut, Bell, BellOff, Download, Trash2, ExternalLink, Smartphone, MessageCircle, Shield, ChevronRight } from 'lucide-react';
+import { Mail, LogOut, Bell, BellOff, Download, Trash2, ExternalLink, Smartphone, MessageCircle, Shield, ChevronRight, Sparkles, Crown, Lock } from 'lucide-react';
+import { usePremium } from '@/contexts/PremiumContext';
 import type { User } from '@supabase/supabase-js';
 import {
   isNotificationSupported,
