@@ -44,9 +44,9 @@ export default defineConfig(({ mode }) => ({
         ],
       },
       manifest: {
-        name: "Breathly — Calm in Your Pocket",
-        short_name: "Breathly",
-        description: "Manage anxiety with guided breathing, journaling, and your companion Breeze.",
+        name: "Breeze — Calm in Your Pocket",
+        short_name: "Breeze",
+        description: "Manage anxiety with guided breathing, journaling, and your calm companion.",
         theme_color: "#f7f3ef",
         background_color: "#f7f3ef",
         display: "standalone",
