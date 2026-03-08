@@ -46,17 +46,27 @@ const Privacy = () => {
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">5. Third-Party Services</h2>
+            <h2 className="text-base font-semibold text-foreground mb-grid">5. Community Features</h2>
+            <p>If you use the Breeze Circle community (Breeze Plus), your posts and reactions are stored on our servers. All community activity is anonymous — your display name is auto-generated and cannot be linked to your identity by other users. Community posts are reviewed by AI moderation before being published to ensure a safe and supportive environment. Your community data is permanently deleted when you delete your account.</p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground mb-grid">6. Third-Party Services</h2>
             <p>We use Stripe for payment processing. Stripe handles your payment information directly — we never see or store your credit card details. Please review <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline">Stripe's Privacy Policy</a> for details.</p>
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">6. Data Deletion</h2>
-            <p>You can delete all your data at any time from Settings → Delete all my data. This action is permanent and cannot be undone. You can also export your data as CSV before deleting.</p>
+            <h2 className="text-base font-semibold text-foreground mb-grid">7. Data Deletion</h2>
+            <p>You can delete all your data at any time from Settings → Delete all my data. This permanently deletes both your local data and all server-side data (including community posts, reactions, and your account). This action cannot be undone. You can also export your data as CSV before deleting.</p>
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">7. Contact</h2>
+            <h2 className="text-base font-semibold text-foreground mb-grid">8. Children's Privacy</h2>
+            <p>Breeze is not intended for children under 13. We do not knowingly collect personal information from children under 13. If you believe we have collected such information, please contact us immediately.</p>
+          </section>
+
+          <section>
+            <h2 className="text-base font-semibold text-foreground mb-grid">9. Contact</h2>
             <p>For privacy questions or data requests, contact us at <a href="mailto:hello@breezeapp.co" className="text-primary underline">hello@breezeapp.co</a>.</p>
           </section>
         </div>
