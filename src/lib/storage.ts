@@ -46,6 +46,7 @@ export interface UserSettings {
   defaultBreathingPattern: string;
   hapticsEnabled: boolean;
   audioEnabled: boolean;
+  voiceGuideEnabled: boolean;
   onboardingCompleted: boolean;
   theme: 'light' | 'dark' | 'system';
   showSOSCard: boolean;
