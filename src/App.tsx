@@ -13,6 +13,7 @@ import SOSFlow from "./pages/SOSFlow";
 import DailyCalm from "./pages/DailyCalm";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
+import Install from "./pages/Install";
 import { getData } from "./lib/storage";
 import { initTheme } from "./hooks/use-theme";
 import { initNotifications } from "./lib/notifications";
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="/journal" element={<Layout><Journal /></Layout>} />
             <Route path="/learn" element={<Layout><Learn /></Layout>} />
             <Route path="/settings" element={<Layout><Settings /></Layout>} />
+            <Route path="/install" element={<Install />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
