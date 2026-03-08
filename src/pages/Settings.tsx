@@ -12,6 +12,7 @@ import {
   requestNotificationPermission,
   startNotificationScheduler,
   stopNotificationScheduler,
+  rescheduleNotification,
 } from '@/lib/notifications';
 
 const GoogleIcon = () => (
