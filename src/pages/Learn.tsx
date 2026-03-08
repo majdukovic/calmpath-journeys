@@ -104,6 +104,13 @@ const ArticleView = ({ article, onBack }: { article: Article; onBack: () => void
             );
           })}
         </div>
+
+        <button
+          onClick={onBack}
+          className="w-full mt-grid-4 mb-grid-3 py-grid-2 rounded-button bg-primary text-primary-foreground font-semibold min-h-[48px] text-base"
+        >
+          Done
+        </button>
       </div>
     </div>
   );
