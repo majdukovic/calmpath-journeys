@@ -50,7 +50,7 @@ const DailyCalm = () => {
     if (selectedMood) {
       const opt = moodOptions.find(o => o.value === selectedMood);
       addMoodEntry({
-        date: new Date().toISOString().split('T')[0],
+        date: toLocalDateStr(),
         mood: selectedMood,
         moodLabel: opt?.label || '',
         note: moodNote || undefined,
