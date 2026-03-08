@@ -43,6 +43,7 @@ export interface UserSettings {
   audioEnabled: boolean;
   onboardingCompleted: boolean;
   theme: 'light' | 'dark' | 'system';
+  showSOSCard: boolean;
 }
 
 export interface AppData {
