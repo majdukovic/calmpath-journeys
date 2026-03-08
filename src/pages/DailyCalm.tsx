@@ -4,9 +4,10 @@ import BreathingAnimation from '@/components/BreathingAnimation';
 import MoodSelector from '@/components/MoodSelector';
 import WeeklyDots from '@/components/WeeklyDots';
 import CelebrationOverlay from '@/components/CelebrationOverlay';
-import { gratitudePrompts, affirmations, moodOptions } from '@/lib/data';
+import { gratitudePrompts, moodOptions } from '@/lib/data';
 import { addDailyCalmSession, addGratitudeEntry, addMoodEntry, getUnusedPromptId, markPromptShown, getTotalCalmDays, getNewlyUnlockedMilestone, getNextMilestone } from '@/lib/storage';
 import { hapticTap } from '@/lib/haptics';
+import { getIdentityMessage, maybeGetDiscovery, getCuriosityPrompt } from '@/lib/psychology';
 
 type Step = 'breathing' | 'gratitude' | 'mood' | 'complete';
 
