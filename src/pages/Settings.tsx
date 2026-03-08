@@ -1,17 +1,92 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getData, updateSettings, exportDataAsCSV, deleteAllData } from '@/lib/storage';
 import { breathingPatterns } from '@/lib/data';
 import { useTheme } from '@/hooks/use-theme';
+import { supabase } from '@/integrations/supabase/client';
+import { lovable } from '@/integrations/lovable/index';
+import { Mail, LogOut } from 'lucide-react';
+import type { User } from '@supabase/supabase-js';
+
+const GoogleIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 48 48">
+    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+    <path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.0 24.0 0 0 0 0 21.56l7.98-6.19z"/>
+    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+  </svg>
+);
+
+const AppleIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+  </svg>
+);
 
 const Settings = () => {
   const [settings, setSettings] = useState(getData().settings);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [user, setUser] = useState<User | null>(null);
+  const [email, setEmail] = useState('');
+  const [magicLinkSent, setMagicLinkSent] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
+  const [authError, setAuthError] = useState('');
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   const update = (partial: Partial<typeof settings>) => {
     const next = { ...settings, ...partial };
     setSettings(next);
     updateSettings(partial);
+  };
+
+  const handleGoogleSignIn = async () => {
+    setAuthLoading(true);
+    setAuthError('');
+    const { error } = await lovable.auth.signInWithOAuth('google', {
+      redirect_uri: window.location.origin,
+    });
+    if (error) setAuthError(error.message || 'Google sign-in failed');
+    setAuthLoading(false);
+  };
+
+  const handleAppleSignIn = async () => {
+    setAuthLoading(true);
+    setAuthError('');
+    const { error } = await lovable.auth.signInWithOAuth('apple', {
+      redirect_uri: window.location.origin,
+    });
+    if (error) setAuthError(error.message || 'Apple sign-in failed');
+    setAuthLoading(false);
+  };
+
+  const handleMagicLink = async () => {
+    if (!email.trim()) return;
+    setAuthLoading(true);
+    setAuthError('');
+    const { error } = await supabase.auth.signInWithOtp({
+      email: email.trim(),
+      options: { emailRedirectTo: window.location.origin },
+    });
+    if (error) {
+      setAuthError(error.message);
+    } else {
+      setMagicLinkSent(true);
+    }
+    setAuthLoading(false);
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
   };
 
   const handleExport = () => {
@@ -37,19 +112,101 @@ const Settings = () => {
 
       {/* Account */}
       <Section title="Account">
-        <div className="bg-card rounded-card p-grid-2 card-shadow">
-          <p className="text-sm text-muted-foreground mb-grid">Create an account to back up your data (optional)</p>
-          <div className="flex flex-col gap-grid">
-            <button className="w-full py-grid-2 rounded-button bg-muted text-foreground font-medium min-h-[48px] text-sm">
-              Continue with Email
-            </button>
-            <button className="w-full py-grid-2 rounded-button bg-muted text-foreground font-medium min-h-[48px] text-sm">
-              Continue with Google
-            </button>
-            <button className="w-full py-grid-2 rounded-button bg-muted text-foreground font-medium min-h-[48px] text-sm">
-              Continue with Apple
-            </button>
-          </div>
+        <div className="bg-card rounded-card p-grid-3 card-shadow">
+          {user ? (
+            <div className="flex flex-col gap-grid-2">
+              <div className="flex items-center gap-grid-2">
+                <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center text-primary font-bold text-lg">
+                  {(user.email?.[0] || '?').toUpperCase()}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{user.email}</p>
+                  <p className="text-xs text-muted-foreground">Signed in</p>
+                </div>
+              </div>
+              <button
+                onClick={handleSignOut}
+                className="w-full py-grid-2 rounded-button bg-muted text-foreground font-medium min-h-[48px] text-sm flex items-center justify-center gap-2"
+              >
+                <LogOut size={16} />
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-grid-2">
+              <p className="text-sm text-muted-foreground mb-grid">
+                Sign in to back up your data (optional)
+              </p>
+
+              {/* Google */}
+              <button
+                onClick={handleGoogleSignIn}
+                disabled={authLoading}
+                className="w-full py-grid-2 rounded-button border border-border bg-card text-foreground font-medium min-h-[48px] text-sm flex items-center justify-center gap-3 transition-colors hover:bg-muted disabled:opacity-50"
+              >
+                <GoogleIcon />
+                Continue with Google
+              </button>
+
+              {/* Apple */}
+              <button
+                onClick={handleAppleSignIn}
+                disabled={authLoading}
+                className="w-full py-grid-2 rounded-button bg-foreground text-background font-medium min-h-[48px] text-sm flex items-center justify-center gap-3 transition-colors hover:opacity-90 disabled:opacity-50"
+              >
+                <AppleIcon />
+                Continue with Apple
+              </button>
+
+              {/* Divider */}
+              <div className="flex items-center gap-grid-2 my-1">
+                <div className="flex-1 h-px bg-border" />
+                <span className="text-xs text-muted-foreground">or</span>
+                <div className="flex-1 h-px bg-border" />
+              </div>
+
+              {/* Magic Link */}
+              {magicLinkSent ? (
+                <div className="bg-primary/10 rounded-2xl p-grid-2 text-center">
+                  <p className="text-sm text-primary font-medium">✉️ Check your inbox!</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    We sent a magic link to <span className="font-medium text-foreground">{email}</span>
+                  </p>
+                  <button
+                    onClick={() => setMagicLinkSent(false)}
+                    className="text-xs text-primary mt-2 underline"
+                  >
+                    Try again
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-grid">
+                  <div className="relative flex-1">
+                    <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && handleMagicLink()}
+                      placeholder="your@email.com"
+                      className="w-full pl-9 pr-3 py-grid-2 rounded-button bg-muted border border-border text-foreground text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-[48px]"
+                    />
+                  </div>
+                  <button
+                    onClick={handleMagicLink}
+                    disabled={authLoading || !email.trim()}
+                    className="px-grid-3 py-grid-2 rounded-button bg-primary text-primary-foreground font-medium text-sm min-h-[48px] transition-all hover:opacity-90 disabled:opacity-40"
+                  >
+                    Send link
+                  </button>
+                </div>
+              )}
+
+              {authError && (
+                <p className="text-xs text-destructive mt-1">{authError}</p>
+              )}
+            </div>
+          )}
         </div>
       </Section>
 
@@ -92,7 +249,6 @@ const Settings = () => {
           </p>
         </div>
       </Section>
-
 
       <Section title="Notifications">
         <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
