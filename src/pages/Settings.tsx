@@ -323,6 +323,39 @@ const Settings = () => {
         </div>
       </Section>
 
+      {/* ── Breathly Plus ── */}
+      <Section title="Breathly Plus">
+        <div className="bg-card rounded-card p-grid-2 card-shadow">
+          {isPremium ? (
+            <div className="space-y-grid-2">
+              <div className="flex items-center gap-2">
+                <Crown size={18} className="text-primary" />
+                <span className="text-sm font-semibold text-foreground">Active subscriber</span>
+              </div>
+              <button
+                onClick={openPortal}
+                className="w-full flex items-center justify-center gap-2 py-grid-2 rounded-button bg-muted text-foreground font-medium min-h-[48px] text-sm hover:bg-muted/80 transition-colors"
+              >
+                Manage subscription
+                <ChevronRight size={14} />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => navigate('/upgrade')}
+              className="w-full flex items-center gap-grid-2 px-grid-2 py-grid-2 rounded-md text-sm min-h-[48px] transition-colors hover:bg-primary/5"
+            >
+              <Sparkles size={18} className="text-primary" />
+              <div className="text-left flex-1">
+                <span className="text-sm font-semibold text-foreground">Upgrade to Plus</span>
+                <p className="text-[11px] text-muted-foreground">AI insights, more breathing patterns</p>
+              </div>
+              <ChevronRight size={14} className="text-muted-foreground" />
+            </button>
+          )}
+        </div>
+      </Section>
+
       {/* ── Account ── */}
       <Section title="Account">
         <div className="bg-card rounded-card p-grid-3 card-shadow">
