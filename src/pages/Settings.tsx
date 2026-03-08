@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getData, updateSettings, exportDataAsCSV, deleteAllData } from '@/lib/storage';
 import { breathingPatterns } from '@/lib/data';
 import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/integrations/supabase/client';
 import { lovable } from '@/integrations/lovable/index';
-import { Mail, LogOut, Bell, BellOff } from 'lucide-react';
+import { Mail, LogOut, Bell, BellOff, Download, Trash2, ExternalLink, Smartphone, MessageCircle, Shield, ChevronRight } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
 import {
   isNotificationSupported,
@@ -30,7 +31,14 @@ const AppleIcon = () => (
   </svg>
 );
 
+const patternDescriptions: Record<string, string> = {
+  '4-7-8': 'Calming technique for sleep & anxiety',
+  'box': 'Balanced breathing used by Navy SEALs',
+  'sigh': 'Fastest way to calm down (Stanford research)',
+};
+
 const Settings = () => {
+  const navigate = useNavigate();
   const [settings, setSettings] = useState(getData().settings);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -118,7 +126,184 @@ const Settings = () => {
     <div className="py-grid-4">
       <h1 className="text-2xl font-semibold text-foreground mb-grid-3">Settings</h1>
 
-      {/* Account */}
+      {/* ── Notifications & Reminders (most used — top) ── */}
+      <Section title="Notifications">
+        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
+          {isNotificationSupported() && getNotificationPermission() === 'denied' && (
+            <div className="bg-destructive/10 rounded-2xl px-grid-2 py-grid text-xs text-destructive">
+              <BellOff size={14} className="inline mr-1" />
+              Notifications are blocked. Please enable them in your device settings.
+            </div>
+          )}
+
+          <div className="flex items-center justify-between min-h-[48px]">
+            <div>
+              <span className="text-sm text-foreground">Daily reminder</span>
+              <p className="text-xs text-muted-foreground">A gentle nudge to breathe</p>
+            </div>
+            <ToggleSwitch
+              value={settings.reminderEnabled}
+              onChange={async () => {
+                const enabling = !settings.reminderEnabled;
+                if (enabling) {
+                  const granted = await requestNotificationPermission();
+                  if (!granted) return;
+                  update({ reminderEnabled: true });
+                  startNotificationScheduler();
+                } else {
+                  update({ reminderEnabled: false });
+                  stopNotificationScheduler();
+                }
+              }}
+              label="Toggle daily reminder"
+            />
+          </div>
+
+          {settings.reminderEnabled && (
+            <>
+              <div className="flex items-center justify-between min-h-[48px]">
+                <span className="text-sm text-muted-foreground">Reminder time</span>
+                <input
+                  type="time"
+                  value={settings.reminderTime}
+                  onChange={e => {
+                    update({ reminderTime: e.target.value });
+                    rescheduleNotification();
+                  }}
+                  className="text-sm bg-muted rounded-md px-2 py-1 text-foreground"
+                />
+              </div>
+              {getNotificationPermission() === 'granted' && (
+                <div className="flex items-center gap-1.5 text-xs text-primary">
+                  <Bell size={13} />
+                  <span>We'll nudge you at {settings.reminderTime}</span>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </Section>
+
+      {/* ── Session Preferences ── */}
+      <Section title="Session">
+        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
+          <div>
+            <span className="text-sm text-foreground block mb-grid font-medium">Breathing pattern</span>
+            <div className="flex flex-col gap-1">
+              {breathingPatterns.map(p => (
+                <button
+                  key={p.id}
+                  onClick={() => update({ defaultBreathingPattern: p.id })}
+                  className={`text-left px-grid-2 py-grid rounded-md min-h-[44px] transition-colors ${
+                    settings.defaultBreathingPattern === p.id
+                      ? 'bg-primary/10 border border-primary/20'
+                      : 'hover:bg-muted'
+                  }`}
+                >
+                  <span className={`text-sm ${settings.defaultBreathingPattern === p.id ? 'text-primary font-medium' : 'text-foreground'}`}>
+                    {p.label}
+                  </span>
+                  <p className="text-[11px] text-muted-foreground">{patternDescriptions[p.id]}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="border-t border-border pt-grid-2 space-y-grid">
+            <ToggleRow
+              label="Voice guide"
+              description="Spoken instructions during breathing"
+              value={settings.voiceGuideEnabled}
+              onChange={v => update({ voiceGuideEnabled: v })}
+            />
+            <ToggleRow
+              label="Haptics"
+              description="Vibration feedback on inhale/exhale"
+              value={settings.hapticsEnabled}
+              onChange={v => update({ hapticsEnabled: v })}
+            />
+            <ToggleRow
+              label="Sound"
+              description="Ambient audio during sessions"
+              value={settings.audioEnabled}
+              onChange={v => update({ audioEnabled: v })}
+            />
+          </div>
+        </div>
+      </Section>
+
+      {/* ── Appearance ── */}
+      <Section title="Appearance">
+        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
+          <span className="text-sm text-foreground block font-medium">Theme</span>
+          <div className="flex gap-1 bg-muted rounded-button p-1">
+            {([
+              { value: 'light' as const, label: '☀️ Light' },
+              { value: 'dark' as const, label: '🌙 Dark' },
+              { value: 'system' as const, label: '⚙️ System' },
+            ]).map(t => (
+              <button
+                key={t.value}
+                onClick={() => setTheme(t.value)}
+                className={`flex-1 text-sm px-grid py-grid-2 rounded-button min-h-[40px] transition-all font-medium ${
+                  theme === t.value
+                    ? 'bg-card text-primary card-shadow'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="border-t border-border pt-grid-2">
+            <ToggleRow
+              label="Show SOS card on Home"
+              description="Quick access from the home screen"
+              value={settings.showSOSCard}
+              onChange={v => update({ showSOSCard: v })}
+            />
+          </div>
+        </div>
+      </Section>
+
+      {/* ── Emergency Contact ── */}
+      <Section title="Emergency Contact">
+        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
+          <p className="text-xs text-muted-foreground">
+            Save a trusted person to quick-call from the SOS screen
+          </p>
+          <div className="space-y-grid">
+            <input
+              type="text"
+              placeholder="Contact name"
+              value={settings.emergencyContact?.name || ''}
+              onChange={e => update({ emergencyContact: { ...settings.emergencyContact, name: e.target.value, phone: settings.emergencyContact?.phone || '' } })}
+              className="w-full text-sm bg-muted rounded-md px-grid-2 py-grid-2 text-foreground placeholder:text-muted-foreground min-h-[44px]"
+            />
+            <input
+              type="tel"
+              placeholder="Phone number"
+              value={settings.emergencyContact?.phone || ''}
+              onChange={e => update({ emergencyContact: { ...settings.emergencyContact, phone: e.target.value, name: settings.emergencyContact?.name || '' } })}
+              className="w-full text-sm bg-muted rounded-md px-grid-2 py-grid-2 text-foreground placeholder:text-muted-foreground min-h-[44px]"
+            />
+          </div>
+          {settings.emergencyContact?.phone ? (
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-primary">✓ Available in your SOS flow</p>
+              <button
+                onClick={() => update({ emergencyContact: { name: '', phone: '' } })}
+                className="text-xs text-muted-foreground hover:text-destructive transition-colors"
+              >
+                Clear
+              </button>
+            </div>
+          ) : null}
+        </div>
+      </Section>
+
+      {/* ── Account ── */}
       <Section title="Account">
         <div className="bg-card rounded-card p-grid-3 card-shadow">
           {user ? (
@@ -146,7 +331,6 @@ const Settings = () => {
                 Sign in to back up your data (optional)
               </p>
 
-              {/* Google */}
               <button
                 onClick={handleGoogleSignIn}
                 disabled={authLoading}
@@ -156,7 +340,6 @@ const Settings = () => {
                 Continue with Google
               </button>
 
-              {/* Apple */}
               <button
                 onClick={handleAppleSignIn}
                 disabled={authLoading}
@@ -166,14 +349,12 @@ const Settings = () => {
                 Continue with Apple
               </button>
 
-              {/* Divider */}
               <div className="flex items-center gap-grid-2 my-1">
                 <div className="flex-1 h-px bg-border" />
                 <span className="text-xs text-muted-foreground">or</span>
                 <div className="flex-1 h-px bg-border" />
               </div>
 
-              {/* Magic Link */}
               {magicLinkSent ? (
                 <div className="bg-primary/10 rounded-2xl p-grid-2 text-center">
                   <p className="text-sm text-primary font-medium">✉️ Check your inbox!</p>
@@ -218,209 +399,54 @@ const Settings = () => {
         </div>
       </Section>
 
-      {/* Appearance */}
-      <Section title="Appearance">
-        <div className="bg-card rounded-card p-grid-2 card-shadow">
-          <span className="text-sm text-foreground block mb-grid font-medium">Theme</span>
-          <div className="flex gap-1 bg-muted rounded-button p-1">
-            {([
-              { value: 'light' as const, label: '☀️ Light' },
-              { value: 'dark' as const, label: '🌙 Dark' },
-              { value: 'system' as const, label: '⚙️ System' },
-            ]).map(t => (
-              <button
-                key={t.value}
-                onClick={() => setTheme(t.value)}
-                className={`flex-1 text-sm px-grid py-grid-2 rounded-button min-h-[40px] transition-all font-medium ${
-                  theme === t.value
-                    ? 'bg-card text-primary card-shadow'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* Home Screen */}
-      <Section title="Home Screen">
-        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
-          <ToggleRow
-            label="Show SOS card on Home"
-            value={settings.showSOSCard}
-            onChange={v => update({ showSOSCard: v })}
-          />
-          <p className="text-xs text-muted-foreground italic">
-            The SOS button is always available in the bottom navigation bar
-          </p>
-        </div>
-      </Section>
-
-      <Section title="Notifications">
-        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
-          {/* Permission status */}
-          {isNotificationSupported() && getNotificationPermission() === 'denied' && (
-            <div className="bg-destructive/10 rounded-2xl px-grid-2 py-grid text-xs text-destructive">
-              <BellOff size={14} className="inline mr-1" />
-              Notifications are blocked. Please enable them in your browser settings.
-            </div>
-          )}
-
-          <div className="flex items-center justify-between min-h-[48px]">
-            <span className="text-sm text-foreground">Daily reminder</span>
-            <button
-              onClick={async () => {
-                const enabling = !settings.reminderEnabled;
-                if (enabling) {
-                  const granted = await requestNotificationPermission();
-                  if (!granted) {
-                    // Permission denied — don't enable
-                    return;
-                  }
-                  update({ reminderEnabled: true });
-                  startNotificationScheduler();
-                } else {
-                  update({ reminderEnabled: false });
-                  stopNotificationScheduler();
-                }
-              }}
-              className={`w-12 h-7 rounded-full transition-colors relative ${settings.reminderEnabled ? 'bg-primary' : 'bg-border'}`}
-              aria-label="Toggle daily reminder"
-            >
-              <div className={`w-5 h-5 bg-card rounded-full absolute top-1 transition-transform ${settings.reminderEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
-            </button>
-          </div>
-
-          {settings.reminderEnabled && (
-            <>
-              <div className="flex items-center justify-between min-h-[48px]">
-                <span className="text-sm text-muted-foreground">Reminder time</span>
-                <input
-                  type="time"
-                  value={settings.reminderTime}
-                  onChange={e => {
-                    update({ reminderTime: e.target.value });
-                    rescheduleNotification();
-                  }}
-                  className="text-sm bg-muted rounded-md px-2 py-1 text-foreground"
-                />
-              </div>
-              {getNotificationPermission() === 'granted' && (
-                <div className="flex items-center gap-1.5 text-xs text-primary">
-                  <Bell size={13} />
-                  <span>Notification enabled — we'll nudge you at {settings.reminderTime}</span>
-                </div>
-              )}
-            </>
-          )}
-
-          <p className="text-xs text-muted-foreground italic">
-            Reminders work even when the app is closed on mobile
-          </p>
-        </div>
-      </Section>
-
-      {/* Emergency Contact */}
-      <Section title="Emergency Contact">
-        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
-          <p className="text-xs text-muted-foreground">
-            Save a trusted person to quick-call from the SOS screen
-          </p>
-          <div className="space-y-grid">
-            <input
-              type="text"
-              placeholder="Contact name"
-              value={settings.emergencyContact?.name || ''}
-              onChange={e => update({ emergencyContact: { ...settings.emergencyContact, name: e.target.value, phone: settings.emergencyContact?.phone || '' } })}
-              className="w-full text-sm bg-muted rounded-md px-grid-2 py-grid-2 text-foreground placeholder:text-muted-foreground min-h-[44px]"
-            />
-            <input
-              type="tel"
-              placeholder="Phone number"
-              value={settings.emergencyContact?.phone || ''}
-              onChange={e => update({ emergencyContact: { ...settings.emergencyContact, phone: e.target.value, name: settings.emergencyContact?.name || '' } })}
-              className="w-full text-sm bg-muted rounded-md px-grid-2 py-grid-2 text-foreground placeholder:text-muted-foreground min-h-[44px]"
-            />
-          </div>
-          {settings.emergencyContact?.phone && (
-            <p className="text-xs text-primary">
-              ✓ This contact will appear in your SOS flow
-            </p>
-          )}
-        </div>
-      </Section>
-
-      {/* SOS Preferences */}
-      <Section title="SOS Preferences">
-        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
-          <div>
-            <span className="text-sm text-foreground block mb-grid">Default breathing pattern</span>
-            <div className="flex flex-col gap-1">
-              {breathingPatterns.map(p => (
-                <button
-                  key={p.id}
-                  onClick={() => update({ defaultBreathingPattern: p.id })}
-                  className={`text-left text-sm px-grid-2 py-grid rounded-md min-h-[40px] transition-colors ${
-                    settings.defaultBreathingPattern === p.id
-                      ? 'bg-primary/10 text-primary font-medium'
-                      : 'text-foreground hover:bg-muted'
-                  }`}
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          <ToggleRow
-            label="Haptics"
-            value={settings.hapticsEnabled}
-            onChange={v => update({ hapticsEnabled: v })}
-          />
-          <ToggleRow
-            label="Audio"
-            value={settings.audioEnabled}
-            onChange={v => update({ audioEnabled: v })}
-          />
-        </div>
-      </Section>
-
-      {/* Data & Privacy */}
+      {/* ── Data & Privacy ── */}
       <Section title="Data & Privacy">
-        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
+        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-1">
           <button
             onClick={handleExport}
-            className="w-full py-grid-2 rounded-button bg-muted text-foreground font-medium min-h-[48px] text-sm"
+            className="w-full flex items-center gap-grid-2 px-grid-2 py-grid-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors min-h-[48px]"
           >
-            Export my data (CSV)
+            <Download size={16} className="text-muted-foreground" />
+            <span>Export my data (CSV)</span>
           </button>
           <button
-            onClick={() => setShowDeleteConfirm(true)}
-            className="w-full py-grid-2 rounded-button bg-destructive/10 text-destructive font-medium min-h-[48px] text-sm"
+            onClick={() => navigate('/install')}
+            className="w-full flex items-center gap-grid-2 px-grid-2 py-grid-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors min-h-[48px]"
           >
-            Delete all my data
+            <Smartphone size={16} className="text-muted-foreground" />
+            <span>Install app</span>
+            <ChevronRight size={14} className="text-muted-foreground ml-auto" />
           </button>
         </div>
       </Section>
 
-      {/* About */}
+      {/* ── About ── */}
       <Section title="About">
-        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
-          <div className="flex justify-between text-sm min-h-[40px] items-center">
+        <div className="bg-card rounded-card p-grid-2 card-shadow space-y-1">
+          <div className="flex justify-between text-sm min-h-[40px] items-center px-grid-2">
             <span className="text-foreground">Version</span>
             <span className="text-muted-foreground">1.0.0</span>
           </div>
           <a
             href="mailto:feedback@breathly.app"
-            className="block text-sm text-primary py-grid min-h-[48px] flex items-center"
+            className="w-full flex items-center gap-grid-2 px-grid-2 py-grid-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors min-h-[48px]"
           >
-            Send feedback
+            <MessageCircle size={16} className="text-muted-foreground" />
+            <span>Send feedback</span>
+            <ExternalLink size={12} className="text-muted-foreground ml-auto" />
+          </a>
+          <a
+            href="#"
+            className="w-full flex items-center gap-grid-2 px-grid-2 py-grid-2 rounded-md text-sm text-foreground hover:bg-muted transition-colors min-h-[48px]"
+          >
+            <Shield size={16} className="text-muted-foreground" />
+            <span>Privacy policy</span>
+            <ExternalLink size={12} className="text-muted-foreground ml-auto" />
           </a>
         </div>
       </Section>
 
-      {/* Crisis resources */}
+      {/* ── Crisis Resources ── */}
       <Section title="Need more help?">
         <div className="bg-card rounded-card p-grid-2 card-shadow space-y-grid-2">
           <div className="text-sm">
@@ -438,6 +464,17 @@ const Settings = () => {
           </div>
         </div>
       </Section>
+
+      {/* ── Danger zone — visually separated at bottom ── */}
+      <div className="mt-grid-4 mb-grid-4">
+        <button
+          onClick={() => setShowDeleteConfirm(true)}
+          className="w-full flex items-center justify-center gap-2 py-grid-2 rounded-button text-destructive font-medium min-h-[48px] text-sm hover:bg-destructive/5 transition-colors"
+        >
+          <Trash2 size={16} />
+          Delete all my data
+        </button>
+      </div>
 
       {/* Delete confirmation dialog */}
       {showDeleteConfirm && (
@@ -475,16 +512,23 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
   </div>
 );
 
-const ToggleRow = ({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) => (
+const ToggleSwitch = ({ value, onChange, label }: { value: boolean; onChange: () => void; label: string }) => (
+  <button
+    onClick={onChange}
+    className={`w-12 h-7 rounded-full transition-colors relative flex-shrink-0 ${value ? 'bg-primary' : 'bg-border'}`}
+    aria-label={label}
+  >
+    <div className={`w-5 h-5 bg-card rounded-full absolute top-1 transition-transform ${value ? 'translate-x-6' : 'translate-x-1'}`} />
+  </button>
+);
+
+const ToggleRow = ({ label, description, value, onChange }: { label: string; description?: string; value: boolean; onChange: (v: boolean) => void }) => (
   <div className="flex items-center justify-between min-h-[48px]">
-    <span className="text-sm text-foreground">{label}</span>
-    <button
-      onClick={() => onChange(!value)}
-      className={`w-12 h-7 rounded-full transition-colors relative ${value ? 'bg-primary' : 'bg-border'}`}
-      aria-label={`Toggle ${label}`}
-    >
-      <div className={`w-5 h-5 bg-card rounded-full absolute top-1 transition-transform ${value ? 'translate-x-6' : 'translate-x-1'}`} />
-    </button>
+    <div>
+      <span className="text-sm text-foreground">{label}</span>
+      {description && <p className="text-[11px] text-muted-foreground">{description}</p>}
+    </div>
+    <ToggleSwitch value={value} onChange={() => onChange(!value)} label={`Toggle ${label}`} />
   </div>
 );
 
