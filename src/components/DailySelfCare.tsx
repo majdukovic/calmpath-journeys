@@ -50,7 +50,7 @@ function getTodaysTasks(): SelfCareTask[] {
 const QUICK_EMOJIS = ['⭐', '💪', '📚', '🏃', '🎨', '🧹', '💤', '🥗', '🫂', '✍️', '🧘', '🌊'];
 
 const DailySelfCare = () => {
-  const today = new Date().toISOString().split('T')[0];
+  const today = toLocalDateStr();
   const defaultTasks = useMemo(() => getTodaysTasks(), []);
   const data = getData();
 

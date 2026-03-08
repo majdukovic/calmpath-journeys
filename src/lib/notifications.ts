@@ -124,7 +124,7 @@ function checkAndNotify() {
   if (isTodayDailyCalmDone()) return;
 
   const now = new Date();
-  const today = now.toISOString().split('T')[0];
+  const today = toLocalDateStr(now);
   if (lastNotifiedDate === today) return;
 
   const [targetH, targetM] = reminderTime.split(':').map(Number);
