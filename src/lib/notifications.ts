@@ -4,7 +4,7 @@
  * - Native (Capacitor): Uses @capacitor/local-notifications for scheduled alarms
  */
 
-import { getData, isTodayDailyCalmDone } from '@/lib/storage';
+import { getData, isTodayDailyCalmDone, toLocalDateStr } from '@/lib/storage';
 import { Capacitor } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
 

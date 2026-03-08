@@ -235,7 +235,7 @@ export function getDaysSinceLastOpen(): number {
 /** Update the last opened date to today */
 export function markAppOpened(): void {
   const data = getData();
-  data.lastOpenedDate = new Date().toISOString().split('T')[0];
+  data.lastOpenedDate = toLocalDateStr();
   saveData(data);
 }
 

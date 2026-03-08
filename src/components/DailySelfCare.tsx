@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { getData, saveData, CustomSelfCareTask } from '@/lib/storage';
+import { getData, saveData, CustomSelfCareTask, toLocalDateStr } from '@/lib/storage';
 import { Check, Pencil, Plus, Trash2, Info, X } from 'lucide-react';
 import { hapticTap } from '@/lib/haptics';
 

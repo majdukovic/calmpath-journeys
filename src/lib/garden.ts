@@ -38,7 +38,7 @@ export function getGardenStats(): GardenStats {
   const monday = new Date(now);
   monday.setDate(now.getDate() - ((day === 0 ? 7 : day) - 1));
   monday.setHours(0, 0, 0, 0);
-  const mondayStr = monday.toISOString().split('T')[0];
+  const mondayStr = toLocalDateStr(monday);
   const weeklyCount = data.dailyCalmSessions.filter(s => s.date >= mondayStr).length;
 
   // Days since last activity
