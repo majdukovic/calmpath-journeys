@@ -16,7 +16,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <main className="flex-1 pb-24 overflow-y-auto">
+      {/* Status bar background — gives time/battery contrast in light theme */}
+      <div
+        className="fixed top-0 left-0 right-0 z-50 bg-primary-light"
+        style={{ height: 'env(safe-area-inset-top)' }}
+      />
+
+      <main
+        className="flex-1 overflow-y-auto"
+        style={{
+          paddingTop: 'env(safe-area-inset-top)',
+          paddingBottom: 'calc(6rem + env(safe-area-inset-bottom))',
+        }}
+      >
         <div className="max-w-[600px] mx-auto px-grid-2">
           {children}
         </div>
@@ -25,6 +37,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {/* Bottom Navigation — frosted glass effect */}
       <nav
         className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-lg border-t border-border/50 z-50"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
         aria-label="Main navigation"
       >
         <div className="max-w-[600px] mx-auto flex items-end justify-around px-grid py-grid relative">
