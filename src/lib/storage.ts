@@ -57,6 +57,7 @@ export interface AppData {
   moodEntries: MoodEntry[];
   sosSessions: SOSSession[];
   dailyCalmSessions: DailyCalmSession[];
+  selfCareTasks: { date: string; taskId: string }[];
   settings: UserSettings;
   shownPromptIds: { id: number; shownAt: string }[];
 }
@@ -80,6 +81,7 @@ const defaultData: AppData = {
   moodEntries: [],
   sosSessions: [],
   dailyCalmSessions: [],
+  selfCareTasks: [],
   settings: defaultSettings,
   shownPromptIds: [],
 };
