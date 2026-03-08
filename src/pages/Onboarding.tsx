@@ -44,26 +44,26 @@ const Onboarding = ({ onComplete }: { onComplete: () => void }) => {
 
   if (stage === 'welcome') {
     return (
-      <div className="fixed inset-0 bg-primary-light flex flex-col items-center justify-center gap-grid-4 px-grid-3 z-[200]">
+      <div className="fixed inset-0 gradient-calm flex flex-col items-center justify-center gap-grid-4 px-grid-3 z-[200]">
         <img
           src={mascotWave}
           alt="Breeze the fox waving hello"
-          className="w-28 h-28 object-contain drop-shadow-lg animate-fade-in"
+          className="w-32 h-32 object-contain drop-shadow-lg animate-float"
         />
-        <h1 className="text-3xl font-semibold text-foreground text-center">Welcome to Breathly</h1>
+        <h1 className="text-3xl font-bold text-foreground text-center">Welcome to Breathly</h1>
         <p className="text-base text-muted-foreground text-center max-w-[320px] leading-relaxed">
           I'm Breeze! 🦊 Let's grow a calm garden together — one breath at a time.
         </p>
         <div className="flex flex-col gap-grid-2 w-full max-w-[320px] mt-grid-4">
           <button
             onClick={handleSOSNow}
-            className="w-full py-grid-2 rounded-button bg-primary text-primary-foreground font-semibold min-h-[56px] text-base"
+            className="w-full py-grid-2 rounded-button bg-accent text-accent-foreground font-bold min-h-[56px] text-base card-shadow transition-all hover:opacity-90"
           >
             I need help now
           </button>
           <button
             onClick={handleSetup}
-            className="w-full py-grid-2 rounded-button bg-card text-foreground font-medium min-h-[56px] text-base card-shadow"
+            className="w-full py-grid-2 rounded-button bg-card text-foreground font-semibold min-h-[56px] text-base card-shadow transition-all hover:card-shadow-hover"
           >
             Set up my Daily Calm
           </button>
@@ -74,25 +74,25 @@ const Onboarding = ({ onComplete }: { onComplete: () => void }) => {
 
   if (stage === 'name') {
     return (
-      <div className="fixed inset-0 bg-primary-light flex flex-col items-center justify-center gap-grid-3 px-grid-3 z-[200]">
-        <h2 className="text-2xl font-semibold text-foreground">What should we call you?</h2>
+      <div className="fixed inset-0 gradient-calm flex flex-col items-center justify-center gap-grid-3 px-grid-3 z-[200]">
+        <h2 className="text-2xl font-bold text-foreground">What should we call you?</h2>
         <input
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
           placeholder="Your name (optional)"
-          className="w-full max-w-[320px] px-grid-2 py-grid-2 rounded-card bg-card border border-border text-foreground text-base focus:outline-none focus:ring-2 focus:ring-primary/30"
+          className="w-full max-w-[320px] px-grid-2 py-grid-2 rounded-2xl bg-card border border-border text-foreground text-base focus:outline-none focus:ring-2 focus:ring-primary/30"
         />
         <div className="flex gap-grid-2 w-full max-w-[320px]">
           <button
             onClick={() => setStage('reminder')}
-            className="flex-1 py-grid-2 rounded-button bg-muted text-muted-foreground font-medium min-h-[48px]"
+            className="flex-1 py-grid-2 rounded-button bg-muted text-muted-foreground font-semibold min-h-[48px]"
           >
             Skip
           </button>
           <button
             onClick={handleNameDone}
-            className="flex-1 py-grid-2 rounded-button bg-primary text-primary-foreground font-medium min-h-[48px]"
+            className="flex-1 py-grid-2 rounded-button bg-primary text-primary-foreground font-semibold min-h-[48px]"
           >
             Continue
           </button>
@@ -103,25 +103,25 @@ const Onboarding = ({ onComplete }: { onComplete: () => void }) => {
 
   if (stage === 'reminder') {
     return (
-      <div className="fixed inset-0 bg-primary-light flex flex-col items-center justify-center gap-grid-3 px-grid-3 z-[200]">
-        <h2 className="text-2xl font-semibold text-foreground text-center">When would you like your daily reminder?</h2>
+      <div className="fixed inset-0 gradient-calm flex flex-col items-center justify-center gap-grid-3 px-grid-3 z-[200]">
+        <h2 className="text-2xl font-bold text-foreground text-center">When would you like your daily reminder?</h2>
         <p className="text-sm text-muted-foreground text-center">"Your Daily Calm is ready whenever you are"</p>
         <input
           type="time"
           value={reminderTime}
           onChange={e => setReminderTime(e.target.value)}
-          className="text-2xl px-grid-3 py-grid-2 rounded-card bg-card border border-border text-foreground text-center"
+          className="text-2xl px-grid-3 py-grid-2 rounded-2xl bg-card border border-border text-foreground text-center"
         />
         <div className="flex gap-grid-2 w-full max-w-[320px]">
           <button
             onClick={() => { setStage('ready'); }}
-            className="flex-1 py-grid-2 rounded-button bg-muted text-muted-foreground font-medium min-h-[48px]"
+            className="flex-1 py-grid-2 rounded-button bg-muted text-muted-foreground font-semibold min-h-[48px]"
           >
             Skip
           </button>
           <button
             onClick={handleReminderDone}
-            className="flex-1 py-grid-2 rounded-button bg-primary text-primary-foreground font-medium min-h-[48px]"
+            className="flex-1 py-grid-2 rounded-button bg-primary text-primary-foreground font-semibold min-h-[48px]"
           >
             Set reminder
           </button>
@@ -132,22 +132,22 @@ const Onboarding = ({ onComplete }: { onComplete: () => void }) => {
 
   // Ready
   return (
-    <div className="fixed inset-0 bg-primary-light flex flex-col items-center justify-center gap-grid-4 px-grid-3 z-[200]">
+    <div className="fixed inset-0 gradient-calm flex flex-col items-center justify-center gap-grid-4 px-grid-3 z-[200]">
       <div className="text-5xl">✨</div>
-      <h2 className="text-2xl font-semibold text-foreground text-center">You're all set</h2>
+      <h2 className="text-2xl font-bold text-foreground text-center">You're all set</h2>
       <p className="text-base text-muted-foreground text-center max-w-[280px]">
         Breeze is ready to grow your garden. Let's begin!
       </p>
       <div className="flex flex-col gap-grid-2 w-full max-w-[320px] mt-grid-2">
         <button
           onClick={handleStartNow}
-          className="w-full py-grid-2 rounded-button bg-primary text-primary-foreground font-semibold min-h-[56px] text-base"
+          className="w-full py-grid-2 rounded-button bg-primary text-primary-foreground font-bold min-h-[56px] text-base transition-all hover:opacity-90"
         >
           Start now
         </button>
         <button
           onClick={handleFinish}
-          className="w-full py-grid-2 rounded-button text-muted-foreground font-medium min-h-[48px]"
+          className="w-full py-grid-2 rounded-button text-muted-foreground font-semibold min-h-[48px]"
         >
           Maybe later
         </button>

@@ -22,8 +22,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </main>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50" aria-label="Main navigation">
+      {/* Bottom Navigation — frosted glass effect */}
+      <nav
+        className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-lg border-t border-border/50 z-50"
+        aria-label="Main navigation"
+      >
         <div className="max-w-[600px] mx-auto flex items-end justify-around px-grid py-grid relative">
           {tabs.map((tab) => {
             if (tab.id === 'sos') {
@@ -34,8 +37,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   className="flex flex-col items-center -mt-6 relative"
                   aria-label="SOS - I need calm now"
                 >
-                  <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center card-shadow animate-pulse-soft">
-                    <span className="text-primary-foreground font-bold text-sm">SOS</span>
+                  <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center card-shadow animate-pulse-soft">
+                    <span className="text-accent-foreground font-bold text-sm">SOS</span>
                   </div>
                 </button>
               );
@@ -48,12 +51,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <button
                 key={tab.id}
                 onClick={() => navigate(tab.id)}
-                className={`flex flex-col items-center gap-1 py-grid min-w-[48px] min-h-[48px] justify-center transition-colors ${active ? 'text-primary' : 'text-muted-foreground'}`}
+                className={`flex flex-col items-center gap-1 py-grid min-w-[48px] min-h-[48px] justify-center transition-all duration-200 ${
+                  active ? 'text-primary scale-105' : 'text-muted-foreground'
+                }`}
                 aria-label={tab.label}
                 aria-current={active ? 'page' : undefined}
               >
-                <Icon size={22} />
-                <span className="text-[10px] font-medium">{tab.label}</span>
+                <Icon size={22} strokeWidth={active ? 2.5 : 2} />
+                <span className={`text-[10px] ${active ? 'font-bold' : 'font-medium'}`}>{tab.label}</span>
               </button>
             );
           })}

@@ -21,18 +21,22 @@ const MascotCompanion = () => {
 
   return (
     <div className="flex items-start gap-grid-2">
-      <div className="w-16 h-16 flex-shrink-0 animate-fade-in">
+      <div className="w-16 h-16 flex-shrink-0 animate-float">
         <img
           src={mascotImages[mood]}
           alt={`Breeze the fox is feeling ${mood}`}
           className="w-full h-full object-contain drop-shadow-md"
         />
       </div>
-      <div className="flex-1 bg-card rounded-card p-grid-2 card-shadow relative animate-fade-in">
-        {/* Speech bubble tail */}
-        <div className="absolute left-[-6px] top-4 w-3 h-3 bg-card rotate-45 card-shadow" />
-        <div className="absolute left-[-4px] top-[14px] w-3 h-4 bg-card z-10" />
-        <p className="text-sm text-foreground leading-relaxed relative z-10">{message}</p>
+      <div className="flex-1 gradient-calm rounded-2xl p-grid-2 card-shadow relative">
+        {/* Speech bubble tail — uses CSS variable for theme awareness */}
+        <div
+          className="absolute left-[-6px] top-4 w-3 h-3 rotate-45 bg-primary-light"
+        />
+        <div
+          className="absolute left-[-4px] top-[14px] w-3 h-4 z-10 bg-primary-light"
+        />
+        <p className="text-sm text-foreground leading-relaxed relative z-10 font-medium">{message}</p>
       </div>
     </div>
   );
