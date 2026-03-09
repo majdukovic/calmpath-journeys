@@ -177,12 +177,13 @@ const FreewriteTab = ({ entries, onSave }: { entries: FreewriteEntry[]; onSave: 
         <p className="text-xs text-muted-foreground mb-grid-2 italic">
           Just write. No rules, no judgment — get it out of your head.
         </p>
+        <div className="border-t border-border/40 mb-grid-2" />
         <Textarea
           ref={textareaRef}
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeholder}
-          className="min-h-[140px] bg-transparent border-none resize-none text-sm text-foreground focus-visible:ring-0 p-0 placeholder:text-muted-foreground/60"
+          className="min-h-[180px] bg-muted/30 border border-border/30 rounded-xl resize-none text-sm text-foreground focus-visible:ring-1 focus-visible:ring-primary/30 px-3 py-2 placeholder:text-muted-foreground/50"
         />
         <div className="flex items-center justify-between mt-grid">
           <span className="text-[10px] text-muted-foreground">

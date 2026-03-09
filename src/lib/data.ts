@@ -234,7 +234,7 @@ These thoughts feel absolutely real in the moment, but they're part of the panic
 If you're experiencing frequent panic attacks, it's worth talking to a healthcare provider. Effective treatments exist that can significantly reduce their frequency and intensity. You don't have to just push through this alone.`,
     sources: [
       { label: 'APA — Panic Disorder', url: 'https://www.apa.org/topics/anxiety/panic-disorder' },
-      { label: 'Clark, 1986 — Cognitive Model of Panic', url: 'https://doi.org/10.1016/S0005-7967(86)80011-2' },
+      { label: 'Clark, 1986 — Cognitive Model of Panic', url: 'https://doi.org/10.1016/0005-7967(86)90010-7' },
     ],
   },
   {
@@ -319,7 +319,7 @@ Sometimes, after repeated stress or trauma, your nervous system's baseline shift
 
 **You are not broken.** Your nervous system is just doing what it learned to do. And it can learn something new.`,
     sources: [
-      { label: 'Porges, 2011 — The Polyvagal Theory', url: 'https://doi.org/10.1080/00029157.2011.10404360' },
+      { label: 'Porges, 2009 — The Polyvagal Theory', url: 'https://doi.org/10.1111/j.1469-8986.2009.00816.x' },
       { label: 'Dana, 2018 — The Polyvagal Theory in Therapy', url: 'https://wwnorton.com/books/9780393712377' },
     ],
   },
@@ -357,7 +357,7 @@ When you're anxious, your gas pedal is pressed to the floor. Controlled breathin
 The breath is always with you. It's a tool you carry everywhere, and nobody even needs to know you're using it.`,
     sources: [
       { label: 'Ma et al., 2017 — Effect of Diaphragmatic Breathing on Attention & Stress', url: 'https://doi.org/10.3389/fpsyg.2017.00874' },
-      { label: 'Huberman Lab — Physiological Sigh Research', url: 'https://doi.org/10.1016/j.cmet.2023.01.001' },
+      { label: 'Balban et al., 2023 — Brief Structured Respiration & Mood', url: 'https://doi.org/10.1016/j.cmet.2023.01.012' },
     ],
   },
   {
@@ -510,7 +510,7 @@ Don't be afraid to ask potential therapists about their approach and why they th
 
 The decision to try medication is personal and valid. There's no right or wrong answer — only what works for you.`,
     sources: [
-      { label: 'Bandelow et al., 2017 — Pharmacotherapy of Anxiety Disorders', url: 'https://doi.org/10.1177/2045125312462231' },
+      { label: 'Bandelow et al., 2017 — Pharmacotherapy of Anxiety Disorders', url: 'https://doi.org/10.1080/15622975.2016.1251584' },
       { label: 'NICE Guidelines — Generalised Anxiety Disorder', url: 'https://www.nice.org.uk/guidance/cg113' },
     ],
   },
