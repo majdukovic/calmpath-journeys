@@ -68,41 +68,7 @@ const ArticleView = ({ article, onBack }: { article: Article; onBack: () => void
         )}
 
         <div className="prose prose-sm max-w-none text-foreground">
-          {article.content.split('\n\n').map((block, i) => {
-            if (block.startsWith('**') && block.endsWith('**')) {
-              return <h3 key={i} className="text-base font-semibold text-foreground mt-grid-3 mb-grid">{block.replace(/\*\*/g, '')}</h3>;
-            }
-            if (block.startsWith('- ')) {
-              const items = block.split('\n').filter(l => l.startsWith('- '));
-              return (
-                <ul key={i} className="list-disc list-inside space-y-1 mb-grid-2 text-sm leading-relaxed text-foreground/90">
-                  {items.map((item, j) => (
-                    <li key={j}>{renderBold(item.slice(2))}</li>
-                  ))}
-                </ul>
-              );
-            }
-            if (block.startsWith('*') && !block.startsWith('**')) {
-              // Italic intro lines
-              const lines = block.split('\n');
-              return (
-                <div key={i} className="mb-grid-2">
-                  {lines.map((line, j) => {
-                    const cleaned = line.replace(/^\*/, '').replace(/\*$/, '');
-                    if (line.startsWith('*') && line.endsWith('*')) {
-                      return <p key={j} className="text-sm italic text-foreground/80 mb-1">{renderBold(cleaned)}</p>;
-                    }
-                    return <p key={j} className="text-sm leading-relaxed text-foreground/90 mb-1">{renderBold(line)}</p>;
-                  })}
-                </div>
-              );
-            }
-            return (
-              <p key={i} className="text-sm leading-relaxed text-foreground/90 mb-grid-2">
-                {renderBold(block)}
-              </p>
-            );
-          })}
+          {article.content.split('\n\n').map((block, i) => renderBlock(block, i))}
         </div>
 
         {article.sources && article.sources.length > 0 && (
@@ -138,8 +104,95 @@ const ArticleView = ({ article, onBack }: { article: Article; onBack: () => void
 
 function renderBold(text: string): React.ReactNode {
   const parts = text.split(/\*\*(.*?)\*\*/g);
-  return parts.map((part, i) => 
+  return parts.map((part, i) =>
     i % 2 === 1 ? <strong key={i} className="font-semibold">{part}</strong> : part
+  );
+}
+
+type Segment =
+  | { type: 'text'; content: string }
+  | { type: 'italic'; content: string }
+  | { type: 'bullets'; items: string[] }
+  | { type: 'numbered'; items: string[] };
+
+function renderBlock(block: string, key: number): React.ReactNode {
+  const lines = block.split('\n').filter(l => l.trim() !== '');
+  if (lines.length === 0) return null;
+
+  // Pure single-line bold header: **Text**
+  if (lines.length === 1 && block.startsWith('**') && block.endsWith('**')) {
+    return (
+      <h3 key={key} className="text-base font-semibold text-foreground mt-grid-3 mb-grid">
+        {block.replace(/\*\*/g, '')}
+      </h3>
+    );
+  }
+
+  // Group lines into segments
+  const segments: Segment[] = [];
+
+  for (const line of lines) {
+    if (line.startsWith('- ')) {
+      const last = segments[segments.length - 1];
+      if (last?.type === 'bullets') {
+        last.items.push(line.slice(2));
+      } else {
+        segments.push({ type: 'bullets', items: [line.slice(2)] });
+      }
+    } else if (/^\d+\.\s/.test(line)) {
+      const last = segments[segments.length - 1];
+      if (last?.type === 'numbered') {
+        last.items.push(line.replace(/^\d+\.\s+/, ''));
+      } else {
+        segments.push({ type: 'numbered', items: [line.replace(/^\d+\.\s+/, '')] });
+      }
+    } else if (line.startsWith('*') && line.endsWith('*') && !line.startsWith('**')) {
+      segments.push({ type: 'italic', content: line.slice(1, -1) });
+    } else {
+      segments.push({ type: 'text', content: line });
+    }
+  }
+
+  // Single plain paragraph — keep it simple
+  if (segments.length === 1 && segments[0].type === 'text') {
+    return (
+      <p key={key} className="text-sm leading-relaxed text-foreground/90 mb-grid-2">
+        {renderBold(segments[0].content)}
+      </p>
+    );
+  }
+
+  return (
+    <div key={key} className="mb-grid-2">
+      {segments.map((seg, j) => {
+        if (seg.type === 'bullets') {
+          return (
+            <ul key={j} className="list-disc list-inside space-y-1 mt-1 mb-1 text-sm leading-relaxed text-foreground/90">
+              {seg.items.map((item, k) => <li key={k}>{renderBold(item)}</li>)}
+            </ul>
+          );
+        }
+        if (seg.type === 'numbered') {
+          return (
+            <ol key={j} className="list-decimal list-inside space-y-1 mt-1 mb-1 text-sm leading-relaxed text-foreground/90">
+              {seg.items.map((item, k) => <li key={k}>{renderBold(item)}</li>)}
+            </ol>
+          );
+        }
+        if (seg.type === 'italic') {
+          return (
+            <p key={j} className="text-sm italic text-foreground/80 mb-1">
+              {renderBold(seg.content)}
+            </p>
+          );
+        }
+        return (
+          <p key={j} className="text-sm leading-relaxed text-foreground/90 mb-1">
+            {renderBold(seg.content)}
+          </p>
+        );
+      })}
+    </div>
   );
 }
 
