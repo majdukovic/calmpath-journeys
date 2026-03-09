@@ -85,11 +85,16 @@ async function scheduleNativeReminder() {
           // Settings › Apps › Special app access › Alarms & reminders.
           allowWhileIdle: true,
         },
-        // Use the white-on-transparent drawable, NOT ic_launcher.
-        // ic_launcher is a full-color mipmap — Android 5+ ignores color and
-        // renders it as a grey square, which causes some OEMs to drop the notification.
+        // Android: white-on-transparent drawable (res/drawable/ic_notification.xml).
+        // Do NOT use ic_launcher — it's a full-color mipmap; Android 5+ renders it
+        // as a grey square and strict OEMs silently drop the notification.
         smallIcon: 'ic_notification',
         iconColor: '#6dba8a',
+        // iOS: the plugin only sets content.sound when this property is present.
+        // Omitting it leaves content.sound = nil → completely silent notification.
+        // Passing 'default' makes iOS fall back to the system alert sound when no
+        // bundle audio file named 'default' is found (documented Apple fallback).
+        sound: 'default',
         actionTypeId: '',
         extra: { route: '/daily-calm' },
       },
