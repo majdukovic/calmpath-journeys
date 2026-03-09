@@ -6,53 +6,56 @@
 
 type Phase = 'inhale' | 'hold' | 'exhale' | 'holdAfter';
 
-// Varied cues so it doesn't feel robotic — rotates each cycle
+// Short, warm phrases inspired by Headspace and Calm — kept brief so they
+// finish speaking before the phase timer ends.
 const phraseSets: Record<Phase, string[]> = {
   inhale: [
-    'Breathe in, slowly',
+    'Breathe in...',
+    'In through your nose',
     'Gently inhale',
-    'Fill your lungs, slowly',
-    'Draw in a deep breath',
-    'Breathe in through your nose',
+    'Draw breath in',
+    'Breathe in slowly',
   ],
   hold: [
-    'Hold, gently',
-    'Softly hold',
+    'Hold...',
     'Stay here',
-    'Keep holding',
-    'Rest in stillness',
+    'Hold gently',
+    'Pause',
+    'Rest',
   ],
   exhale: [
-    'Now, let it go',
-    'Slowly release',
-    'Breathe out, gently',
-    'Let everything go',
-    'Exhale, slowly and softly',
+    'Breathe out...',
+    'Let it all go',
+    'Exhale slowly',
+    'Release',
+    'Out through your mouth',
   ],
   holdAfter: [
+    'Pause...',
     'Rest here',
     'Be still',
-    'Pause gently',
+    'Stay',
     'Empty and calm',
-    'Stay in the quiet',
   ],
 };
 
-// Opening cues for the very first breath
+// Opening cues — kept short (≤5 words) so they finish before the first inhale cue fires
 const openingCues = [
-  'Let your body relax. We\'ll begin.',
-  'Close your eyes if you\'d like. Let\'s start.',
-  'Find a comfortable position. Here we go.',
+  "Let's breathe together.",
+  "Settle in. Here we go.",
+  "Ready? Let's begin.",
+  "Take a breath. Let's start.",
+  "Breathe with me.",
 ];
 
 let phraseIndex = 0;
 let hasSpoken = false;
 let selectedVoice: SpeechSynthesisVoice | null = null;
-let voiceReady = false;
+let speakTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
 /**
  * Try to find the best available female English voice.
- * Prioritizes: Samantha (Apple), Google UK Female, Microsoft Zira, then any female English voice.
+ * Prioritizes: Samantha (Apple), Karen, Google UK Female, Zira, then any English voice.
  */
 function findBestVoice(): SpeechSynthesisVoice | null {
   if (!('speechSynthesis' in window)) return null;
@@ -62,7 +65,6 @@ function findBestVoice(): SpeechSynthesisVoice | null {
 
   const englishVoices = voices.filter(v => v.lang.startsWith('en'));
 
-  // Priority order for warm, soothing voices
   const preferred = [
     'samantha', 'karen', 'moira', 'fiona', 'tessa',
     'google uk english female', 'microsoft zira', 'microsoft hazel',
@@ -74,7 +76,6 @@ function findBestVoice(): SpeechSynthesisVoice | null {
     if (match) return match;
   }
 
-  // Fall back to first English voice
   return englishVoices[0] || voices[0] || null;
 }
 
@@ -83,35 +84,57 @@ export function initVoiceGuide(): void {
   if (!('speechSynthesis' in window)) return;
 
   const tryLoad = () => {
-    selectedVoice = findBestVoice();
-    if (selectedVoice) voiceReady = true;
+    const voice = findBestVoice();
+    if (voice) selectedVoice = voice;
   };
 
-  // Voices may load async
   if (speechSynthesis.getVoices().length > 0) {
     tryLoad();
   } else {
     speechSynthesis.addEventListener('voiceschanged', tryLoad, { once: true });
+    // Fallback: some WebView environments never fire voiceschanged
+    setTimeout(tryLoad, 500);
+    setTimeout(tryLoad, 2000);
   }
 }
 
-/** Speak a phrase with soothing parameters */
+/**
+ * Speak a phrase with soothing parameters.
+ *
+ * IMPORTANT: On Chrome and Android WebView there is a known bug where calling
+ * speechSynthesis.speak() immediately after cancel() silently fails. The fix
+ * is a short setTimeout between cancel and the next speak call.
+ */
 function speak(text: string): void {
-  if (!('speechSynthesis' in window)) return;
+  if (!('speechSynthesis' in window) || !text) return;
 
-  // Cancel any ongoing speech
-  speechSynthesis.cancel();
-
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = 0.78; // Slow and calming
-  utterance.pitch = 0.95; // Slightly lower for warmth
-  utterance.volume = 0.85; // Not too loud
-
-  if (selectedVoice) {
-    utterance.voice = selectedVoice;
+  // Clear any pending scheduled speech
+  if (speakTimeoutId !== null) {
+    clearTimeout(speakTimeoutId);
+    speakTimeoutId = null;
   }
 
-  speechSynthesis.speak(utterance);
+  speechSynthesis.cancel();
+
+  // Delay after cancel to avoid the silent-fail race condition on Chrome/Android
+  speakTimeoutId = setTimeout(() => {
+    speakTimeoutId = null;
+    try {
+      // Re-try voice selection if we still don't have one
+      if (!selectedVoice) selectedVoice = findBestVoice();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.78;   // Slow and calming
+      utterance.pitch = 0.95;  // Slightly lower for warmth
+      utterance.volume = 0.9;
+
+      if (selectedVoice) utterance.voice = selectedVoice;
+
+      speechSynthesis.speak(utterance);
+    } catch {
+      // Voice guide is optional — swallow errors silently
+    }
+  }, 120);
 }
 
 /** Speak the opening cue (first time only per session) */
@@ -125,11 +148,10 @@ export function speakOpening(): void {
 /** Speak a phase cue — rotates phrases for variety */
 export function speakPhase(phase: Phase, cycle: number): void {
   const phrases = phraseSets[phase];
-  // Use cycle to vary phrase selection
   const index = (cycle + phraseIndex) % phrases.length;
   speak(phrases[index]);
 
-  // Advance index every full rotation
+  // Advance rotation index each cycle
   if (phase === 'inhale') {
     phraseIndex = (phraseIndex + 1) % phrases.length;
   }
@@ -137,6 +159,10 @@ export function speakPhase(phase: Phase, cycle: number): void {
 
 /** Stop any ongoing speech */
 export function stopVoiceGuide(): void {
+  if (speakTimeoutId !== null) {
+    clearTimeout(speakTimeoutId);
+    speakTimeoutId = null;
+  }
   if ('speechSynthesis' in window) {
     speechSynthesis.cancel();
   }
