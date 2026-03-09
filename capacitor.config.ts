@@ -20,7 +20,10 @@ const config: CapacitorConfig = {
   },
   plugins: {
     LocalNotifications: {
-      smallIcon: 'ic_launcher',
+      // ic_notification is a white-on-transparent vector drawable in res/drawable/.
+      // Do NOT use ic_launcher here — it is a full-color mipmap icon and Android 5+
+      // will render it as a grey square (or drop the notification entirely on strict OEMs).
+      smallIcon: 'ic_notification',
       iconColor: '#6dba8a',
       sound: 'default',
     },

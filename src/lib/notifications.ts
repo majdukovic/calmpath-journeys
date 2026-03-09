@@ -79,10 +79,17 @@ async function scheduleNativeReminder() {
         schedule: {
           on: { hour: h, minute: m },
           every: 'day',
+          // allowWhileIdle fires the alarm even during Android doze mode.
+          // Requires SCHEDULE_EXACT_ALARM permission (declared in AndroidManifest.xml).
+          // On Android 13+ the user must also enable it under
+          // Settings › Apps › Special app access › Alarms & reminders.
           allowWhileIdle: true,
         },
-        smallIcon: 'ic_launcher',
-        iconColor: '#8fbc8f',
+        // Use the white-on-transparent drawable, NOT ic_launcher.
+        // ic_launcher is a full-color mipmap — Android 5+ ignores color and
+        // renders it as a grey square, which causes some OEMs to drop the notification.
+        smallIcon: 'ic_notification',
+        iconColor: '#6dba8a',
         actionTypeId: '',
         extra: { route: '/daily-calm' },
       },
