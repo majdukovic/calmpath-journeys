@@ -9,6 +9,7 @@ import { Capacitor } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
 const REMINDER_NOTIFICATION_ID = 42;
+const TEST_NOTIFICATION_ID = 43;
 
 let schedulerInterval: ReturnType<typeof setInterval> | null = null;
 let lastNotifiedDate: string | null = null;
@@ -60,6 +61,21 @@ export async function requestNotificationPermission(): Promise<boolean> {
 
 // ─── Native scheduling ───
 
+const NOTIFICATION_OPTIONS = {
+  // Android: white-on-transparent drawable (res/drawable/ic_notification.xml).
+  // Do NOT use ic_launcher — it's a full-color mipmap; Android 5+ renders it
+  // as a grey square and strict OEMs silently drop the notification.
+  smallIcon: 'ic_notification',
+  iconColor: '#6dba8a',
+  // iOS: the plugin only sets content.sound when this property is present.
+  // Omitting it leaves content.sound = nil → completely silent notification.
+  // Passing 'default' makes iOS fall back to the system alert sound when no
+  // bundle audio file named 'default' is found (documented Apple fallback).
+  sound: 'default',
+  actionTypeId: '',
+  extra: { route: '/daily-calm' },
+} as const;
+
 async function scheduleNativeReminder() {
   const data = getData();
   const { reminderTime } = data.settings;
@@ -70,6 +86,7 @@ async function scheduleNativeReminder() {
 
   const msg = getRandomMessage();
 
+  // Throws on failure — callers should catch and surface the error.
   await LocalNotifications.schedule({
     notifications: [
       {
@@ -85,18 +102,7 @@ async function scheduleNativeReminder() {
           // Settings › Apps › Special app access › Alarms & reminders.
           allowWhileIdle: true,
         },
-        // Android: white-on-transparent drawable (res/drawable/ic_notification.xml).
-        // Do NOT use ic_launcher — it's a full-color mipmap; Android 5+ renders it
-        // as a grey square and strict OEMs silently drop the notification.
-        smallIcon: 'ic_notification',
-        iconColor: '#6dba8a',
-        // iOS: the plugin only sets content.sound when this property is present.
-        // Omitting it leaves content.sound = nil → completely silent notification.
-        // Passing 'default' makes iOS fall back to the system alert sound when no
-        // bundle audio file named 'default' is found (documented Apple fallback).
-        sound: 'default',
-        actionTypeId: '',
-        extra: { route: '/daily-calm' },
+        ...NOTIFICATION_OPTIONS,
       },
     ],
   });
@@ -200,5 +206,93 @@ export async function initNotifications() {
     if ('Notification' in window && Notification.permission === 'granted') {
       startNotificationScheduler();
     }
+  }
+}
+
+// ─── Debug / diagnostics ───
+
+export interface NotificationDebugInfo {
+  permissionStatus: string;
+  exactAlarmStatus: string;
+  pendingCount: number;
+  pendingIds: number[];
+}
+
+/**
+ * Returns debug info about the current notification state.
+ * Used by the Settings debug panel to surface problems.
+ */
+export async function getNotificationDebugInfo(): Promise<NotificationDebugInfo> {
+  if (!isNative()) {
+    return {
+      permissionStatus: 'Notification' in window ? Notification.permission : 'unsupported',
+      exactAlarmStatus: 'n/a (web)',
+      pendingCount: 0,
+      pendingIds: [],
+    };
+  }
+
+  const [perm, pending, exact] = await Promise.all([
+    LocalNotifications.checkPermissions().catch(() => ({ display: 'error' })),
+    LocalNotifications.getPending().catch(() => ({ notifications: [] })),
+    LocalNotifications.checkExactNotificationSetting().catch(() => ({ exact: 'unsupported' as const })),
+  ]);
+
+  const ids = pending.notifications.map((n) => Number(n.id));
+
+  return {
+    permissionStatus: perm.display,
+    exactAlarmStatus: (exact as { exact: string }).exact,
+    pendingCount: pending.notifications.length,
+    pendingIds: ids,
+  };
+}
+
+/**
+ * Fire a test notification in 5 seconds.
+ * Useful to verify the full notification pipeline without waiting for the
+ * scheduled daily alarm time.
+ */
+export async function scheduleTestNotification(): Promise<void> {
+  if (!isNative()) {
+    // Web fallback: fire immediately
+    showWebNotification('🧪 Test notification', 'Notifications are working!');
+    return;
+  }
+
+  // Cancel any previous test notification first
+  try {
+    await LocalNotifications.cancel({ notifications: [{ id: TEST_NOTIFICATION_ID }] });
+  } catch { /* ignore */ }
+
+  const fireAt = new Date(Date.now() + 5_000);
+
+  await LocalNotifications.schedule({
+    notifications: [
+      {
+        id: TEST_NOTIFICATION_ID,
+        title: '🧪 Test notification',
+        body: 'It works! Your daily reminders will show up like this.',
+        schedule: {
+          at: fireAt,
+          allowWhileIdle: true,
+        },
+        ...NOTIFICATION_OPTIONS,
+      },
+    ],
+  });
+}
+
+/**
+ * Opens the Android "Alarms & reminders" special-access settings screen so
+ * the user can grant SCHEDULE_EXACT_ALARM on Android 13+.
+ * No-op on iOS or web.
+ */
+export async function openExactAlarmSettings(): Promise<void> {
+  if (!isNative()) return;
+  try {
+    await LocalNotifications.changeExactNotificationSetting();
+  } catch {
+    // Older Android versions don't have this setting — ignore
   }
 }

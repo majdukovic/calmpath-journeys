@@ -5,6 +5,8 @@ import { breathingPatterns } from '@/lib/data';
 import { useTheme } from '@/hooks/use-theme';
 import { supabase } from '@/integrations/supabase/client';
 import { lovable } from '@/integrations/lovable/index';
+import { isNativeApp } from '@/lib/platform';
+import { signInWithOAuthNative } from '@/lib/oauth-native';
 import { Mail, LogOut, Bell, BellOff, Download, Trash2, ExternalLink, Smartphone, MessageCircle, Shield, ChevronRight, Sparkles, Crown, Lock } from 'lucide-react';
 import { usePremium } from '@/contexts/PremiumContext';
 import type { User } from '@supabase/supabase-js';
@@ -15,6 +17,10 @@ import {
   startNotificationScheduler,
   stopNotificationScheduler,
   rescheduleNotification,
+  scheduleTestNotification,
+  getNotificationDebugInfo,
+  openExactAlarmSettings,
+  type NotificationDebugInfo,
 } from '@/lib/notifications';
 
 const GoogleIcon = () => (
@@ -55,6 +61,10 @@ const Settings = () => {
   const [authError, setAuthError] = useState('');
   const { isPremium, openPortal, toggleDevPremium, isDevOverride } = usePremium();
   const [versionTaps, setVersionTaps] = useState(0);
+  const [testNotifState, setTestNotifState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [testNotifError, setTestNotifError] = useState('');
+  const [debugInfo, setDebugInfo] = useState<NotificationDebugInfo | null>(null);
+  const [debugOpen, setDebugOpen] = useState(false);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -75,20 +85,30 @@ const Settings = () => {
   const handleGoogleSignIn = async () => {
     setAuthLoading(true);
     setAuthError('');
-    const { error } = await lovable.auth.signInWithOAuth('google', {
-      redirect_uri: window.location.origin,
-    });
-    if (error) setAuthError(error.message || 'Google sign-in failed');
+    if (isNativeApp) {
+      const { error } = await signInWithOAuthNative('google');
+      if (error) setAuthError(error.message || 'Google sign-in failed');
+    } else {
+      const { error } = await lovable.auth.signInWithOAuth('google', {
+        redirect_uri: window.location.origin,
+      });
+      if (error) setAuthError(error.message || 'Google sign-in failed');
+    }
     setAuthLoading(false);
   };
 
   const handleAppleSignIn = async () => {
     setAuthLoading(true);
     setAuthError('');
-    const { error } = await lovable.auth.signInWithOAuth('apple', {
-      redirect_uri: window.location.origin,
-    });
-    if (error) setAuthError(error.message || 'Apple sign-in failed');
+    if (isNativeApp) {
+      const { error } = await signInWithOAuthNative('apple');
+      if (error) setAuthError(error.message || 'Apple sign-in failed');
+    } else {
+      const { error } = await lovable.auth.signInWithOAuth('apple', {
+        redirect_uri: window.location.origin,
+      });
+      if (error) setAuthError(error.message || 'Apple sign-in failed');
+    }
     setAuthLoading(false);
   };
 
@@ -195,6 +215,72 @@ const Settings = () => {
                 <div className="flex items-center gap-1.5 text-xs text-primary">
                   <Bell size={13} />
                   <span>We'll nudge you at {settings.reminderTime}</span>
+                </div>
+              )}
+
+              {/* Test notification button */}
+              <div className="border-t border-border pt-grid-2">
+                <button
+                  onClick={async () => {
+                    setTestNotifState('sending');
+                    setTestNotifError('');
+                    try {
+                      await scheduleTestNotification();
+                      setTestNotifState('sent');
+                      setTimeout(() => setTestNotifState('idle'), 8000);
+                    } catch (e) {
+                      setTestNotifState('error');
+                      setTestNotifError(e instanceof Error ? e.message : 'Unknown error');
+                    }
+                  }}
+                  disabled={testNotifState === 'sending'}
+                  className="w-full text-sm py-grid-2 rounded-button bg-muted text-foreground min-h-[44px] flex items-center justify-center gap-2 hover:bg-muted/80 transition-colors disabled:opacity-50"
+                >
+                  <Bell size={15} />
+                  {testNotifState === 'sending' ? 'Scheduling…' :
+                   testNotifState === 'sent' ? 'Check your notification shade in 5 s!' :
+                   'Send test notification (fires in 5 s)'}
+                </button>
+                {testNotifState === 'error' && (
+                  <p className="text-xs text-destructive mt-1 px-1">{testNotifError || 'Failed to schedule test notification.'}</p>
+                )}
+              </div>
+
+              {/* Debug panel */}
+              <button
+                onClick={async () => {
+                  if (!debugOpen) {
+                    const info = await getNotificationDebugInfo();
+                    setDebugInfo(info);
+                  }
+                  setDebugOpen(v => !v);
+                }}
+                className="text-xs text-muted-foreground underline underline-offset-2 self-start"
+              >
+                {debugOpen ? 'Hide debug info' : 'Show debug info'}
+              </button>
+
+              {debugOpen && debugInfo && (
+                <div className="bg-muted/60 rounded-xl p-grid-2 text-xs font-mono space-y-1">
+                  <p><span className="text-muted-foreground">Permission:</span> <span className={debugInfo.permissionStatus === 'granted' ? 'text-primary' : 'text-destructive'}>{debugInfo.permissionStatus}</span></p>
+                  <p>
+                    <span className="text-muted-foreground">Exact alarm:</span>{' '}
+                    <span className={debugInfo.exactAlarmStatus === 'granted' ? 'text-primary' : debugInfo.exactAlarmStatus === 'denied' ? 'text-destructive' : 'text-muted-foreground'}>
+                      {debugInfo.exactAlarmStatus}
+                    </span>
+                  </p>
+                  <p><span className="text-muted-foreground">Pending notifications:</span> {debugInfo.pendingCount} {debugInfo.pendingIds.length > 0 ? `(IDs: ${debugInfo.pendingIds.join(', ')})` : ''}</p>
+                  {debugInfo.exactAlarmStatus === 'denied' && (
+                    <button
+                      onClick={openExactAlarmSettings}
+                      className="mt-1 px-3 py-1.5 rounded-md bg-primary text-primary-foreground text-xs font-sans font-medium"
+                    >
+                      Open Alarms &amp; Reminders settings
+                    </button>
+                  )}
+                  {debugInfo.pendingCount === 0 && debugInfo.permissionStatus === 'granted' && (
+                    <p className="text-destructive font-sans">No notification is scheduled — this is the problem. Try toggling the reminder off and on.</p>
+                  )}
                 </div>
               )}
             </>
