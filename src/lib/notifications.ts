@@ -95,11 +95,16 @@ async function scheduleNativeReminder() {
         body: msg.body,
         schedule: {
           on: { hour: h, minute: m },
-          every: 'day',
-          // allowWhileIdle fires the alarm even during Android doze mode.
-          // Requires SCHEDULE_EXACT_ALARM permission (declared in AndroidManifest.xml).
-          // On Android 13+ the user must also enable it under
-          // Settings › Apps › Special app access › Alarms & reminders.
+          // DO NOT set every:'day' here. In the Android plugin (LocalNotificationManager.java)
+          // the 'every' branch is evaluated BEFORE the 'on' branch and returns early, so
+          // setting every:'day' causes Android to completely ignore the 'on' time and instead
+          // fire 24 hours after the toggle is enabled via setRepeating() — which is inexact
+          // and doesn't wake the device from doze.
+          //
+          // With only 'on' set, the plugin routes to DateMatch.nextTrigger() which:
+          //   • uses Calendar.getInstance() → local timezone ✓
+          //   • calls setExactAndAllowWhileIdle() → exact + fires during doze ✓
+          //   • TimedNotificationPublisher re-schedules for the next day after each fire ✓
           allowWhileIdle: true,
         },
         ...NOTIFICATION_OPTIONS,
