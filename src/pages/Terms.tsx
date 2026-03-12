@@ -39,7 +39,7 @@ const Terms = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">4. Subscriptions & Payments</h2>
-            <p>Breeze offers optional premium features ("Breeze Plus") available through paid subscriptions. Subscriptions automatically renew unless cancelled before the end of the current billing period. You can manage or cancel your subscription at any time through your account settings.</p>
+            <p>Breeze offers optional premium features ("Breeze Pro") available through paid subscriptions. Subscriptions automatically renew unless cancelled before the end of the current billing period. You can manage or cancel your subscription at any time through your account settings.</p>
           </section>
 
           <section>
