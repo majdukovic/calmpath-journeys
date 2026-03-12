@@ -52,7 +52,7 @@ const Privacy = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">6. Third-Party Services</h2>
-            <p>We use Stripe for payment processing. Stripe handles your payment information directly — we never see or store your credit card details. Please review <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline">Stripe's Privacy Policy</a> for details.</p>
+            <p>We use RevenueCat and Google Play Billing for subscription management and payment processing. Google handles your payment information directly — we never see or store your credit card details. Please review <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline">RevenueCat's Privacy Policy</a> and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline">Google's Privacy Policy</a> for details.</p>
           </section>
 
           <section>
