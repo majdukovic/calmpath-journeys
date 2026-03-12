@@ -212,7 +212,7 @@ const LandingPage = () => {
             Free forever. Premium when you're ready.
           </h2>
           <p className="text-muted-foreground text-center mb-12 max-w-xl mx-auto">
-            Everything you need to manage anxiety is free. Upgrade to Breeze Plus for AI insights and more.
+            Everything you need to manage anxiety is free. Upgrade to Breeze Pro for AI insights and more.
           </p>
           <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {/* Free */}
@@ -240,9 +240,9 @@ const LandingPage = () => {
               </div>
               <h3 className="text-lg font-bold text-foreground mb-1 flex items-center gap-2">
                 <Sparkles size={18} className="text-primary" />
-                Breeze Plus
+                Breeze Pro
               </h3>
-              <p className="text-3xl font-bold text-foreground mb-4">$1.99 <span className="text-sm font-normal text-muted-foreground">/month</span></p>
+              <p className="text-3xl font-bold text-foreground mb-4">$4.99 <span className="text-sm font-normal text-muted-foreground">/month</span></p>
               <ul className="space-y-3 mb-8">
                 {['Everything in Free', 'AI mood insights', '8 breathing patterns', 'Advanced analytics', 'Guided voice sessions', 'Sleep wind-down routine', 'Priority support'].map(f => (
                   <li key={f} className="flex items-center gap-2 text-sm text-foreground">
