@@ -50,14 +50,14 @@ const Privacy = () => {
               <li><strong>RevenueCat</strong> — tracks your subscription status across devices. Receives purchase tokens and entitlement state from the stores. See <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline">RevenueCat Privacy</a>.</li>
               <li><strong>PostHog</strong> — product analytics. We send pseudonymized event data (e.g. "a meditation was started," paywall interactions, feature usage) so we can improve the app. We do not send journal text, mood notes, or any free-text you write. See <a href="https://posthog.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline">PostHog Privacy</a>.</li>
               <li><strong>Cloudflare R2</strong> — content delivery network that hosts the meditation and ambient audio files streamed to the app.</li>
-              <li><strong>Tawk.to</strong> — optional live chat available to Breeze Plus users. If you open a chat, Tawk.to receives the messages you send. See <a href="https://www.tawk.to/privacy-policy/" target="_blank" rel="noopener noreferrer" className="text-primary underline">Tawk.to Privacy</a>.</li>
+              <li><strong>Tawk.to</strong> — optional live chat available to Breeze Pro users. If you open a chat, Tawk.to receives the messages you send. See <a href="https://www.tawk.to/privacy-policy/" target="_blank" rel="noopener noreferrer" className="text-primary underline">Tawk.to Privacy</a>.</li>
             </ul>
             <p className="mt-2">If this list changes, we will update this policy.</p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">5. Data Deletion</h2>
-            <p>You can delete your data at any time from Settings → Delete all my data. This permanently deletes your local data and, if you're signed in, also deletes your cloud data and authentication account. This action cannot be undone. You can also export your data as CSV before deleting.</p>
+            <p>You can delete your data at any time from Settings → Delete all my data. This permanently deletes your local data and, if you're signed in, also deletes your cloud data and authentication account. This action cannot be undone.</p>
           </section>
 
           <section>

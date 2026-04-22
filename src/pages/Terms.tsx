@@ -39,12 +39,13 @@ const Terms = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">4. Subscriptions & Payments</h2>
-            <p>Breeze offers optional premium features ("Breeze Plus") available through paid subscriptions. On mobile, subscriptions are billed by the Apple App Store or Google Play and can be managed or cancelled through your App Store or Google Play account. On web, payments are processed by Stripe. Subscriptions automatically renew unless cancelled before the end of the current billing period.</p>
+            <p>Breeze offers optional premium features ("Breeze Pro") available through paid subscriptions. On mobile, subscriptions are billed by the Apple App Store or Google Play and can be managed or cancelled through your App Store or Google Play account. On web, payments are processed by Stripe. Subscriptions automatically renew unless cancelled before the end of the current billing period.</p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">5. User Content</h2>
             <p>Any journal entries, mood logs, or other personal data you create within the App remains yours. We do not sell, share, or use your personal content for advertising purposes.</p>
+            <p className="mt-2">To operate the App, you grant Breeze a limited, worldwide, royalty-free license to store, transmit, back up, encrypt, and otherwise process your content solely as needed to provide the service, sync across your devices, and keep it safe — all as described in our Privacy Policy. This license ends when you delete the content or your account.</p>
           </section>
 
           <section>
