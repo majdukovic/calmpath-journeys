@@ -17,7 +17,7 @@ const Terms = () => {
         </button>
 
         <h1 className="text-2xl font-semibold text-foreground mb-grid-3">Terms of Service</h1>
-        <p className="text-xs text-muted-foreground mb-grid-3">Last updated: March 8, 2026</p>
+        <p className="text-xs text-muted-foreground mb-grid-3">Last updated: April 22, 2026</p>
 
         <div className="space-y-grid-3 text-sm text-foreground/90 leading-relaxed">
           <section>
@@ -27,7 +27,7 @@ const Terms = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">2. Description of Service</h2>
-            <p>Breeze is a wellness and self-care application that provides breathing exercises, journaling tools, mood tracking, community features, and educational content about anxiety and mental well-being.</p>
+            <p>Breeze is a wellness and self-care application that provides breathing exercises, guided meditations, journaling tools, mood tracking, and educational content about anxiety and mental well-being.</p>
           </section>
 
           <section>
@@ -39,7 +39,7 @@ const Terms = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">4. Subscriptions & Payments</h2>
-            <p>Breeze offers optional premium features ("Breeze Plus") available through paid subscriptions. Subscriptions automatically renew unless cancelled before the end of the current billing period. You can manage or cancel your subscription at any time through your account settings.</p>
+            <p>Breeze offers optional premium features ("Breeze Plus") available through paid subscriptions. On mobile, subscriptions are billed by the Apple App Store or Google Play and can be managed or cancelled through your App Store or Google Play account. On web, payments are processed by Stripe. Subscriptions automatically renew unless cancelled before the end of the current billing period.</p>
           </section>
 
           <section>
@@ -48,22 +48,14 @@ const Terms = () => {
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">6. Community Guidelines</h2>
-            <p>The Breeze Circle community is a safe, supportive, and anonymous space. By participating, you agree to:</p>
-            <ul className="list-disc list-inside space-y-1 mt-2">
-              <li>Be respectful and supportive of other community members</li>
-              <li>Not post content containing self-harm threats, bullying, harassment, or hateful language</li>
-              <li>Not share personal identifying information (phone numbers, addresses, full names)</li>
-              <li>Not post spam, advertising, or links to external sites</li>
-              <li>Not present medical advice as fact</li>
-              <li>Not promote dangerous or harmful behaviors</li>
-            </ul>
-            <p className="mt-2">All posts are reviewed by AI moderation. Posts that violate these guidelines will be rejected. We reserve the right to remove content and suspend accounts that repeatedly violate community guidelines.</p>
+            <h2 className="text-base font-semibold text-foreground mb-grid">6. Audio & Content License</h2>
+            <p>All meditations, breathing exercises, audio recordings, narration, text content, illustrations, and other materials in Breeze ("the Content") are protected by copyright and are licensed to you for personal, non-commercial listening and use within the App only. You may not download, copy, extract, redistribute, re-upload, publicly perform, broadcast, stream, mirror, or incorporate any Content into derivative works, products, datasets, or AI training corpora.</p>
+            <p className="mt-2">Meditation narration is provided under written license from independent voice artists, including Jono The Voice and Marina D. All rights not expressly granted here are reserved by Breeze and its licensors. Violations may result in termination of your access and further legal action.</p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">7. Account Deletion</h2>
-            <p>You may delete your account and all associated data at any time from Settings. Account deletion is permanent and removes all server-side data including community posts, reactions, and authentication credentials.</p>
+            <p>You may delete your account and all associated data at any time from Settings. Account deletion is permanent and removes your cloud data and authentication credentials.</p>
           </section>
 
           <section>
@@ -78,7 +70,7 @@ const Terms = () => {
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">10. Contact</h2>
-            <p>If you have questions about these Terms, please contact us at <a href="mailto:hello@breezeapp.co" className="text-primary underline">hello@breezeapp.co</a>.</p>
+            <p>If you have questions about these Terms, please contact us at <a href="mailto:breezeapphelp@gmail.com" className="text-primary underline">breezeapphelp@gmail.com</a>.</p>
           </section>
         </div>
       </div>

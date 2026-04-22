@@ -17,57 +17,57 @@ const Privacy = () => {
         </button>
 
         <h1 className="text-2xl font-semibold text-foreground mb-grid-3">Privacy Policy</h1>
-        <p className="text-xs text-muted-foreground mb-grid-3">Last updated: March 8, 2026</p>
+        <p className="text-xs text-muted-foreground mb-grid-3">Last updated: April 22, 2026</p>
 
         <div className="space-y-grid-3 text-sm text-foreground/90 leading-relaxed">
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">1. What We Collect</h2>
-            <p>Breeze stores your journal entries, mood logs, gratitude entries, breathing session history, and app preferences. When you sign in, we also store your email address for authentication purposes.</p>
+            <p>Breeze stores your journal entries, gratitude entries, mood logs, thought records, urge entries, SOS/crisis session notes, meditation history, breathing session history, self-care task completion, streak data, onboarding goals, and app preferences (theme, language, reminder time, voice style). If you add an emergency contact, we store the name and phone number you provide. If you sign in, we also store your email address (from Google sign-in or the magic-link you request). A per-device identifier is generated locally to coordinate multi-device sync.</p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">2. How We Store Your Data</h2>
-            <p>Your data is stored locally on your device by default. If you sign in with an account, your data may be synced to our secure cloud infrastructure. All data in transit is encrypted using industry-standard TLS encryption.</p>
+            <p>Your data is stored locally on your device. When you sign in, your data is also synced to our cloud backend (hosted on Supabase) so you can restore it on another device. All data in transit is encrypted using industry-standard TLS. Sync happens automatically on sign-in and when the app opens; signing out stops further sync from that device.</p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold text-foreground mb-grid">3. What We Don't Do</h2>
             <ul className="list-disc list-inside space-y-1 mt-1">
               <li>We do not sell your personal data to third parties</li>
-              <li>We do not use your journal entries or mood data for advertising</li>
+              <li>We do not use your journal entries, mood data, or crisis notes for advertising</li>
               <li>We do not share your data with data brokers</li>
               <li>We do not track you across other apps or websites</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">4. AI Features</h2>
-            <p>If you use Breeze Plus AI insights, your mood and gratitude data may be sent to an AI model to generate personalized insights. This data is not stored by the AI provider and is used solely to generate your insights in real time.</p>
+            <h2 className="text-base font-semibold text-foreground mb-grid">4. Third-Party Services</h2>
+            <p>Breeze uses a small number of third-party providers to run the service. Your data is handled according to each provider's own privacy policy.</p>
+            <ul className="list-disc list-inside space-y-1 mt-2">
+              <li><strong>Supabase</strong> — authentication (Google sign-in or magic-link email) and encrypted cloud storage of your synced data. See <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline">Supabase Privacy</a>.</li>
+              <li><strong>Apple App Store / Google Play</strong> — payment processing for mobile subscriptions. We never see your payment details.</li>
+              <li><strong>Stripe</strong> — payment processing for web subscriptions. Stripe handles card details directly; we never see or store them. See <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline">Stripe Privacy</a>.</li>
+              <li><strong>RevenueCat</strong> — tracks your subscription status across devices. Receives purchase tokens and entitlement state from the stores. See <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline">RevenueCat Privacy</a>.</li>
+              <li><strong>PostHog</strong> — product analytics. We send pseudonymized event data (e.g. "a meditation was started," paywall interactions, feature usage) so we can improve the app. We do not send journal text, mood notes, or any free-text you write. See <a href="https://posthog.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline">PostHog Privacy</a>.</li>
+              <li><strong>Cloudflare R2</strong> — content delivery network that hosts the meditation and ambient audio files streamed to the app.</li>
+              <li><strong>Tawk.to</strong> — optional live chat available to Breeze Plus users. If you open a chat, Tawk.to receives the messages you send. See <a href="https://www.tawk.to/privacy-policy/" target="_blank" rel="noopener noreferrer" className="text-primary underline">Tawk.to Privacy</a>.</li>
+            </ul>
+            <p className="mt-2">If this list changes, we will update this policy.</p>
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">5. Community Features</h2>
-            <p>If you use the Breeze Circle community (Breeze Plus), your posts and reactions are stored on our servers. All community activity is anonymous — your display name is auto-generated and cannot be linked to your identity by other users. Community posts are reviewed by AI moderation before being published to ensure a safe and supportive environment. Your community data is permanently deleted when you delete your account.</p>
+            <h2 className="text-base font-semibold text-foreground mb-grid">5. Data Deletion</h2>
+            <p>You can delete your data at any time from Settings → Delete all my data. This permanently deletes your local data and, if you're signed in, also deletes your cloud data and authentication account. This action cannot be undone. You can also export your data as CSV before deleting.</p>
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">6. Third-Party Services</h2>
-            <p>We use Stripe for payment processing. Stripe handles your payment information directly — we never see or store your credit card details. Please review <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline">Stripe's Privacy Policy</a> for details.</p>
-          </section>
-
-          <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">7. Data Deletion</h2>
-            <p>You can delete all your data at any time from Settings → Delete all my data. This permanently deletes both your local data and all server-side data (including community posts, reactions, and your account). This action cannot be undone. You can also export your data as CSV before deleting.</p>
-          </section>
-
-          <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">8. Children's Privacy</h2>
+            <h2 className="text-base font-semibold text-foreground mb-grid">6. Children's Privacy</h2>
             <p>Breeze is not intended for children under 13. We do not knowingly collect personal information from children under 13. If you believe we have collected such information, please contact us immediately.</p>
           </section>
 
           <section>
-            <h2 className="text-base font-semibold text-foreground mb-grid">9. Contact</h2>
-            <p>For privacy questions or data requests, contact us at <a href="mailto:hello@breezeapp.co" className="text-primary underline">hello@breezeapp.co</a>.</p>
+            <h2 className="text-base font-semibold text-foreground mb-grid">7. Contact</h2>
+            <p>For privacy questions or data requests, contact us at <a href="mailto:breezeapphelp@gmail.com" className="text-primary underline">breezeapphelp@gmail.com</a>.</p>
           </section>
         </div>
       </div>
