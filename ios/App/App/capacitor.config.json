@@ -1,0 +1,27 @@
+{
+	"appId": "app.lovable.a6184d409ec745c2b1c596e88853348a",
+	"appName": "Breeze",
+	"webDir": "dist",
+	"server": {},
+	"ios": {
+		"contentInset": "automatic",
+		"preferredContentMode": "mobile",
+		"scheme": "Breeze"
+	},
+	"android": {
+		"allowMixedContent": false
+	},
+	"plugins": {
+		"LocalNotifications": {
+			"smallIcon": "ic_notification",
+			"iconColor": "#6dba8a",
+			"sound": "default"
+		}
+	},
+	"packageClassList": [
+		"TextToSpeechPlugin",
+		"AppPlugin",
+		"CAPBrowserPlugin",
+		"LocalNotificationsPlugin"
+	]
+}

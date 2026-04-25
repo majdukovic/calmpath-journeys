@@ -53,7 +53,6 @@ const LandingPage = () => {
           <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
             <a href="#features" className="hover:text-foreground transition-colors">Features</a>
             <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
-            <Link to="/roadmap" className="hover:text-foreground transition-colors">Roadmap</Link>
             <Link to="/changelog" className="hover:text-foreground transition-colors">What's New</Link>
           </div>
           <div className="flex items-center gap-3">
@@ -77,7 +76,6 @@ const LandingPage = () => {
           <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-md px-6 py-4 flex flex-col gap-4 text-sm">
             <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors py-1" onClick={() => setMobileMenuOpen(false)}>Features</a>
             <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors py-1" onClick={() => setMobileMenuOpen(false)}>Pricing</a>
-            <Link to="/roadmap" className="text-muted-foreground hover:text-foreground transition-colors py-1" onClick={() => setMobileMenuOpen(false)}>Roadmap</Link>
             <Link to="/changelog" className="text-muted-foreground hover:text-foreground transition-colors py-1" onClick={() => setMobileMenuOpen(false)}>What's New</Link>
           </div>
         )}
