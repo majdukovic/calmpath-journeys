@@ -262,7 +262,7 @@ const LandingPage = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://play.google.com"
+              href="https://play.google.com/store/apps/details?id=app.breeze.calm"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-foreground text-background px-8 py-4 rounded-2xl text-base font-semibold flex items-center justify-center gap-3 hover:opacity-90 transition-opacity"

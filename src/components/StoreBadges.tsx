@@ -9,7 +9,7 @@ export const GooglePlayBadge = ({ variant = 'hero', className = '' }: StoreBadge
   const isHero = variant === 'hero';
   return (
     <a
-      href={isHero ? '#download' : 'https://play.google.com'}
+      href={isHero ? '#download' : 'https://play.google.com/store/apps/details?id=app.breeze.calm'}
       target={isHero ? undefined : '_blank'}
       rel={isHero ? undefined : 'noopener noreferrer'}
       className={`inline-block hover:opacity-80 transition-opacity ${className}`}
