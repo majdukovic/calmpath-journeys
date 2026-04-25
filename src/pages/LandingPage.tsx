@@ -12,7 +12,7 @@ const features = [
   },
   {
     icon: Shield,
-    title: 'SOS Panic Relief',
+    title: 'Anchor Panic Relief',
     description: 'Instant 2-tap access to guided breathing when anxiety strikes. No login required — just open and breathe.',
   },
   {
@@ -209,7 +209,7 @@ const LandingPage = () => {
               <h3 className="text-lg font-bold text-foreground mb-1">Free</h3>
               <p className="text-3xl font-bold text-foreground mb-4">$0 <span className="text-sm font-normal text-muted-foreground">forever</span></p>
               <ul className="space-y-3 mb-8">
-                {['Anchor SOS panic relief', '3 breathing patterns', 'Daily Calm 3-min ritual', 'Journal: freewrite, gratitude & CBT', 'Mood tracking + basic insights', 'Sleep wind-down & Notice Urge', 'Growth garden + self-care checklist', 'Learn articles & therapy guides'].map(f => (
+                {['Anchor panic relief', '3 breathing patterns', 'Daily Calm 3-min ritual', 'Journal: freewrite, gratitude & CBT', 'Mood tracking + basic insights', 'Sleep wind-down & Notice Urge', 'Growth garden + self-care checklist', 'Learn articles & therapy guides'].map(f => (
                   <li key={f} className="flex items-center gap-2 text-sm text-foreground">
                     <div className="w-5 h-5 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>

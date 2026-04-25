@@ -48,10 +48,10 @@ const entries: ChangelogEntry[] = [
   {
     version: '1.1.0',
     date: 'February 10, 2026',
-    title: 'SOS & Breathing',
+    title: 'Anchor & Breathing',
     emoji: '🆘',
     changes: [
-      'SOS panic relief flow with grounding exercises',
+      'Anchor panic relief flow with grounding exercises',
       'Guided breathing animations (4-7-8 pattern)',
       'Haptic feedback support on mobile',
       'Voice-guided meditation option',
