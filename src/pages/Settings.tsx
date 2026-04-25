@@ -17,11 +17,13 @@ import {
   startNotificationScheduler,
   stopNotificationScheduler,
   rescheduleNotification,
-  scheduleTestNotification,
+
   getNotificationDebugInfo,
   openExactAlarmSettings,
+  openBatteryOptimizationSettings,
   type NotificationDebugInfo,
 } from '@/lib/notifications';
+import { Capacitor } from '@capacitor/core';
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 48 48">
@@ -61,8 +63,6 @@ const Settings = () => {
   const [authError, setAuthError] = useState('');
   const { isPremium, openPortal, toggleDevPremium, isDevOverride } = usePremium();
   const [versionTaps, setVersionTaps] = useState(0);
-  const [testNotifState, setTestNotifState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
-  const [testNotifError, setTestNotifError] = useState('');
   const [debugInfo, setDebugInfo] = useState<NotificationDebugInfo | null>(null);
   const [debugOpen, setDebugOpen] = useState(false);
 
@@ -188,6 +188,11 @@ const Settings = () => {
                   if (!granted) return;
                   update({ reminderEnabled: true });
                   startNotificationScheduler();
+                  // On Android, prompt to disable battery optimization so
+                  // notifications arrive on time even when the device is idle
+                  if (Capacitor.getPlatform() === 'android') {
+                    openBatteryOptimizationSettings();
+                  }
                 } else {
                   update({ reminderEnabled: false });
                   stopNotificationScheduler();
@@ -218,33 +223,6 @@ const Settings = () => {
                 </div>
               )}
 
-              {/* Test notification button */}
-              <div className="border-t border-border pt-grid-2">
-                <button
-                  onClick={async () => {
-                    setTestNotifState('sending');
-                    setTestNotifError('');
-                    try {
-                      await scheduleTestNotification();
-                      setTestNotifState('sent');
-                      setTimeout(() => setTestNotifState('idle'), 8000);
-                    } catch (e) {
-                      setTestNotifState('error');
-                      setTestNotifError(e instanceof Error ? e.message : 'Unknown error');
-                    }
-                  }}
-                  disabled={testNotifState === 'sending'}
-                  className="w-full text-sm py-grid-2 rounded-button bg-muted text-foreground min-h-[44px] flex items-center justify-center gap-2 hover:bg-muted/80 transition-colors disabled:opacity-50"
-                >
-                  <Bell size={15} />
-                  {testNotifState === 'sending' ? 'Scheduling…' :
-                   testNotifState === 'sent' ? 'Check your notification shade in 5 s!' :
-                   'Send test notification (fires in 5 s)'}
-                </button>
-                {testNotifState === 'error' && (
-                  <p className="text-xs text-destructive mt-1 px-1">{testNotifError || 'Failed to schedule test notification.'}</p>
-                )}
-              </div>
 
               {/* Debug panel */}
               <button
@@ -490,6 +468,7 @@ const Settings = () => {
                 Continue with Google
               </button>
 
+              {/* Apple Sign-In — commented out until Apple Developer enrollment is complete
               <button
                 onClick={handleAppleSignIn}
                 disabled={authLoading}
@@ -498,6 +477,7 @@ const Settings = () => {
                 <AppleIcon />
                 Continue with Apple
               </button>
+              */}
 
               <div className="flex items-center gap-grid-2 my-1">
                 <div className="flex-1 h-px bg-border" />

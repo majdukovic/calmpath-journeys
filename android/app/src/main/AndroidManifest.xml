@@ -22,14 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- Deep link handler for OAuth callbacks (Google/Apple sign-in) -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="breeze" />
-            </intent-filter>
-
         </activity>
 
         <provider
@@ -46,14 +38,4 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!--
-      Required on Android 12+ (API 31+) for AlarmManager.setExactAndAllowWhileIdle().
-      Without this, LocalNotifications.schedule() with allowWhileIdle:true throws a
-      SecurityException silently and no notification is ever delivered.
-      On Android 12 this is granted at install time; on Android 13+ the user may need
-      to enable it under Settings › Apps › Special app access › Alarms & reminders.
-    -->
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 </manifest>

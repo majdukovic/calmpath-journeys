@@ -14,6 +14,8 @@ import DailyCalm from "./pages/DailyCalm";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import Upgrade from "./pages/Upgrade";
+import Meditate from "./pages/Meditate";
+import MeditationPlayer from "./pages/MeditationPlayer";
 import Community from "./pages/Community";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
@@ -28,6 +30,8 @@ import { initNotifications } from "./lib/notifications";
 import { PremiumProvider } from "./contexts/PremiumContext";
 import { isNativeApp } from "./lib/platform";
 import { useBackButton } from "./hooks/use-back-button";
+import { App as CapacitorApp } from "@capacitor/app";
+import { handleOAuthCallback } from "./lib/oauth-native";
 
 const queryClient = new QueryClient();
 
@@ -86,6 +90,13 @@ const App = () => {
 const NativeAppRoutes = ({ showOnboarding, setShowOnboarding }: { showOnboarding: boolean; setShowOnboarding: (v: boolean) => void }) => {
   useBackButton();
 
+  useEffect(() => {
+    const listenerPromise = CapacitorApp.addListener('appUrlOpen', ({ url }) => {
+      handleOAuthCallback(url);
+    });
+    return () => { listenerPromise.then(h => h.remove()); };
+  }, []);
+
   return (
     <>
       {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}
@@ -95,8 +106,10 @@ const NativeAppRoutes = ({ showOnboarding, setShowOnboarding }: { showOnboarding
         <Route path="/" element={<Layout><Home /></Layout>} />
         <Route path="/journal" element={<Layout><Journal /></Layout>} />
         <Route path="/learn" element={<Layout><Learn /></Layout>} />
+        <Route path="/meditate" element={<Layout><Meditate /></Layout>} />
         <Route path="/settings" element={<Layout><Settings /></Layout>} />
         <Route path="/upgrade" element={<Upgrade />} />
+        <Route path="/meditation-player" element={<MeditationPlayer />} />
         <Route path="/community" element={<Community />} />
         <Route path="/install" element={<Install />} />
         <Route path="/roadmap" element={<Roadmap />} />

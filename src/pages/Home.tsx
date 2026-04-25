@@ -7,8 +7,10 @@ import DailySelfCare from '@/components/DailySelfCare';
 import AmbientSounds from '@/components/AmbientSounds';
 import MoodInsights from '@/components/MoodInsights';
 import { isTodayDailyCalmDone, getData, updateSettings, getTotalCalmDays, getNextMilestone } from '@/lib/storage';
-import { X, Info } from 'lucide-react';
+import { X, Info, Headphones, Crown } from 'lucide-react';
 import { getContextCue } from '@/lib/psychology';
+import { getRecommendedMeditation, formatDuration } from '@/lib/meditations';
+import { usePremium } from '@/contexts/PremiumContext';
 
 const getGreeting = () => {
   const h = new Date().getHours();
@@ -24,6 +26,8 @@ const Home = () => {
   const name = data.settings.name;
   const [showSOS, setShowSOS] = useState(data.settings.showSOSCard);
   const [showInfoTooltip, setShowInfoTooltip] = useState(false);
+  const { isPremium } = usePremium();
+  const recommendedMeditation = getRecommendedMeditation();
 
   const handleDismissSOS = () => {
     updateSettings({ showSOSCard: false });
@@ -163,6 +167,28 @@ const Home = () => {
           </div>
         );
       })()}
+
+      {/* Guided Meditations Card */}
+      <button
+        onClick={() => navigate('/meditate')}
+        className="w-full bg-card rounded-card p-grid-3 card-shadow text-left transition-all hover:card-shadow-hover"
+      >
+        <div className="flex items-center justify-between mb-grid">
+          <div className="flex items-center gap-grid">
+            <Headphones size={18} className="text-primary" />
+            <h2 className="text-base font-semibold text-foreground">Guided Meditations</h2>
+          </div>
+          {!isPremium && <Crown size={14} className="text-amber-500" />}
+        </div>
+        <div className="flex items-center gap-grid-2">
+          <span className="text-2xl">{recommendedMeditation.emoji}</span>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-foreground truncate">{recommendedMeditation.title}</p>
+            <p className="text-xs text-muted-foreground">{recommendedMeditation.subtitle} · {formatDuration(recommendedMeditation.duration)}</p>
+          </div>
+          <span className="text-xs text-primary font-medium shrink-0">Explore →</span>
+        </div>
+      </button>
 
       {/* AI Mood Insights — premium feature */}
       <MoodInsights />

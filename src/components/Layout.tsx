@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, BookOpen, GraduationCap, Settings } from 'lucide-react';
+import { Home, BookOpen, Headphones, Settings } from 'lucide-react';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { id: '/', icon: Home, label: 'Home' },
     { id: '/journal', icon: BookOpen, label: 'Journal' },
     { id: 'sos', icon: null, label: 'SOS' },
-    { id: '/learn', icon: GraduationCap, label: 'Learn' },
+    { id: '/meditate', icon: Headphones, label: 'Meditate' },
     { id: '/settings', icon: Settings, label: 'Settings' },
   ];
 

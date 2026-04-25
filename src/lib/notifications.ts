@@ -9,7 +9,6 @@ import { Capacitor } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
 const REMINDER_NOTIFICATION_ID = 42;
-const TEST_NOTIFICATION_ID = 43;
 
 let schedulerInterval: ReturnType<typeof setInterval> | null = null;
 let lastNotifiedDate: string | null = null;
@@ -61,6 +60,8 @@ export async function requestNotificationPermission(): Promise<boolean> {
 
 // ─── Native scheduling ───
 
+const CHANNEL_ID = 'breeze-reminders';
+
 const NOTIFICATION_OPTIONS = {
   // Android: white-on-transparent drawable (res/drawable/ic_notification.xml).
   // Do NOT use ic_launcher — it's a full-color mipmap; Android 5+ renders it
@@ -72,9 +73,36 @@ const NOTIFICATION_OPTIONS = {
   // Passing 'default' makes iOS fall back to the system alert sound when no
   // bundle audio file named 'default' is found (documented Apple fallback).
   sound: 'default',
+  // Android 8+: must reference a channel. HIGH importance (5) ensures the
+  // notification is shown as a heads-up and is not batched/delayed by the OS.
+  channelId: CHANNEL_ID,
   actionTypeId: '',
   extra: { route: '/daily-calm' },
 } as const;
+
+/**
+ * Creates the Android notification channel with HIGH importance.
+ * Must be called before scheduling any notification.
+ * Safe to call multiple times — Android ignores duplicate channel creation.
+ */
+async function ensureNotificationChannel() {
+  if (!isNative()) return;
+  try {
+    await LocalNotifications.createChannel({
+      id: CHANNEL_ID,
+      name: 'Daily Reminders',
+      description: 'Your daily breathing reminder from Breeze',
+      importance: 5,   // IMPORTANCE_HIGH — heads-up, not batched
+      visibility: 1,   // VISIBILITY_PUBLIC — shows on lock screen
+      sound: 'default',
+      vibration: true,
+      lights: true,
+      lightColor: '#6dba8a',
+    });
+  } catch {
+    // Older Android versions don't support channels — ignore
+  }
+}
 
 async function scheduleNativeReminder() {
   const data = getData();
@@ -162,6 +190,7 @@ function checkAndNotify() {
 
 export async function startNotificationScheduler() {
   if (isNative()) {
+    await ensureNotificationChannel();
     await scheduleNativeReminder();
     return;
   }
@@ -196,6 +225,9 @@ export async function initNotifications() {
   if (!data.settings.reminderEnabled) return;
 
   if (isNative()) {
+    // Ensure HIGH-importance channel exists before any scheduling
+    await ensureNotificationChannel();
+
     const perm = await LocalNotifications.checkPermissions();
     if (perm.display === 'granted') {
       await scheduleNativeReminder();
@@ -253,40 +285,6 @@ export async function getNotificationDebugInfo(): Promise<NotificationDebugInfo>
   };
 }
 
-/**
- * Fire a test notification in 5 seconds.
- * Useful to verify the full notification pipeline without waiting for the
- * scheduled daily alarm time.
- */
-export async function scheduleTestNotification(): Promise<void> {
-  if (!isNative()) {
-    // Web fallback: fire immediately
-    showWebNotification('🧪 Test notification', 'Notifications are working!');
-    return;
-  }
-
-  // Cancel any previous test notification first
-  try {
-    await LocalNotifications.cancel({ notifications: [{ id: TEST_NOTIFICATION_ID }] });
-  } catch { /* ignore */ }
-
-  const fireAt = new Date(Date.now() + 5_000);
-
-  await LocalNotifications.schedule({
-    notifications: [
-      {
-        id: TEST_NOTIFICATION_ID,
-        title: '🧪 Test notification',
-        body: 'It works! Your daily reminders will show up like this.',
-        schedule: {
-          at: fireAt,
-          allowWhileIdle: true,
-        },
-        ...NOTIFICATION_OPTIONS,
-      },
-    ],
-  });
-}
 
 /**
  * Opens the Android "Alarms & reminders" special-access settings screen so
@@ -299,5 +297,23 @@ export async function openExactAlarmSettings(): Promise<void> {
     await LocalNotifications.changeExactNotificationSetting();
   } catch {
     // Older Android versions don't have this setting — ignore
+  }
+}
+
+/**
+ * Opens Android battery optimization settings so the user can exempt
+ * Breeze from battery restrictions and ensure on-time notification delivery.
+ * No-op on iOS or web.
+ */
+export async function openBatteryOptimizationSettings(): Promise<void> {
+  if (!isNative()) return;
+  const { Capacitor } = await import('@capacitor/core');
+  if (Capacitor.getPlatform() !== 'android') return;
+  try {
+    const { App } = await import('@capacitor/app');
+    // Opens the "All apps" battery optimization list where user can set Breeze to Unrestricted
+    await App.openUrl({ url: 'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS' });
+  } catch {
+    // Ignore if not available on this Android version
   }
 }

@@ -74,11 +74,21 @@ export interface FreewriteEntry {
   createdAt: string;
 }
 
+export interface MeditationSession {
+  id: string;
+  date: string;
+  meditationId: string;
+  voice: string;
+  completedAt: string;
+  durationSecs: number;
+}
+
 export interface AppData {
   gratitudeEntries: GratitudeEntry[];
   moodEntries: MoodEntry[];
   sosSessions: SOSSession[];
   dailyCalmSessions: DailyCalmSession[];
+  meditationSessions: MeditationSession[];
   selfCareTasks: { date: string; taskId: string }[];
   customSelfCareTasks: CustomSelfCareTask[];
   freewriteEntries: FreewriteEntry[];
@@ -107,6 +117,7 @@ const defaultData: AppData = {
   moodEntries: [],
   sosSessions: [],
   dailyCalmSessions: [],
+  meditationSessions: [],
   selfCareTasks: [],
   customSelfCareTasks: [],
   freewriteEntries: [],
@@ -291,4 +302,30 @@ export function getNextMilestone(): { milestone: CalmMilestone; current: number 
   const next = calmMilestones.find(m => m.days > totalDays);
   if (!next) return null;
   return { milestone: next, current: totalDays };
+}
+
+// ─── Meditation session tracking ────────────────────────────────────
+
+export function addMeditationSession(session: Omit<MeditationSession, 'id'>): void {
+  const data = getData();
+  data.meditationSessions.unshift({ ...session, id: crypto.randomUUID() });
+  saveData(data);
+}
+
+export function getMeditationSessionCount(): number {
+  return getData().meditationSessions.length;
+}
+
+export function getRecentMeditationIds(): string[] {
+  const sessions = getData().meditationSessions;
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const s of sessions) {
+    if (!seen.has(s.meditationId)) {
+      seen.add(s.meditationId);
+      result.push(s.meditationId);
+    }
+    if (result.length >= 3) break;
+  }
+  return result;
 }

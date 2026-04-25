@@ -2,10 +2,15 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { usePremium } from '@/contexts/PremiumContext';
-import { Check, Sparkles, Brain, Wind, Crown, ArrowLeft, BarChart3, Mic, Moon } from 'lucide-react';
+import { Check, Sparkles, Brain, Wind, Crown, ArrowLeft, BarChart3, Mic, Moon, Headphones } from 'lucide-react';
 import mascotProud from '@/assets/mascot-proud.png';
 
 const features = [
+  {
+    icon: Headphones,
+    title: 'Guided Meditations',
+    description: '5 AI-voiced guided sessions — morning, evening, sleep, focus & self-compassion. Choose your guide voice.',
+  },
   {
     icon: Brain,
     title: 'AI Mood Insights',
