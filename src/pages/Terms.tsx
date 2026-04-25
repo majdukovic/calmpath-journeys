@@ -17,7 +17,7 @@ const Terms = () => {
         </button>
 
         <h1 className="text-2xl font-semibold text-foreground mb-grid-3">Terms of Service</h1>
-        <p className="text-xs text-muted-foreground mb-grid-3">Last updated: April 22, 2026</p>
+        <p className="text-xs text-muted-foreground mb-grid-3">Last updated: April 25, 2026</p>
 
         <div className="space-y-grid-3 text-sm text-foreground/90 leading-relaxed">
           <section>

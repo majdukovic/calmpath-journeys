@@ -25,24 +25,24 @@ const entries: ChangelogEntry[] = [
   {
     version: '1.3.0',
     date: 'March 1, 2026',
-    title: 'AI Mood Insights',
+    title: 'Mood Insights',
     emoji: '📊',
     changes: [
-      'AI-powered weekly mood pattern analysis',
+      'Weekly mood pattern analysis with trend charts',
+      'Activity correlations: see what lifts your mood',
       'Mood insights card on home screen',
-      'Premium feature with free preview',
+      'Advanced charts unlocked with Breeze Pro',
     ],
   },
   {
     version: '1.2.0',
     date: 'February 20, 2026',
-    title: 'Community & Growth Garden',
+    title: 'Growth Garden & Self-Care',
     emoji: '🌿',
     changes: [
-      'Breeze Circle community for anonymous support',
-      'Growth Garden visualization for your calm journey',
-      'Daily self-care checklist',
-      'Ambient sound mixer with 6 nature sounds',
+      'Growth Garden visualization with 11 unlockable elements',
+      'Daily self-care checklist with custom tasks',
+      'Ambient sound mixer with 5 nature sounds',
     ],
   },
   {
